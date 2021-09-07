@@ -1,0 +1,14 @@
+input:focus {
+    border-color: #9AC9FB;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);
+    outline: none;
+  }
+  
+  input.error {
+    border-color: #DB5752;
+  }
+  
+  input.success {
+    border-color: rgb(25, 200, 25);
+  }
+  
