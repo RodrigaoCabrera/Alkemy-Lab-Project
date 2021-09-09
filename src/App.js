@@ -13,6 +13,7 @@ import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
 import OrganizationForm from './Components/Organization/OrganizationForm';
 import NewDetail from './Components/New/Detail';
+import CategoriesPage from './Components/Categories/CategoriesPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path='/create-news' component={NewsForm} />
           <Route path='/backoffice/organization/edit' component={OrganizationForm} />
           <Route path="/novedades" component={NewDetail} />
+          <Route path="/backoffice/categories" component={CategoriesPage} />
           <Route path='/backoffice/create-slide' component={SlidesForm} />
           <Route path='/create-testimonials' component={TestimonialForm} />
           <Route path='/create-user' component={UserForm} />
