@@ -13,6 +13,7 @@ import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
 import OrganizationForm from './Components/Organization/OrganizationForm';
 import NewDetail from './Components/New/Detail';
+import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path='/create-project' component={ProjectsForm} />
           <Route path='/school-campaign' component={SchoolCampaign} />
           <Route path='/toys-campaign' component={ToysCampaign} />
+          <Route path='/nosotros' component={AboutUs} />
         </Switch>
       </BrowserRouter>
       <div className='App'>
