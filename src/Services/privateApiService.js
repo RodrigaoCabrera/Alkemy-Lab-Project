@@ -12,6 +12,15 @@ const Get = () => {
     .catch(err => console.log(err));
 };
 
+export const PostRequest = async (url, data) => {
+  const header = verifyTokenAuthorization();
+  try {
+    await axios.post(url, data, {headers: {header}});
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const verifyTokenAuthorization = () => {
   const token = localStorage.getItem('token');
   if(token){
