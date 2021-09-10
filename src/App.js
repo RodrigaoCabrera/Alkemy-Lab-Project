@@ -13,6 +13,7 @@ import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
 import OrganizationForm from './Components/Organization/OrganizationForm';
 import NewDetail from './Components/New/Detail';
+import ContactPage from './Components/Contact/ContactPage';
 import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
 
@@ -21,6 +22,7 @@ function App() {
     <>
       <BrowserRouter>
         <Switch>
+          
           {/* <Route path='/' exact component={} />           Esta ruta debe ser para el Home */}
           <Route path='/create-activity' component={ActivitiesForm} />
           <Route path='/create-category' component={CategoriesForm} />
@@ -31,6 +33,7 @@ function App() {
           <Route path='/backoffice/create-slide' component={SlidesForm} />
           <Route path='/create-testimonials' component={TestimonialForm} />
           <Route path='/create-user' component={UserForm} />
+          <Route path="/contacto" component={ContactPage} />
           <Route path='/create-member' component={MembersForm} />
           <Route path='/create-project' component={ProjectsForm} />
           <Route path='/school-campaign' component={SchoolCampaign} />
