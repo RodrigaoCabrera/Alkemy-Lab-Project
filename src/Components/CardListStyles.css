@@ -7,11 +7,15 @@
 .card-info{
     list-style: none;
     padding: 10px 30px;
-    background-color: #A1D4F6;
+    background-color: #9AC9FB;
     border-radius: 5px;
+    transition: 0.3s;
+    margin: 20px;
 }
 
 .card-info:hover{
     cursor: pointer;
     background-color: #61BBF8;
+    transform: scale(1.05);
+    color: white;
 }
