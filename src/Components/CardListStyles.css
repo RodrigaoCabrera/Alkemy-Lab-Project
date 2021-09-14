@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-around;
     gap: 20px;
+    
 }
 
 .card-info{
@@ -10,7 +11,6 @@
     background-color: #9AC9FB;
     border-radius: 5px;
     transition: 0.3s;
-    margin: 20px;
 }
 
 .card-info:hover{

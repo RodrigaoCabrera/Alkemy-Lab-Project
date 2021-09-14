@@ -1,32 +1,41 @@
 import React from 'react';
 import '../CardListStyles.css';
+import { Text, Flex, Stack } from '@chakra-ui/react';
+import NewsCard from './NewsCard'
 
-const NewsList = () => {
-    const newsMock = [
-        {id: 2, name: 'Titulo de prueba', description: 'Descripcion de prueba'},
-        {id: 1, name: 'Titulo de prueba', description: 'Descripcion de prueba'},
-        {id: 3, name: 'Titulo de prueba', description: 'Descripcion de prueba'}
-    ];
+const NewsList = ({ news }) => {
 
-    return (
+    return !(news.length === 0) ? (
         <div>
-            <h1>Listado de Novedades</h1>
-            <ul className="list-container">
-                {newsMock.length > 0 ? 
-                    newsMock.map((element) => {
-                        return(
-                            <li className="card-info" key={element.id}>
-                                <h3>{element.name}</h3>
-                                <p>{element.description}</p>
-                            </li>
-                        )
-                    })
-                :
-                    <p>No hay novedades</p>
+            <Flex justifyContent='center' alignItems='center'>
+                <Text
+                    fontSize={{ base: '20px', md: '40px' }}
+                    as='h1' fontWeight='700'
+                    color='#9AC9FB' zIndex='9'
+                    mb = '5'
+                >
+                    Listado de Novedades
+                </Text>
+            </Flex>
+            <Stack direction={["column", "row"]} spacing="24px" className="list-container">
+                {
+                    news.map(x =>
+                        <div className="card-info" key={x.id}>
+                            <NewsCard title={x.name} imageUrl={"http://ongapi.alkemy.org/storage/onIkohBvrv.jpeg"} description={x.description} />
+                        </div>)
                 }
-            </ul>
+            </Stack>
         </div>
-    );
+    ) : 
+    <Flex justifyContent='center' alignItems='center'>
+        <Text
+            fontSize={{ base: '20px', md: '40px' }}
+            as='h1' fontWeight='700'
+            color='#9AC9FB' zIndex='9'
+        >
+            No hay nuevas novedades
+        </Text>
+    </Flex>
 }
- 
+
 export default NewsList;

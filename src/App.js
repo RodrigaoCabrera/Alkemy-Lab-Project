@@ -13,7 +13,8 @@ import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
 import ActivityDetail from './Components/Activities/ActivityDetail';
 import OrganizationForm from './Components/Organization/OrganizationForm';
-import NewDetail from './Components/New/Detail';
+//import NewDetail from './Components/New/Detail';
+import News from './Components/News/News';
 import ContactPage from './Components/Contact/ContactPage';
 import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
@@ -23,13 +24,13 @@ function App() {
     <>
       <BrowserRouter>
         <Switch>
-          
           {/* <Route path='/' exact component={} />           Esta ruta debe ser para el Home */}
           <Route path='/create-activity' component={ActivitiesForm} />
           <Route path='/create-category' component={CategoriesForm} />
           <Route path='/create-news' component={NewsForm} />
           <Route path='/backoffice/organization/edit' component={OrganizationForm} />
-          <Route path="/novedades" component={NewDetail} />
+          {/*<Route path="/novedades" component={NewDetail} />*/}
+          <Route path="/novedades" component={News} />
           <Route path="/backoffice/categories" component={CategoriesPage} />
           <Route path='/backoffice/create-slide' component={SlidesForm} />
           <Route path='/create-testimonials' component={TestimonialForm} />
