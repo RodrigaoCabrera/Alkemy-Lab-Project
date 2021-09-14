@@ -1,12 +1,13 @@
 
 import React, { useState } from 'react';
 import '../FormStyles.css';
+import './FormEditUsers';
 
 const UserForm = () => {
   const [initialValues, setInitialValues] = useState({
     name: '',
     email: '',
-    roleId: '',
+    roleId: ''
   });
 
   const handleChange = (e) => {
@@ -24,7 +25,7 @@ const UserForm = () => {
 
   return (
     <form className="form-container" onSubmit={handleSubmit}>
-      <input className="input-field" type="text" name="name" value={initialValues.name || ''} onChange={handleChange} placeholder="Name"></input>
+      <input className="input-field" type="text" name="name" value={initialValues.name || ''} onChange={handleChange} placeholder="Name "></input>
       <input className="input-field" type="text" name="email" value={initialValues.description || ''} onChange={handleChange} placeholder="Email"></input>
       <select className="input-field" value={initialValues.roleId || ''} onChange={e => setInitialValues({...initialValues, roleId: e.target.value})}>
         <option value="" disabled >Select the role</option>
