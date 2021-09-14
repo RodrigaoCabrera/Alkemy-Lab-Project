@@ -17,7 +17,8 @@ import News from './Components/News/News';
 import ContactPage from './Components/Contact/ContactPage';
 import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
-import SlidesForm from './Components/SlidesForm/'
+import FormMembers from './Components/Backoffice/FormMembers';
+import SlidesForm from './Components/SlidesForm/';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path='/toys-campaign' component={ToysCampaign} />
           <Route path="/actividades/:id" component={ActivityDetail} />
           <Route path='/nosotros' component={AboutUs} />
+          <Route path = '/editar-miembros' component={FormMembers} />
           <Route path="/create-slides" component={SlidesForm} />
         </Switch>
       </BrowserRouter>
