@@ -1,15 +1,30 @@
+/* eslint-disable no-extra-semi */
 import axios from 'axios';
-
 const config = {
   headers: {
     Group: 65                //Aqui va el ID del equipo!!
   }
 };
 
-const Get = () => {
-  axios.get('https://jsonplaceholder.typicode.com/users', config)
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
+export const Get =   async(link,id) => {
+  const header = verifyTokenAuthorization();
+  if (id === undefined) {
+    try {
+      const response = await axios.get(`${link}`,{headers: {header}});
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    } 
+  }
+  else {
+    try {
+      const response = await axios.get(`${link}/${id}`,{headers: {header}});
+      return response.data;
+    } 
+    catch (err) {
+      console.log(err);
+    }
+  }
 };
 export const PutRequest = async (url,id,data) =>{
   const requestURL = `${url}/${id}`;
@@ -41,7 +56,4 @@ export const verifyTokenAuthorization = () => {
   if(token){
     return {Authorization: 'Bearer ' + token};
   }
-  return null;
 };
-
-export default Get;
