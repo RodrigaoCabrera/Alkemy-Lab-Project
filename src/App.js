@@ -4,7 +4,6 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import ActivitiesForm from './Components/Activities/ActivitiesForm';
 import CategoriesForm from './Components/Categories/CategoriesForm';
 import NewsForm from './Components/News/NewsForm';
-import SlidesForm from './Components/Slides/SlidesForm';
 import TestimonialForm from './Components/Testimonials/TestimonialsForm';
 import UserForm from './Components/Users/UsersForm';
 import SchoolCampaign from './Campaigns/School/SchoolCampaign';
@@ -18,6 +17,7 @@ import News from './Components/News/News';
 import ContactPage from './Components/Contact/ContactPage';
 import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
+import SlidesForm from './Components/SlidesForm/'
 
 function App() {
   return (
@@ -42,6 +42,7 @@ function App() {
           <Route path='/toys-campaign' component={ToysCampaign} />
           <Route path="/actividades/:id" component={ActivityDetail} />
           <Route path='/nosotros' component={AboutUs} />
+          <Route path="/create-slides" component={SlidesForm} />
         </Switch>
       </BrowserRouter>
       <div className='App'>
