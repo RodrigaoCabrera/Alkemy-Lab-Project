@@ -10,6 +10,7 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
+import CreateEditForm from './Components/CreateEditForm/CreateEditForm';
 import ActivityDetail from './Components/Activities/ActivityDetail';
 import OrganizationForm from './Components/Organization/OrganizationForm';
 //import NewDetail from './Components/New/Detail';
@@ -43,6 +44,7 @@ function App() {
           <Route path='/create-project' component={ProjectsForm} />
           <Route path='/school-campaign' component={SchoolCampaign} />
           <Route path='/toys-campaign' component={ToysCampaign} />
+          <Route path='/create-edit-form' component={CreateEditForm} />
           <Route path="/actividades/:id" component={ActivityDetail} />
           <Route path='/nosotros' component={AboutUs} />
           <Route path='/editar-usuario' component={FormEditUsers} />
