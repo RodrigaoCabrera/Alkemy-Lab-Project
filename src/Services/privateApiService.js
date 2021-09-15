@@ -1,5 +1,8 @@
 /* eslint-disable no-extra-semi */
 import axios from 'axios';
+
+
+// eslint-disable-next-line no-unused-vars
 const config = {
   headers: {
     Group: 65                //Aqui va el ID del equipo!!
@@ -57,3 +60,18 @@ export const verifyTokenAuthorization = () => {
     return {Authorization: 'Bearer ' + token};
   }
 };
+
+export const DeleteRequest = async (url, id) => {
+  const requestURL =`${url}/${id}`; 
+  const header = verifyTokenAuthorization();
+  try{
+    const res = await axios.delete(requestURL, id, {headers:{header}});
+    if(!(res.status===200||res.status===204)){
+      throw new Error(res.status);
+    }
+  }catch (error){
+    console.error(error);
+  }
+};
+
+export default Get;
