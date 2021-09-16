@@ -1,56 +1,61 @@
-/* eslint-disable no-extra-semi */
 import axios from 'axios';
 
-
-// eslint-disable-next-line no-unused-vars
 const config = {
   headers: {
-    Group: 65                //Aqui va el ID del equipo!!
+    Group: 65
   }
 };
 
-export const Get =   async(link,id) => {
+export const GetRequest = async(link,id) => {
   const header = verifyTokenAuthorization();
   if (id === undefined) {
     try {
-      const response = await axios.get(`${link}`,{headers: {header}});
+      const response = await axios.get(`${link}`,{headers: header});
       return response.data;
     } catch (err) {
-      console.log(err);
+      return err.response.status;
     } 
   }
   else {
     try {
-      const response = await axios.get(`${link}/${id}`,{headers: {header}});
+      const response = await axios.get(`${link}/${id}`,{headers: header});
       return response.data;
     } 
     catch (err) {
-      console.log(err);
+      return err.response.status;
     }
   }
 };
+
 export const PutRequest = async (url,id,data) =>{
   const requestURL = `${url}/${id}`;
   const header = verifyTokenAuthorization();
   try {
     const res = await axios.put(requestURL, data,{headers: header});
-    if(!(res.status===200||res.status===204)){
-      throw new Error(res.status);
-    }else{
-      return res;
-    }
+    return res.data;
   } catch (error) {
-    return error;
+    return error.response.status;
   }
 };
-
 
 export const PostRequest = async (url, data) => {
   const header = verifyTokenAuthorization();
   try {
-    await axios.post(url, data, {headers: {header}});
+    const res = await axios.post(url, data, {headers: header});
+    return res.data;
   } catch (error) {
-    console.error(error);
+    return error.response.status;
+  }
+};
+
+export const DeleteRequest = async (url, id) => {
+  const requestURL =`${url}/${id}`; 
+  const header = verifyTokenAuthorization();
+  try{
+    const res = await axios.delete(requestURL, {headers: header});
+    return res.data;
+  }catch (error){
+    return error.response.status;
   }
 };
 
@@ -60,18 +65,3 @@ export const verifyTokenAuthorization = () => {
     return {Authorization: 'Bearer ' + token};
   }
 };
-
-export const DeleteRequest = async (url, id) => {
-  const requestURL =`${url}/${id}`; 
-  const header = verifyTokenAuthorization();
-  try{
-    const res = await axios.delete(requestURL, id, {headers:{header}});
-    if(!(res.status===200||res.status===204)){
-      throw new Error(res.status);
-    }
-  }catch (error){
-    console.error(error);
-  }
-};
-
-export default Get;

@@ -1,10 +1,10 @@
-import { Get, PutRequest, PostRequest, DeleteRequest } from './privateApiService';
+import { GetRequest, PutRequest, PostRequest, DeleteRequest } from './privateApiService';
 
 const url = 'http://ongapi.alkemy.org/api/activities';
 
 export const GetActivities = async (id) => {
   let res;
-  id ? res = await Get(url, id) : res = await Get(url);
+  id ? res = await GetRequest(url, id) : res = await GetRequest(url);
   return res;
 };
 
