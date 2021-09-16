@@ -7,7 +7,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import * as Yup from 'yup';
 import { Button } from '@chakra-ui/button';
-import axios from 'axios';
+import { PostActivity, PutActivity } from '../../Services/ActivitiesService';
 
 
 const ActivitiesForm = ({ object }) => {
@@ -21,24 +21,19 @@ const ActivitiesForm = ({ object }) => {
 
   const handleSubmit = (formData) => {
     console.log('submit');
+    const data = {
+      name: formData.name,
+      description: formData.description,
+      image: formData.image
+    };
     if (object) {
-      axios 
-        .patch(`http://ongapi.alkemy.org/api/activities/${object.id}`, {
-          name: formData.name,
-          description: formData.description,
-          image: formData.image
-        })
-        .catch(err => console.error(err))
-        .then(res => console.log(res));
+      PutActivity(object.id, data)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     } else {
-      axios
-        .post('http://ongapi.alkemy.org/api/activities', {
-          name: formData.name,
-          description: formData.description,
-          image: formData.image
-        })
-        .catch(err => console.error(err))
-        .then(res => console.log(res));
+      PostActivity(data)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     }
   };
 
