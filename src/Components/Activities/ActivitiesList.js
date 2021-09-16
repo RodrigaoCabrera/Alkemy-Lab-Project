@@ -1,32 +1,42 @@
 import React from 'react';
-import '../CardListStyles.css';
+import { Heading, Link, Stack } from '@chakra-ui/layout';
+import { Link as RouterLink } from 'react-router-dom';
+import { ActivitiesTable } from './ActivitiesTable';
+
+
 
 const ActivitiesList = () => {
-    const activitiesMock = [
-        {id: 2, name: 'Titulo de prueba', description: 'Descripcion de prueba'},
-        {id: 1, name: 'Titulo de prueba', description: 'Descripcion de prueba'},
-        {id: 3, name: 'Titulo de prueba', description: 'Descripcion de prueba'}
-    ];
-
-    return (
-        <div>
-            <h1>Listado Actividades</h1>
-            <ul className="list-container">
-                {activitiesMock.length > 0 ?
-                    activitiesMock.map((activity) => {
-                        return(
-                            <li className="card-info" key={activity.id}>
-                                <h3>{activity.name}</h3>
-                                <p>{activity.description}</p>
-                            </li>
-                        )
-                    })
-                :
-                    <p>No hay actividades</p>
-                }
-            </ul>
-        </div>
-    );
-}
+  const activitiesMock = [
+    {id:'436', name: 'Apoyo Escolar Nivel Primario', image: 'http://ongapi.alkemy.org/storage/XwACj230qB.jpeg', createdAt: new Date().toLocaleString()},
+    {id:'437', name: 'Apoyo Escolar Nivel Secundario', image: 'http://ongapi.alkemy.org/storage/c1NyJKnQtO.jpeg', createdAt: new Date().toLocaleString()},
+    {id:'439', name: 'Tutorías Individuales', image: 'http://ongapi.alkemy.org/storage/AmrSwNshrt.jpeg', createdAt: new Date().toLocaleString()},
+    {id:'445', name: 'Donación de Alimentos', image: 'http://ongapi.alkemy.org/storage/ZsTitd4YsY.jpeg', createdAt: new Date().toLocaleString()},
+  ];
+  
+  return (
+    <Stack
+      alignItems='center'
+      justifyContent='center'
+      marginTop='12'
+      spacing={6}
+    >
+      <Heading as='h1'>Listado Actividades</Heading>
+      <Link 
+        as={RouterLink}
+        to='/backoffice/activities/create'
+        color='#398BE1'
+        fontWeight='bold'
+        fontSize='18px'
+        alignSelf='center'
+        _hover={{
+          color: '#418BCC'
+        }}
+      >
+        Crear actividad
+      </Link>
+      <ActivitiesTable activities={activitiesMock} />
+    </Stack>
+  );
+};
  
 export default ActivitiesList;

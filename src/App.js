@@ -13,6 +13,8 @@ import ProjectsForm from './Components/Projects/ProjectsForm';
 import CreateEditForm from './Components/CreateEditForm/CreateEditForm';
 import ActivityDetail from './Components/Activities/ActivityDetail';
 import OrganizationForm from './Components/Organization/OrganizationForm';
+import NewDetail from './Components/New/Detail';
+import ActivitiesList from './Components/Activities/ActivitiesList';
 //import NewDetail from './Components/New/Detail';
 import News from './Components/News/News';
 import ContactPage from './Components/Contact/ContactPage';
@@ -39,6 +41,7 @@ function App() {
           <Route path="/novedades" component={News} />
           <Route path="/backoffice/categories" component={CategoriesPage} />
           <Route path='/backoffice/create-slide' component={SlidesForm} />
+          <Route path='/backoffice/activities' component={ActivitiesList} />
           <Route path='/create-testimonials' component={TestimonialForm} />
           <Route path='/create-user' component={UserForm} />
           <Route path="/contacto" component={ContactPage} />
