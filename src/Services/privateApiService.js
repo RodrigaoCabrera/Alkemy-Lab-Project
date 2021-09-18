@@ -48,6 +48,17 @@ export const PostRequest = async (url, data) => {
   }
 };
 
+export const PatchRequest = async ( url, id, data ) => {
+  const header = verifyTokenAuthorization();
+  const UrlRequest = `${url}/${id}`;
+  try {
+    const res = await axios.patch(UrlRequest, data, {headers: {header}});
+    return res.data;
+  } catch (error) {
+    return error;
+  }  
+};
+
 export const DeleteRequest = async (url, id) => {
   const requestURL =`${url}/${id}`; 
   const header = verifyTokenAuthorization();
