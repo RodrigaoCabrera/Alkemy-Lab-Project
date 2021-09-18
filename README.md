@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
+
+React-spinner-loader provides simple React SVG spinner component which can be implemented for async await operation before data loads to the view. [React Spinner Loader] (https://github.com/mhnpd/react-loader-spinner)
+
 ## Available Scripts
 
 In the project directory, you can run:
