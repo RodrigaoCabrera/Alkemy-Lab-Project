@@ -13,17 +13,16 @@ import ProjectsForm from './Components/Projects/ProjectsForm';
 import CreateEditForm from './Components/CreateEditForm/CreateEditForm';
 import ActivityDetail from './Components/Activities/ActivityDetail';
 import OrganizationForm from './Components/Organization/OrganizationForm';
+import sildesList from './Components/Backoffice/Slides/sildesList';
 import NewDetail from './Components/New/Detail';
 import Home from './Components/Home/Home';
 import ActivitiesList from './Components/Activities/ActivitiesList';
-//import NewDetail from './Components/New/Detail';
 import News from './Components/News/News';
 import ContactPage from './Components/Contact/ContactPage';
 import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
-import SlidesForm from './Components/SlidesForm/'
-import NewDetail from './Components/New/Detail';
-import MembersList from './Components/Backoffice/Members/'
+import SlidesForm from './Components/SlidesForm/';
+import MembersList from './Components/Backoffice/Members/';
 import FormEditUsers from './Components/Users/FormEditUsers';
 import FormMembers from './Components/Backoffice/FormMembers';
 
@@ -47,6 +46,7 @@ function App() {
           <Route path="/novedades" component={NewDetail} />
           <Route path="/backoffice/categories" component={CategoriesPage} />
           <Route path='/backoffice/create-slide' component={SlidesForm} />
+          <Route path='/backoffice/slides' component={sildesList} exact />
           <Route path='/backoffice/activities' component={ActivitiesList} />
           <Route path='/create-testimonials' component={TestimonialForm} />
           <Route path='/create-user' component={UserForm} />
