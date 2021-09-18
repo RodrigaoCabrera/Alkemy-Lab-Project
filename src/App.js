@@ -22,9 +22,11 @@ import ContactPage from './Components/Contact/ContactPage';
 import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
 import SlidesForm from './Components/SlidesForm/';
-import MembersList from './Components/Backoffice/Members/';
+import MembersList from './Components/Backoffice/Members/'
 import FormEditUsers from './Components/Users/FormEditUsers';
 import FormMembers from './Components/Backoffice/FormMembers';
+import SlidesForm from './Components/SlidesForm/';
+import ActivityContent from './Components/Activities/ActivityContent';
 
 function App() {
   return (
@@ -61,6 +63,7 @@ function App() {
           <Route path='/editar-usuario' component={FormEditUsers} />
           <Route path = '/editar-miembros' component={FormMembers} />
           <Route path="/create-slides" component={SlidesForm} />
+          <Route path='/activity-content'component={ActivityContent} />
         </Switch>
       </BrowserRouter>
       <div className='App'>
