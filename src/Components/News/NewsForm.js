@@ -6,6 +6,7 @@ import axios from 'axios';
 import {FormLabel,Button,Container,Alert,AlertIcon,Text} from '@chakra-ui/react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { showErrorAlert } from '../../Services/alertsService';
 
 const NewsForm = ({novedades}) => {
   const [Categoria, setCategoria] = useState([]);
@@ -31,26 +32,16 @@ const NewsForm = ({novedades}) => {
         onSubmit ={(formData,{resetForm})=>{ 
           console.log(novedades === undefined);
           if (novedades === undefined) {
-            console.log('hola sin props');
             axios.post('http://ongapi.alkemy.org/api/news', {
               name: formData.name,
               content: formData.content,
               slug: formData.slug,
               image: formData.image
-            }).then(function (response) {
-              console.log(response);
+            }).then(function () {
               setEnvioExitoso(true);
-              setTimeout(()=>{
-                setEnvioExitoso(false);
-                resetForm();
-              },3000);
               resetForm();
-            }).catch(function (error) {
-              console.log('No se pudo ingresar por error :',error);
+            }).catch(function () {
               setEnvioError(true);
-              setTimeout(()=>{
-                setEnvioError(false);
-              },3000);
             });} else {
             axios.put(`http://ongapi.alkemy.org/api/news/${novedades.id}`, {
               name: formData.name,
@@ -58,20 +49,11 @@ const NewsForm = ({novedades}) => {
               image: formData.image,
               id: novedades.id,
               slug: formData.slug,
-            }).then(function (response) {
-              console.log(response);
+            }).then(function () {
               setEnvioExitoso(true);
-              setTimeout(()=>{
-                setEnvioExitoso(false);
-                resetForm();
-              },3000);
               resetForm();
-            }).catch(function (error) {
-              console.log('No se pudo ingresar por error :',error);
+            }).catch(function () {
               setEnvioError(true);
-              setTimeout(()=>{
-                setEnvioError(false);
-              },3000);
             });}
         }}
         validationSchema ={Yup.object({
@@ -120,7 +102,7 @@ const NewsForm = ({novedades}) => {
             {touched.image && errors.image &&<Alert status="error"><AlertIcon />{errors.image}</Alert>}
             <Button  mt={4} colorScheme="teal" type="submit">Send</Button>
             {EnvioExitoso && <Alert status="success"><AlertIcon />Novedad Enviada</Alert>}
-            {EnvioError && <Alert status="error"><AlertIcon />Novedad No enviado</Alert>}
+            {EnvioError && showErrorAlert()}
           </form >
         )}
       </Formik>
