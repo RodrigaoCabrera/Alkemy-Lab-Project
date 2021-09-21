@@ -31,6 +31,45 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+## SkeletonSetup
+
+- This component is used to display the loading state of some components.
+
+### Usage
+
+- Basic skeleton component
+
+![alt text](https://i.ibb.co/9brZWsm/Screenshot-2021-09-16-225314.png "SkeletonBasic")
+
+```javascript
+  <SkeletonSetup lines={5} width='200px' height='17px'/>
+```
+
+***
+
+- Card skeleton component
+
+![alt text](https://i.ibb.co/PDYtrDv/Screenshot-2021-09-16-225314.png "SkeletonBasic")
+
+```javascript
+  <SkeletonSetup isCard lines={5} width='400px' bgCard='#000' sizeCircle='40px'/>
+```
+
+### Props
+
+`isCard`: indicates if the skeleton is a card component, type: boolean.
+
+`lines`: number of skeleton lines, Default 4, type: integer.
+
+`width`: skeleton width size, type: string, accept: `px, em, rem ...`
+
+`height`: indicates the height of the skeleton lines (only if it is not a Card Component), type: string, 
+accept: `px, em, rem ...`
+
+`bgCard`: indicate the color background Card, type: string, accept: `hexadecimal, rgb ...`
+
+`sizeCircle`: indicates the size of the card circle, type: string, accept: `px, em, rem ...`
 # Alerts
 
 The app comes with three alert methods that will use [sweet alert 2](https://sweetalert2.github.io/) to display information to the user. These methods are
