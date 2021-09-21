@@ -1,6 +1,7 @@
 import { GetRequest, PutRequest, PostRequest, DeleteRequest } from './privateApiService';
 
-const url = 'http://ongapi.alkemy.org/api/activities';
+// eslint-disable-next-line no-undef
+const url = process.env.REACT_APP_ACTIVITIES;
 
 export const GetActivities = async (id) => {
   let res;
