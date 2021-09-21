@@ -6,10 +6,12 @@ import axios from 'axios';
 import {FormLabel,Button,Container,Alert,AlertIcon,Text} from '@chakra-ui/react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { postCategory, putCategory } from '../../Services/categoryService';
 
-const CategoriesForm = ({categoria}) => {
+const CategoriesForm = ({location: {categoria}}) => {
   const [EnvioExitoso, setEnvioExitoso] = useState(false);
   const [EnvioError, setEnvioError] = useState(false);
+  console.log(categoria);
   return ( 
     <Container mt={3}>
       <Formik
@@ -20,7 +22,7 @@ const CategoriesForm = ({categoria}) => {
           id: categoria ? categoria.id : 0}}
         onSubmit ={(formData,{resetForm})=>{
           if (categoria === undefined) {
-            axios.post('http://ongapi.alkemy.org/api/categories', {
+            postCategory({
               name: formData.name,
               description: formData.description,
               image: formData.image
@@ -39,7 +41,7 @@ const CategoriesForm = ({categoria}) => {
               },3000);
             });} 
           else {
-            axios.put(`http://ongapi.alkemy.org/api/categories/${categoria.id}`, {
+            putCategory(categoria.id, {
               name: formData.name,
               description: formData.description,
               image: formData.image
