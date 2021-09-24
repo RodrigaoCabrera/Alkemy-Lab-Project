@@ -12,6 +12,8 @@ import {
   Textarea
 } from '@chakra-ui/react';
 import * as yup from 'yup';
+import { PostContact } from '../../Services/ContactService';
+
 
 //Este form solo usa formik yup y chakra ui- falta mejorar el debounce
 const schema = yup.object().shape({
@@ -30,12 +32,13 @@ const schema = yup.object().shape({
   message: yup.string().required('El campo de mensaje no puede estar vacio'),
 });
 const ContactForm = () => {
+  
   return (
     <Formik
       validationSchema={schema}
       validateOnMount={true}
       onSubmit={(values) => {
-        console.log(values);
+        PostContact(values);
       }}
       initialValues={{
         name: '',
