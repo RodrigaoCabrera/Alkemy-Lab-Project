@@ -16,7 +16,8 @@ const SlideHomeForm = ({slide, editSlideHandler}) => {
       <Flex justifyContent='space-between'>
         <Box>
           <Text fontSize="md" as="em" fontWeight='500'> Slide Cargada: </Text>
-          <Text pl='5'>{slide.text.slice(0, 20)}...</Text>
+          {console.log(slide)}
+          <Text pl='5'>{slide.description && slide.description.slice(3, -4).slice(0, 20)}...</Text>
         </Box>
         <Button onClick={modalHandlerEdit}><FiEdit/></Button>
         <ModalHome modalHandler={modalHandlerEdit} isOpen={isOpenEdit} slideHandler={editSlideHandler} slideEdit={slide}/>

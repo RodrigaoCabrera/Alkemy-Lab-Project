@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Button, Box, Textarea, Center, Text, Heading,
   FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
@@ -6,12 +6,17 @@ import { BiAddToQueue } from 'react-icons/bi';
 import ModalHome from './ModalHome';
 import '../FormStyles.css';
 import SlideHomeForm from './SlideHomeForm';
+import axios from 'axios';
 
-const HomeForm = (props) => {
+const HomeForm = () => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [title, setTitle] = useState('');
-  const [slides, setSlides] = useState(props.slides ? props.slides : []); 
-  //expected props => [{id: ..., text : '...', image: 'base64_image'}, ...]
+  const [slides, setSlides] = useState([]); 
+  
+  useEffect(async ()=> {
+    const slidesONG = await axios.get('http://ongapi.alkemy.org/api/slides');
+    setSlides(slidesONG.data.data);
+  }, []);
 
   const handleChange = (e) => {
     if(e.target.name === 'title'){

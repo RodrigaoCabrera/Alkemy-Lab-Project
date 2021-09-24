@@ -8,7 +8,10 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { showErrorAlert } from '../../Services/alertsService';
 
+
 const NewsForm = ({novedades}) => {
+  // eslint-disable-next-line no-undef
+  const url = process.env.REACT_APP_NEWS;
   const [Categoria, setCategoria] = useState([]);
   const [EnvioExitoso, setEnvioExitoso] = useState(false);
   const [EnvioError, setEnvioError] = useState(false);
@@ -32,7 +35,7 @@ const NewsForm = ({novedades}) => {
         onSubmit ={(formData,{resetForm})=>{ 
           console.log(novedades === undefined);
           if (novedades === undefined) {
-            axios.post('http://ongapi.alkemy.org/api/news', {
+            axios.post(url, {
               name: formData.name,
               content: formData.content,
               slug: formData.slug,
@@ -43,7 +46,7 @@ const NewsForm = ({novedades}) => {
             }).catch(function () {
               setEnvioError(true);
             });} else {
-            axios.put(`http://ongapi.alkemy.org/api/news/${novedades.id}`, {
+            axios.put(`${url}/${novedades.id}`, {
               name: formData.name,
               content: formData.content,
               image: formData.image,
