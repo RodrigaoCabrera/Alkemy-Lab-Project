@@ -8,7 +8,7 @@ const Member = ({ member, deletMember, editMember }) => {
     const [isEdit, setIsEdit] = useState(false);
     const [idMember, setIdMember] = useState('');
     const [nameMember, setNameMember] = useState(member.name);
-    const [memberImage, setMemberImage] = useState(member.photo);
+    const [memberImage, setMemberImage] = useState(member.image);
 
     const handleChange = (e) => {
         setNameMember(e.target.value);//Se establece el nombre que se edita en el input

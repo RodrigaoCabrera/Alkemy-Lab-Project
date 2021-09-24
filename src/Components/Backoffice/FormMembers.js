@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { Button } from '@chakra-ui/button';
 import axios from 'axios';
 import { FaInstagram, FaFacebookF } from 'react-icons/fa';
+import { PatchMembers, PostMembers } from '../../Services/MembersService';
 
 const FormMembers = ({ object }) => {
   const schema = Yup.object().shape({
@@ -22,21 +23,11 @@ const FormMembers = ({ object }) => {
   const handleSubmit = (formData) => {
     console.log('submit');
     if (object) {
-      axios 
-        .patch(`http://ongapi.alkemy.org/api/member${object.id}`, {
-          name: formData.name,
-          description: formData.description,
-          image: formData.image
-        })
+        PatchMembers(object.id, formData) //Inclusión de método Patch
         .catch(err => console.error(err))
         .then(res => console.log(res));
     } else {
-      axios
-        .post('http://ongapi.alkemy.org/api/member', {
-          name: formData.name,
-          description: formData.description,
-          image: formData.image
-        })
+        PostMembers(formData) //Inclusión de método Post
         .catch(err => console.error(err))
         .then(res => console.log(res));
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Stack, useDisclosure } from '@chakra-ui/react';
+import { MdDelete, MdEdit } from "react-icons/md"
 
 
 const Buttons = ({ deletMember, member, idMember, setIdMember, nameMember, setNameMember, isEdit, setIsEdit, editMember, onToggle, memberImage }) => {
@@ -40,10 +41,12 @@ const Buttons = ({ deletMember, member, idMember, setIdMember, nameMember, setNa
                 }}
                 onClick={handleUpdateMemberList}
                 isDisabled={nameMember.length === 0  || memberImage.length === 0} /*Se deshabilita el boton sino tiene imagen o nombre */
+                leftIcon={!isEdit && <MdEdit />}
             >
                 {isEdit ? 'Actualizar' : 'Editar'}
             </Button>
             <Button
+                leftIcon={<MdDelete />}
                 size='md'
                 color="#fff"
                 bg='#a42429'
