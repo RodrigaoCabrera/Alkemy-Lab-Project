@@ -5,6 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { Button, Box, Input, FormControl, FormLabel, FormErrorMessage, Text, Heading  } from '@chakra-ui/react';
 import axios from 'axios';
 import '../FormStyles.css';
+import { showErrorAlert } from '../../Services/alertsService';
 
 const TestimonialForm = ({ values }) => {
   const [message, setMessage] = useState('');
@@ -95,6 +96,7 @@ const TestimonialForm = ({ values }) => {
             <Field name="name" validate={validateName}>
               {({ field, form }) => (
                 <FormControl isInvalid={form.errors.name && form.touched.name} isRequired>
+                  {Error && showErrorAlert()}
                   <FormLabel htmlFor="name">Titulo</FormLabel>
                   <Input {...field} value={initialValues.name} onChange={nameHandler} id="name" />
                   <FormErrorMessage>{form.errors.name}</FormErrorMessage>
