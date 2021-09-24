@@ -96,4 +96,22 @@ This method fires an alert with an success icon and a title saying that the oper
 
 This method fires an alert with an info icon and a particular message. This message must be receive via parameter since there is no default message.
 
+## Progress Bar
 
+Progress is used to display the progress status for a task that takes a long time or consists of several steps.
+
+### Usage examples
+
+```js
+  <ProgressBar value={65}/>
+  <ProgressBar width={500} />
+  <ProgressBar height={35} value={30} />
+```
+
+### Props
+
+This component receives 3 props:
+
+- Value: indicates the value of the progress bar, if it is null the progress bar will be animated
+- Height: indicates the height of the progress bar
+- Width: indicates the width of the progress bar
