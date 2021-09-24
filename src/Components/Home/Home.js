@@ -1,14 +1,47 @@
-import React from 'react';
-import { Box ,Text, Heading } from '@chakra-ui/react';
-
+import React, { useEffect, useState } from 'react';
+import { Box, Text, Heading, Spinner, Center, Alert } from '@chakra-ui/react';
+import { GetRequest } from '../../Services/privateApiService'
+import { BiErrorCircle } from "react-icons/bi";
 const Home = () => {
-  let textWelcome='Desde 1997 en Somos Más trabajamos con los chicos y chicas, mamás y papás abuelos y vecinos del barrio La Cava generando procesos de crecimiento y de inserción social. Uniendo las manos de todas las familias, las que viven en el barrio y las que viven fuera de él, es que podemos pensar, crear y garantizar estos procesos.  Somos una asociación civil sin fines de lucro que se creó en 1997 con la intención de New Caso 1: ONG - Somos Más. 2 dar alimento a las familias del barrio. Con el tiempo fuimos involucrándonos con la comunidad y agrandando y mejorando nuestra capacidad de trabajo. Hoy somos un centro comunitario que acompaña a más de 700 personas a través de las áreas de: Educación, deportes, primera infancia, salud, alimentación y trabajo social.';
-  let titleWelcome='SOMOS';
+
+  const [Home, setHome] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errorRequest, setErrorRequest] = useState(false);
+
+  useEffect(() => {
+    GetRequest('http://ongapi.alkemy.org/api/organization')
+      .then((response) => {
+        setHome(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setErrorRequest(true);
+        console.log(error);
+      });
+  }, [setHome, setLoading, setErrorRequest]);
+
   return (
     <Box id="home">
       <Box p={10} backgroundColor="#9ac9fb" color="white">
-        <Heading textAlign="center">{titleWelcome}</Heading>
-        <Text textAlign="justify" fontWeight="bold">{textWelcome}</Text>
+        {
+          (errorRequest === false)
+            ? <>
+                {
+                  loading === false
+                    ? <>
+                        <Heading textAlign="center">{Home.welcome_text}</Heading>
+                        <Text textAlign="justify" fontWeight="bold">{Home.short_description}</Text>
+                      </>
+                    : <Center > <Spinner size="xl" /> </Center>
+                }
+              </>
+            : <Center>
+                <Alert status="error" maxWidth="40vw" variant="solid">
+                  <BiErrorCircle />
+                  <span onClick={ () => window.location.reload() }>There was an error processing your request, please reload page, clicking here</span>
+                </Alert>
+              </Center>
+        }
       </Box>
       <Box>
         {/* componente slider */}
@@ -19,5 +52,5 @@ const Home = () => {
     </Box>
   );
 };
- 
+
 export default Home;

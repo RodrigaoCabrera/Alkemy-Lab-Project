@@ -1,17 +1,27 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/layout';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TitlePages from '../UI/TitlePages';
+import { GetRequest } from '../../Services/privateApiService'
+import { Spinner, Center, Alert } from '@chakra-ui/react';
+import { BiErrorCircle } from "react-icons/bi";
 
 export const AboutUs = () => {
 
-  const mockText = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-  Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, 
-  when an unknown printer took a galley of type and scrambled it to make a type 
-  specimen book. It has survived not only five centuries, but also the leap into 
-  electronic typesetting, remaining essentially unchanged. It was popularised in 
-  the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
-  and more recently with desktop publishing software like Aldus PageMaker 
-  including versions of Lorem Ipsum.`;
+  const [About, setAbout] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errorRequest, setErrorRequest] = useState(false);
+
+  useEffect(() => {
+    GetRequest('http://ongapi.alkemy.org/api/organization')
+      .then((response) => {
+        setAbout(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setErrorRequest(true);
+        console.log(error);
+      });
+  }, [setAbout, setLoading, setErrorRequest]);
 
   return (
     <Stack>
@@ -19,9 +29,22 @@ export const AboutUs = () => {
       <Box>
         <Heading as='h2' size='md' marginLeft={6} marginTop={3}>Sobre Nosotros</Heading>
         <Stack margin={6} marginTop={6}>
-          <Text>
-            {mockText}
-          </Text>
+          {
+            (errorRequest === false)
+              ? <>
+                {
+                  (loading === false)
+                    ? <Text><span dangerouslySetInnerHTML={{ __html: About.long_description }} /></Text>
+                    : <Center > <Spinner size="xl" /> </Center>
+                }
+                </>
+              : <Center>
+                  <Alert status="error" maxWidth="40vw">
+                    <BiErrorCircle />
+                    <span onClick={ () => window.location.reload() }>There was an error processing your request, please reload page, clicking here</span>
+                  </Alert>
+                </Center>
+          }
         </Stack>
       </Box>
     </Stack>
