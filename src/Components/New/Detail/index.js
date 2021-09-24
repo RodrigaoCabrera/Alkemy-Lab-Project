@@ -1,48 +1,73 @@
 import React, { useState } from 'react';
 import Title from './Title';
-import { Box, Grid, Flex } from '@chakra-ui/react';
+import { Box, Grid, Flex, Text, Image, extendTheme } from '@chakra-ui/react';
+import Comments from './Comments';
+import { createBreakpoints } from "@chakra-ui/theme-tools";
 
 const Detail = () => {
+    const breakpoints = createBreakpoints({
+        sm: '414px',
+        md: '550px',
+        lg: '768px',
+        xl: '1023px',
+    })
+    const theme = extendTheme({ breakpoints })
     const [stateInitial, setStateInitial] = useState({
-        title: 'Bienvenido',
-        img: '',
+        title: 'Detalles',
+        image: 'http://ongapi.alkemy.org/storage/onIkohBvrv.jpeg',
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco'
     });
 
-    //Llamada a la api
-    /*
-    useEffect(() => {
-        const res = fetch('');
-        const novedades = res.json();
-
-        setStateInitial(novedades);
-    }, []);
-    */
-console.log(setStateInitial)
     return (
-        <Box bgColor='#eaeaea'>
-            <Grid
-                templateColumns='repeat(1, 1fr)'
-                templateRows='20vh 80vh'
-
-            >
-                <Title title={stateInitial.title}/>
+        <>
+            <Flex direction='column' align='center'>
+                <Title title={stateInitial.title} />
 
                 <Flex
-                    border='1px' 
-                    borderStyle='solid' 
-                    borderColor='#000'
+                    minH='65vh'
+                    m='5px 5px'
+                    w='98%'
+                    borderRadius='5px'
+                    bgColor='#398be1'
+                    justifySelf='center'
+                    direction={{ base: 'column', sm: 'column', md: 'row' }}
+                    boxShadow={{ base: 'xl', sm: 'xl', md: '2xl' }}
                 >
-                    <Box w='30%'>
-                        <img src={stateInitial.img} alt='imagen de novedades' />
+                    <Box 
+                         
+                        w={{ base: '100%', sm: '100%', md: '40%' }}
+                        borderRightRadius={{ base: '5px', sm: '5px', md: '0' }}
+                        borderLeftRadius='5px'
+                    >
+                        <Image 
+                            src={stateInitial.image} 
+                            alt='imagen de novedades' 
+                            boxSize='100%' 
+                            borderLeftRadius='5px'
+                            borderRightRadius={{ base: '5px', sm: '5px', md: '0' }}
+                        />
                     </Box>
-                    
-                    <Box w='70%' pl='10px' alignSelf='center'>
-                        <p>{stateInitial.content}</p>
+
+                    <Box
+                        w={{ base: '100%', sm: '100%', md: '60%' }}
+                        display='flex'
+                        borderRightRadius='5px'
+                        >
+                        <Text
+                            alignSelf='center'
+                            textAlign={{ base: 'center', sm: 'center', md: 'start' }}
+                            p='10px 10px'
+                            fontSize={{ base: '20px', sm: '20px', md: '16.5px' }}
+                            fontWeight='600'
+                            w='full'
+                        >
+                            {stateInitial.content}
+                        </Text>
                     </Box>
                 </Flex>
-            </Grid>
-        </Box>
+            </Flex>
+            <Comments />
+        </>
     )
 };
 
