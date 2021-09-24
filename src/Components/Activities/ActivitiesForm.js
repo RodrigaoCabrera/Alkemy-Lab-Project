@@ -7,10 +7,13 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import * as Yup from 'yup';
 import { Button } from '@chakra-ui/button';
-import { PostActivity, PutActivity } from '../../Services/ActivitiesService';
+import { useDispatch } from 'react-redux';
+import { postActivity, putActivity } from '../../features/activitiesReducer';
 
 
-const ActivitiesForm = ({ object }) => {
+const ActivitiesForm = ({ location: {activity}}) => {
+
+  const dispatch = useDispatch();
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Nombre requerido'),
@@ -20,20 +23,23 @@ const ActivitiesForm = ({ object }) => {
   });
 
   const handleSubmit = (formData) => {
-    console.log('submit');
-    const data = {
-      name: formData.name,
-      description: formData.description,
-      image: formData.image
-    };
-    if (object) {
-      PutActivity(object.id, data)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+    
+    if (activity) {
+      const data = {
+        id: activity.id,
+        data: {
+          name: formData.name,
+          description: formData.description,
+          image: formData.image
+        }
+      };
+      dispatch(putActivity(data));
     } else {
-      PostActivity(data)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+      dispatch(postActivity({
+        name: formData.name,
+        description: formData.description,
+        image: formData.image
+      }));
     }
   };
 
@@ -59,9 +65,9 @@ const ActivitiesForm = ({ object }) => {
         > 
           <Formik
             initialValues={{
-              name: object?.name || '',
-              description: object?.description || '',
-              image: object?.image || ''
+              name: activity ? activity.name : '',
+              description: activity ? activity.description : '',
+              image: activity ? activity.image : ''
             }}
             validationSchema={schema}
             onSubmit={handleSubmit}
@@ -128,7 +134,7 @@ const ActivitiesForm = ({ object }) => {
                     bg: '#5FA5ED'
                   }}
                 >
-                  {object ? 'Actualizar' : 'Crear'}
+                  {activity ? 'Actualizar' : 'Crear'}
                 </Button>
               </Form>
             )}

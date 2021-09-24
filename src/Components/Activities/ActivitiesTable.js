@@ -1,13 +1,28 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/table';
 import { Image } from '@chakra-ui/image';
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel } from '@chakra-ui/accordion';
-import { Box, Link, Stack } from '@chakra-ui/layout';
+import { Box, Stack } from '@chakra-ui/layout';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { Button } from '@chakra-ui/button';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteActivity, getActivity } from '../../features/activitiesReducer';
 
-export const ActivitiesTable = ({ activities }) => {
+export const ActivitiesTable = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getActivity());
+  }, []);
+
+  const { activities: {activities, status} } = useSelector(state => state);
+
+  const handleDelete = (id) => {
+    dispatch(deleteActivity(id));
+  };
+
   return (
     <Table
       minWidth={{
@@ -30,7 +45,7 @@ export const ActivitiesTable = ({ activities }) => {
       </Thead>
       <Tbody>
         {
-          activities.map((activity) => {
+          status && activities.map((activity) => {
             return (
               <Tr
                 key={activity.id} 
@@ -73,10 +88,18 @@ export const ActivitiesTable = ({ activities }) => {
                 </Td>
                 <Td>
                   <Stack direction='row' spacing={2}>
-                    <Link as={RouterLink} to={`/backoffice/activities/edit/${activity.id}`}>
-                      <Button as={MdEdit} variant='link' boxSize='30px'color='#398be1' />
-                    </Link>
-                    <Button as={MdDelete} variant='link' boxSize='30px'color='#398be1' />
+                    <Button variant='unstyled'>
+                      <Link to={{pathname:'/create-activity', activity}}>
+                        <MdEdit size='30px' color='#398be1' />
+                      </Link> 
+                    </Button>
+                    <Button variant='unstyled'
+                      onClick={() => {
+                        handleDelete(activity.id);
+                      }}
+                    >
+                      <MdDelete size='30px' color='#398be1' />
+                    </Button>
                   </Stack>
                 </Td>
               </Tr>
