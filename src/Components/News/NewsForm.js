@@ -7,6 +7,7 @@ import {FormLabel,Button,Container,Alert,AlertIcon,Text} from '@chakra-ui/react'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { showErrorAlert } from '../../Services/alertsService';
+import { PostNews, PutNews} from '../../Services/NovedadesService';
 
 
 const NewsForm = ({novedades}) => {
@@ -33,31 +34,35 @@ const NewsForm = ({novedades}) => {
           image: '',
           id: novedades ? novedades.id : 0}}
         onSubmit ={(formData,{resetForm})=>{ 
-          console.log(novedades === undefined);
           if (novedades === undefined) {
-            axios.post(url, {
+            const data ={
               name: formData.name,
               content: formData.content,
               slug: formData.slug,
               image: formData.image
-            }).then(function () {
-              setEnvioExitoso(true);
-              resetForm();
-            }).catch(function () {
-              setEnvioError(true);
-            });} else {
-            axios.put(`${url}/${novedades.id}`, {
+            };
+            PostNews(data)
+              .then(function () {
+                setEnvioExitoso(true);
+                resetForm();
+              }).catch(function () {
+                setEnvioError(true);
+              });} 
+          else {
+            const data ={
               name: formData.name,
               content: formData.content,
               image: formData.image,
               id: novedades.id,
               slug: formData.slug,
-            }).then(function () {
-              setEnvioExitoso(true);
-              resetForm();
-            }).catch(function () {
-              setEnvioError(true);
-            });}
+            };
+            PutNews(novedades.id,data)
+              .then(function () {
+                setEnvioExitoso(true);
+                resetForm();
+              }).catch(function () {
+                setEnvioError(true);
+              });}
         }}
         validationSchema ={Yup.object({
           name: Yup.string().required('Requiere title').min(4,'Minimo 4 caracteres'),
