@@ -14,9 +14,7 @@ import CreateEditForm from './Components/CreateEditForm/CreateEditForm';
 import ActivityDetail from './Components/Activities/ActivityDetail';
 import OrganizationForm from './Components/Organization/OrganizationForm';
 import NewDetail from './Components/New/Detail';
-//import News from './Components/News/News';
 import sildesList from './Components/Backoffice/Slides/sildesList';
-import NewDetail from './Components/New/Detail';
 import Home from './Components/Home/Home';
 import ActivitiesList from './Components/Activities/ActivitiesList';
 import News from './Components/News/News';
@@ -24,13 +22,9 @@ import ContactPage from './Components/Contact/ContactPage';
 import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
 import SlidesForm from './Components/SlidesForm/';
-//import NewDetail from './Components/New/Detail';
-import MembersList from './Components/Backoffice/Members/'
+import MembersList from './Components/Backoffice/Members/';
 import FormEditUsers from './Components/Users/FormEditUsers';
 import FormMembers from './Components/Backoffice/FormMembers';
-//import SlidesForm from './Components/SlidesForm/';
-//import ActivityContent from './Components/Activities/ActivityContent';
-//import SlidesForm from './Components/SlidesForm/';
 import ActivityContent from './Components/Activities/ActivityContent';
 
 function App() {
@@ -39,7 +33,6 @@ function App() {
       <BrowserRouter>
         <Switch>
 
-          {/* <Route path='/' exact component={} />           Esta ruta debe ser para el Home */}
           <Route path='/create-activity' component={ActivitiesForm} />
           <Route path='/create-category' component={CategoriesForm} />
           <Route path='/create-news' component={NewsForm} />
@@ -76,7 +69,6 @@ function App() {
           <Route path='/editar-usuario' component={FormEditUsers} />
           <Route path='/editar-miembros' component={FormMembers} />
           <Route path="/create-slides" component={SlidesForm} />
-          {/* <Route path='/activity-content'component={ActivityContent} /> */}
           <Route path='/activity-content' component={ActivityContent} />
         </Switch>
       </BrowserRouter>

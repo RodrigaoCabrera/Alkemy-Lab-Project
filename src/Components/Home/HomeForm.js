@@ -6,6 +6,7 @@ import { BiAddToQueue } from 'react-icons/bi';
 import ModalHome from './ModalHome';
 import '../FormStyles.css';
 import SlideHomeForm from './SlideHomeForm';
+import { postWelcomeTextRequest } from '../../Services/homeService';
 import axios from 'axios';
 
 const HomeForm = () => {
@@ -25,7 +26,9 @@ const HomeForm = () => {
   };
 
   const handleSubmit = () =>{
-    console.log('enviado ', slides, title);
+    //aca falta el envio de los datos de las slides
+    //el post devuelve undef de rta pero anda igual!
+    postWelcomeTextRequest(title);
   };
 
   const modalHandlerAdd = () => {
@@ -35,7 +38,6 @@ const HomeForm = () => {
   };
 
   const validationTitle = () => {
-    console.log('validation');
     if(title.length < 20){
       return 'Debe contener almenos 20 caracteres';
     }else if(title.length == 0){

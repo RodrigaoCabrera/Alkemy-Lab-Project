@@ -13,7 +13,11 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import * as yup from 'yup';
-
+import { postTitleRequest } from '../../Services/homeService';
+const liURL ='(https?:\\/\\/(www.)?linkedin.com\\/(mwlite\\/|m\\/)?in\\/[a-zA-Z0-9_.-]+\\/?)';
+const igURL = /(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am|instagr.com)\/(\w+)/;
+const twURL = /^(?:https?:\/\/)?(?:www\.)?twitter\.com\/(#!\/)?[a-zA-Z0-9_]+$/i;
+const fbURL = /^(https?:\/\/)?(?:www\.)?facebook\.com\/(#!\/)?[a-zA-Z0-9?]/;
 const schema = yup.object().shape({
   name: yup.string().required('Por favor ingrese un nombre'),
   logo: yup.mixed().required('Por favor selecciona un archivo'),
@@ -26,13 +30,31 @@ const schema = yup.object().shape({
   longDescription: yup
     .string()
     .required('Por favor ingrese la descripcion completa'),
+  ig : yup
+    .string()    
+    .matches(igURL,'Por favor ingrese una URL valida.'),
+  fb : yup
+    .string()    
+    .matches(fbURL,'Por favor ingrese una URL valida.'),
+  tw : yup
+    .string()
+    .matches(twURL,'Por favor ingrese una URL valida.'),
+  li : yup
+    .string()
+    .matches(liURL,'Por favor ingrese una URL valida.'),
+  
+    
 });
+
 const OrganizationForm = () => {
   return (
     <Formik
       validationSchema={schema}
       validateOnMount={true}
-      onSubmit={() => {
+      onSubmit={(values) => {
+        console.log(values);
+        postTitleRequest(values.name).then(res=> console.log(res));
+        //aca van el resto de los post de organizacion.
       }}
       initialValues={{
         name: '',
@@ -41,9 +63,9 @@ const OrganizationForm = () => {
         longDescription: '',
       }}
     >
-      {({ handleSubmit, values, isValid, errors, touched, setFieldValue}) => (
+      {({  values, isValid, errors, touched, setFieldValue}) => (
         <Flex  align='center' justify='center'>
-          <Form onSubmit={handleSubmit} w={'60%'} height='70%'>
+          <Form /* onSubmit={handleSubmit} */ w={'60%'} height='70%'>
             <Flex
               direction='column'
               align='center'
@@ -81,9 +103,13 @@ const OrganizationForm = () => {
                   accept='image/jpeg, image/jpg , image/png'
                   name='logo'
                   type='file'
-                  onChange={(event) => {
-                    setFieldValue('logo', event.currentTarget.files[0]);
-                  }} 
+                  onChange={(e) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(e.currentTarget.files[0]);
+                    reader.onload = () => {
+                      setFieldValue('logo', reader.result);
+                    };
+                  }}
                   value={undefined}
                   
                 />
@@ -138,7 +164,64 @@ const OrganizationForm = () => {
                   component={FormErrorMessage}
                   name='longDescription'
                 />
-              </FormControl>              
+              </FormControl>
+              <FormControl
+                m={2}
+                isInvalid={errors.ig && touched.ig}
+              >
+                <FormLabel>Instagram</FormLabel>
+                <Field
+                  p='15px 30px'
+                  as={Input}
+                  type='text'
+                  name='ig'
+                  value={values.ig}
+                />
+                <ErrorMessage component={FormErrorMessage} name='ig' />
+              </FormControl>
+              <FormControl
+                m={2}
+                isInvalid={errors.fb && touched.fb}
+              >
+                <FormLabel>Facebook</FormLabel>
+                <Field
+                  p='15px 30px'
+                  as={Input}
+                  type='text'
+                  name='fb'
+                  value={values.fb}
+                />
+                <ErrorMessage component={FormErrorMessage} name='fb' />
+              </FormControl>
+              <FormControl
+                m={2}
+                isInvalid={errors.li && touched.li}
+              >
+                <FormLabel>LinkedIn</FormLabel>
+                <Field
+                  p='15px 30px'
+                  as={Input}
+                  type='text'
+                  name='li'
+                  value={values.li}
+                />
+                <ErrorMessage component={FormErrorMessage} name='li' />
+              </FormControl>
+              <FormControl
+                m={2}
+                isInvalid={errors.tw && touched.tw}
+              >
+                <FormLabel>Twitter</FormLabel>
+                <Field
+                  p='15px 30px'
+                  as={Input}
+                  type='text'
+                  name='tw'
+                  value={values.tw}
+                />
+                <ErrorMessage component={FormErrorMessage} name='tw' />
+              </FormControl>
+                            
               <Button
                 m={2}
                 p='10px 15px'

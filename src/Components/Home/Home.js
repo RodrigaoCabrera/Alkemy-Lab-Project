@@ -1,47 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Text, Heading, Spinner, Center, Alert } from '@chakra-ui/react';
-import { GetRequest } from '../../Services/privateApiService'
-import { BiErrorCircle } from "react-icons/bi";
+import { Box, Text, Heading, Center } from '@chakra-ui/react';
+import { getTitleRequest, getWelcomeTextRequest } from '../../Services/homeService';
+import { BiErrorCircle } from 'react-icons/bi';
+
 const Home = () => {
-
-  const [Home, setHome] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [titleText,setTitle] = useState('');
+  const [welcomeText,setWelcome] = useState('');
   const [errorRequest, setErrorRequest] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    GetRequest('http://ongapi.alkemy.org/api/organization')
-      .then((response) => {
-        setHome(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setErrorRequest(true);
-        console.log(error);
-      });
-  }, [setHome, setLoading, setErrorRequest]);
+  useEffect(()=>{
+    const setData =async ()=>{
+      getTitleRequest().then(res=>setTitle(res)).catch(error=>console.log(error));
+      getWelcomeTextRequest().then(res=>setWelcome(res)).catch(error=>console.log(error));
+    };
+    setData();
 
+  },[]);
+  
   return (
     <Box id="home">
       <Box p={10} backgroundColor="#9ac9fb" color="white">
-        {
-          (errorRequest === false)
-            ? <>
-                {
-                  loading === false
-                    ? <>
-                        <Heading textAlign="center">{Home.welcome_text}</Heading>
-                        <Text textAlign="justify" fontWeight="bold">{Home.short_description}</Text>
-                      </>
-                    : <Center > <Spinner size="xl" /> </Center>
-                }
-              </>
-            : <Center>
-                <Alert status="error" maxWidth="40vw" variant="solid">
-                  <BiErrorCircle />
-                  <span onClick={ () => window.location.reload() }>There was an error processing your request, please reload page, clicking here</span>
-                </Alert>
-              </Center>
-        }
+        <Heading textAlign="center">{titleText}</Heading>
+        <Text textAlign="justify" fontWeight="bold">{ welcomeText}</Text>
       </Box>
       <Box>
         {/* componente slider */}
