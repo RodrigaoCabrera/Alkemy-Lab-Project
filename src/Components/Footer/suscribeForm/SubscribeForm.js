@@ -7,7 +7,7 @@ import {
   Input, 
   Text,
   InputGroup,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -48,7 +48,7 @@ const SubscribeForm = () => {
                 id="email"
                 placeholder="example@example.com"
                 type="text"
-                autoComplete={false}
+                autoComplete='false'
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
