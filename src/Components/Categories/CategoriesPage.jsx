@@ -1,30 +1,27 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {Table,Thead,Tbody,Tr,Th,Td, Heading, Flex, Icon, Button,} from '@chakra-ui/react';
 import {BsPlusSquare} from 'react-icons/bs';
 import {BiEdit} from 'react-icons/bi';
 import {RiDeleteBin4Line} from 'react-icons/ri';
 import { useEffect } from 'react';
 import { deleteCategory, getCategories } from '../../Services/categoryService';
+import { fetchCategory, removeCategory } from '../../app/categories-slice';
 
 
 
 //aca se debe obtener la data desde useSelector del reducer
 const CategoriesPage = () =>{
+  const dispatch = useDispatch();
+  const {categories,status} = useSelector(state=>state.categories);
+  useEffect(()=>{
+    dispatch(fetchCategory());
+  },[]);
   const deleteHandler =  (idCategory) =>{
     //aca va a tener que conectarse el tema de alertas, trabajando con la response
-    deleteCategory(idCategory).then(res=>console.log(res));
-    setCategories(categories.filter((element)=>element.id!==idCategory));
+    dispatch(removeCategory(idCategory));
   };
-
-  const [categories,setCategories]= useState([]);
-  useEffect(()=>{
-    const setData = async()=>{
-      const data = await getCategories();
-      setCategories(data.data);
-    };
-    setData();
-  },[]);
   return(
     <Flex direction='column' m={5} p={5}>
       <Flex justify='space-between' align='center'>

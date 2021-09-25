@@ -6,12 +6,15 @@ import axios from 'axios';
 import {FormLabel,Button,Container,Alert,AlertIcon,Text} from '@chakra-ui/react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { postCategory, putCategory } from '../../Services/categoryService';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCategory, updateCategory } from '../../app/categories-slice';
 
 const CategoriesForm = ({location: {categoria}}) => {
+  const dispatch = useDispatch();
+  //conectar status con loading y alertas.
+  const {status} = useSelector(state=>state.categories);
   const [EnvioExitoso, setEnvioExitoso] = useState(false);
   const [EnvioError, setEnvioError] = useState(false);
-  console.log(categoria);
   return ( 
     <Container mt={3}>
       <Formik
@@ -21,7 +24,25 @@ const CategoriesForm = ({location: {categoria}}) => {
           image: '',
           id: categoria ? categoria.id : 0}}
         onSubmit ={(formData,{resetForm})=>{
+          const data = {
+            name: formData.name,
+            description: formData.description,
+            image: formData.image
+          };
           if (categoria === undefined) {
+            dispatch(addCategory(data));
+          }
+          else {
+            dispatch(updateCategory({id:categoria.id,data:data}));
+          }
+          // esto queda comentado para el que conecte las alertas y loading. 
+          /* if (categoria === undefined) {
+            const data = {
+              name: formData.name,
+              description: formData.description,
+              image: formData.image
+            };
+            dispatch(addCategory(data));
             postCategory({
               name: formData.name,
               description: formData.description,
@@ -58,7 +79,7 @@ const CategoriesForm = ({location: {categoria}}) => {
               setTimeout(()=>{
                 setEnvioError(false);
               },3000);
-            });}      
+            })*/     
         }}
         validationSchema ={Yup.object({
           name: Yup.string().required('Requiere title').min(4,'Minimo 4 caracteres'),
