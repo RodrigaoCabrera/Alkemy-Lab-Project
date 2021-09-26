@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import ActivitiesForm from './Components/Activities/ActivitiesForm';
 import CategoriesForm from './Components/Categories/CategoriesForm';
 import NewsForm from './Components/News/NewsForm';
@@ -25,16 +25,39 @@ import MembersList from './Components/Backoffice/Members/';
 import FormEditUsers from './Components/Users/FormEditUsers';
 import FormMembers from './Components/Backoffice/FormMembers';
 import ActivityContent from './Components/Activities/ActivityContent';
+import { AnimatedSwitch } from 'react-router-transition';
+import './index.css';
 import PublicRoute from './ComponentsRoute/PublicRoute';
 import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
 
 import UsersList from './Components/Backoffice/Users/UsersList';
 
 function App() {
+  function mapStyles(styles) {
+    return {
+      opacity: styles.opacity,
+      transform: `scale(${styles.scale})`
+    };
+  }
   return (
     <>
       <BrowserRouter>
-        <Switch>
+      <AnimatedSwitch
+          atEnter={{
+            opacity: 0,
+            scale: 1.3,
+          }}
+          atLeave={{
+            opacity: 0,
+            scale: 0.8,
+          }}
+          atActive={{
+            opacity: 1,
+            scale: 1,
+          }}
+          mapStyles={mapStyles}
+          className="switch-wrapper"
+        > 
           <PublicRoute path="/" exact component={Home}/>
           <PublicRoute path="/novedades" component={NewDetail}/>
           <PublicRoute path="/school-campaign" component={SchoolCampaign} />
@@ -44,10 +67,25 @@ function App() {
           <PublicRoute path="/actividades/:id" component={ActivityDetail} />
           <PublicRoute path='/activity-content' component={ActivityContent} />
           <PublicRoute path="/create-member" component={MembersForm} />
-        </Switch>
+        </AnimatedSwitch>
       </BrowserRouter>
       <BrowserRouter>
-        <Switch>
+      <AnimatedSwitch
+          atEnter={{
+            opacity: 0,
+            scale: 1.3,
+          }}
+          atLeave={{
+            opacity: 0,
+            scale: 0.8,
+          }}
+          atActive={{
+            opacity: 1,
+            scale: 1,
+          }}
+          mapStyles={mapStyles}
+          className="switch-wrapper"
+        > 
           <BackOfficeRoute path='/create-activity' component={ActivitiesForm} />
           <BackOfficeRoute path='/create-category' component={CategoriesForm} />
           <BackOfficeRoute path='/create-news' component={NewsForm} />
@@ -64,7 +102,7 @@ function App() {
           <BackOfficeRoute path='/editar-miembros' component={FormMembers} />
           <BackOfficeRoute path="/create-slides" component={SlidesForm} />
           <BackOfficeRoute path="/create-user" component={FormEditUsers} />
-        </Switch>
+        </AnimatedSwitch>
       </BrowserRouter>
       <div className='App'>
       </div>
