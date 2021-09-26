@@ -28,7 +28,6 @@ import FormMembers from './Components/Backoffice/FormMembers';
 import ActivityContent from './Components/Activities/ActivityContent';
 import UsersList from './Components/Backoffice/Users/UsersList';
 
-
 function App() {
   return (
     <>
