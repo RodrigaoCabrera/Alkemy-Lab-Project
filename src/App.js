@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter, Redirect } from 'react-router-dom';
 import ActivitiesForm from './Components/Activities/ActivitiesForm';
 import CategoriesForm from './Components/Categories/CategoriesForm';
 import NewsForm from './Components/News/NewsForm';
@@ -25,6 +25,9 @@ import MembersList from './Components/Backoffice/Members/';
 import FormEditUsers from './Components/Users/FormEditUsers';
 import FormMembers from './Components/Backoffice/FormMembers';
 import ActivityContent from './Components/Activities/ActivityContent';
+import { useSelector } from 'react-redux';
+import { LoginForm } from './Components/Auth/LoginForm';
+
 import { AnimatedSwitch } from 'react-router-transition';
 import './index.css';
 import PublicRoute from './ComponentsRoute/PublicRoute';
@@ -33,6 +36,7 @@ import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
 import UsersList from './Components/Backoffice/Users/UsersList';
 
 function App() {
+  const loggedIn = useSelector(state => state.auth.Autenticacion);
   function mapStyles(styles) {
     return {
       opacity: styles.opacity,
@@ -42,7 +46,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <AnimatedSwitch
+        <AnimatedSwitch
           atEnter={{
             opacity: 0,
             scale: 1.3,
@@ -57,9 +61,14 @@ function App() {
           }}
           mapStyles={mapStyles}
           className="switch-wrapper"
-        > 
-          <PublicRoute path="/" exact component={Home}/>
-          <PublicRoute path="/novedades" component={NewDetail}/>
+        >
+          <PublicRoute path="/" exact component={Home} />
+          <PublicRoute path='/login'>
+            {
+              loggedIn ? <Redirect to='/' /> : <LoginForm />
+            }
+          </PublicRoute>
+          <PublicRoute path="/novedades" component={NewDetail} />
           <PublicRoute path="/school-campaign" component={SchoolCampaign} />
           <PublicRoute path="/toys-campaign" component={ToysCampaign} />
           <PublicRoute path="/contacto" component={ContactPage} />
@@ -70,7 +79,7 @@ function App() {
         </AnimatedSwitch>
       </BrowserRouter>
       <BrowserRouter>
-      <AnimatedSwitch
+        <AnimatedSwitch
           atEnter={{
             opacity: 0,
             scale: 1.3,
@@ -85,7 +94,7 @@ function App() {
           }}
           mapStyles={mapStyles}
           className="switch-wrapper"
-        > 
+        >
           <BackOfficeRoute path='/create-activity' component={ActivitiesForm} />
           <BackOfficeRoute path='/create-category' component={CategoriesForm} />
           <BackOfficeRoute path='/create-news' component={NewsForm} />
