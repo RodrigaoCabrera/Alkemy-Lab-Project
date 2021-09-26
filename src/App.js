@@ -17,7 +17,7 @@ import NewDetail from './Components/New/Detail';
 import sildesList from './Components/Backoffice/Slides/sildesList';
 import Home from './Components/Home/Home';
 import ActivitiesList from './Components/Activities/ActivitiesList';
-import News from './Components/News/News';
+//import News from './Components/News/News';
 import ContactPage from './Components/Contact/ContactPage';
 import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
@@ -26,6 +26,7 @@ import MembersList from './Components/Backoffice/Members/';
 import FormEditUsers from './Components/Users/FormEditUsers';
 import FormMembers from './Components/Backoffice/FormMembers';
 import ActivityContent from './Components/Activities/ActivityContent';
+import UsersList from './Components/Backoffice/Users/UsersList';
 
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
           <Route path='/create-project' component={ProjectsForm} />
           <Route path='/school-campaign' component={SchoolCampaign} />
           <Route path='/toys-campaign' component={ToysCampaign} />
-          <Route path='/backoffice/members' component={MembersList} />
+         
           <Route path='/create-edit-form' component={CreateEditForm} />
           <Route path="/actividades/:id" component={ActivityDetail} />
           <Route path='/nosotros' component={AboutUs} />

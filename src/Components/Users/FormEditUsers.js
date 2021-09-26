@@ -19,11 +19,9 @@ const FormEditUsers = ({object}) => {
     name: Yup.string()
       .required('Nombre requerido'),
     image: Yup.mixed()
-      .required('Debe seleccionar una imagen'),
+      .required('Debe seleccionar una foto de perfil JPG o PNG'),
     description:Yup.string()
       .required ('Debe contener minimo 10 caracteres'),
-    profile_image:Yup.string()
-      .required('Debe selecionar una foto de perfil JPG o PNG'),
     role_id:Yup.mixed(),
     password:Yup.string()
       .required('Mimino 6 caracteres'),
@@ -91,7 +89,6 @@ const FormEditUsers = ({object}) => {
               name: object?.name || '',
               description: object?.description || '',
               image: object?.image || '',
-              profile_image: object?.profile_image || '',
               role_id: object?.role_id || '',
               password: object?.password || '',
               email: object?.email || '',
@@ -101,7 +98,7 @@ const FormEditUsers = ({object}) => {
             onSubmit={handleSubmit}
           >
             {({errors, touched, values, setFieldValue}) => (
-              <><Form>
+              <Form>
                 <FormControl isRequired isInvalid={errors.name && touched.name}>
                   <FormLabel htmlFor='name'>Nombre</FormLabel>
                   <Field
@@ -112,7 +109,7 @@ const FormEditUsers = ({object}) => {
                     type='text' />
                   <ErrorMessage component={FormErrorMessage} name='name' />
                 </FormControl>
-                <FormControl marginTop={3}>
+                <FormControl marginTop={3} isREquired is Inavlid={errors.description && touched.description}>
                   <FormLabel htmlFor='description'>Descripcion</FormLabel>
                   <Field
                     as={CKEditor}
@@ -157,35 +154,42 @@ const FormEditUsers = ({object}) => {
                   />
                   <ErrorMessage component={FormErrorMessage} name='email'/>
                 </FormControl>
+                <FormControl marginTop={6} isRequired isInvalid={touched.password && errors.password}>
+                  <FormLabel htmlFor='password'>Contraseña</FormLabel>
+                  <Field
+                    as={Input}
+                    name='password'
+                    type='password'
+                  />
+                  <ErrorMessage component={FormErrorMessage} name='password' />
+                </FormControl>
 
-                <div className='rol_edit'>
-                  <FormLabel htmlFor='roleId' className="label-edit">Rol:</FormLabel>
-                  <Field name='roleId' as='select' className='input-edit'>
+
+                <FormControl>
+                  <FormLabel htmlFor='role_Id' className="label-edit">Rol:</FormLabel>
+                  <Field name='role_Id' as='select' className='input-edit'>
                     <option value='admin'>Administrador</option>
                     <option value='user'>Usuario </option>
                   </Field>
-                </div>
-                <div className='btn_edit'>
-                  <button type='submit'></button>
-                </div>
-              </Form>
-              <Button
-                width='full'
-                marginTop={4}
-                type='submit'
-                backgroundColor='#398BE1'
-                color='#FFF'
-                _hover={{
-                  bg: '#5FA5ED'
-                }}
-                _active={{
-                  bg: '#5FA5ED'
-                }}
-              >
-                {object ? 'Actualizar' : 'Crear'}
-              </Button>
-              </>
-              
+                </FormControl>
+
+
+                <Button
+                  width='full'
+                  marginTop={4}
+                  type='submit'
+                  backgroundColor='#398BE1'
+                  color='#FFF'
+                  _hover={{
+                    bg: '#5FA5ED'
+                  }}
+                  _active={{
+                    bg: '#5FA5ED'
+                  }}
+                >
+                  {object ? 'Actualizar' : 'Crear'}
+                </Button>
+              </Form>   
             )}
           </Formik>
         </Box>
