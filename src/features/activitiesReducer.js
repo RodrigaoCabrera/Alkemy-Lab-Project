@@ -3,7 +3,7 @@ import { DeleteActivity, GetActivities, PostActivity, PutActivity } from '../Ser
 
 const initialState = {
   activities: [],
-  status: false
+  status: 'idle'
 };
 
 export const getActivity = createAsyncThunk(
@@ -47,66 +47,67 @@ export const activitiesSlice = createSlice({
   extraReducers: {
     // Method Get
     [getActivity.pending]: (state) => {
-      state.status = false;
+      state.status = 'loading';
+
     },
     [getActivity.fulfilled]: (state, { payload }) => {
       if (payload.success) {
-        state.status = true;
+        state.status = 'success';
         state.activities = payload.data;
       } else {
-        state.status = false;
+        state.status = 'failed';
       }
     },
     [getActivity.rejected]: (state) => {
-      state.status = false;
+      state.status = 'failed';
     },
 
     // Method Delete
     [deleteActivity.pending]: (state) => {
-      state.status = false;
+      state.status = 'loading';
     },
     [deleteActivity.fulfilled]: (state, { payload: {res, id} }) => {
       if (res.success) {
-        state.status = true;
+        state.status = 'success';
         state.activities = state.activities.filter(activity => activity.id !== id);
       } else {
-        state.status = false;
+        state.status = 'failed';
       }
     },
     [deleteActivity.rejected]: (state) => {
-      state.status = false;
+      state.status = 'failed';
     },
 
     // Method Put
     [putActivity.pending]: (state) => {
-      state.status = false;
+      state.status = 'loading';
     },
     [putActivity.fulfilled]: (state, { payload }) => {
       if (payload.success) {
-        state.status = true;
+        state.status = 'success';
         state.activities = state.activities.map(activity => activity.id === payload.data.id ? payload.data : activity);
       } else {
-        state.status = false;
+        state.status = 'failed';
       }
     },
     [putActivity.rejected]: (state) => {
-      state.status = false;
+      state.status = 'failed';
     },
 
     // Method Post
     [postActivity.pending]: (state) => {
-      state.status = false;
+      state.status = 'loading';
     },
     [postActivity.fulfilled]: (state, { payload }) => {
       if (payload.success) {
-        state.status = true;
+        state.status = 'success';
         state.activities = [...state.activities, payload.data];
       } else {
-        state.status = false;
+        state.status = 'failed';
       }
     },
     [postActivity.rejected]: (state) => {
-      state.status = false;
+      state.status = 'failed';
     },
   }
 });

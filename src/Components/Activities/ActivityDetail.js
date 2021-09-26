@@ -1,32 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { Spinner, Center, Text } from '@chakra-ui/react';
+import { Center, Text } from '@chakra-ui/react';
 import TitlePages from '../UI/TitlePages';
-import { GetActivities } from '../../Services/ActivitiesService';
+import { showErrorAlert } from '../../Services/alertsService';
+import Loading from '../UI/Loading';
+import { useDispatch, useSelector } from 'react-redux';
+import { getActivity } from '../../features/activitiesReducer';
 
 const ActivityDetail = (props) => {
 
   const { match: { params } } = props;                         //obtengo el id del url
 
-  const [activity, setActivity] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { activities: {activities: activity , status} } = useSelector(state => state);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    GetActivities(params.id)
-      .then((response) => {
-        setActivity(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [setActivity, setLoading]);
-
-  return (loading === false) ? (
-    <div>
-      <TitlePages text={activity.name} image={activity.image} />
-      <Text> <span dangerouslySetInnerHTML={{ __html: activity.description }} /> </Text>
-    </div>
-  ) : <Center h="50vh" > <Spinner /> </Center>;                          //para mostrar al usuario que esta cargando use un spinner
+    dispatch(getActivity(params.id));
+  }, []);
+  let content;
+  switch (status) {
+  case 'success':
+    content = (
+      <div>
+        <TitlePages text={activity.name} image={activity.image} />
+        <Text> <span dangerouslySetInnerHTML={{ __html: activity.description }} /> </Text>
+      </div>
+    );
+    break;
+  case 'loading':
+    content = ( <Center h="50vh" > <Loading/> </Center>  );
+    break;
+  case 'failed':
+    showErrorAlert('Ha ocurrido un error al recuperar la informacion');
+    content = (<div></div>);
+    break;
+  
+  default:
+    content = (<div></div>);
+    break;
+  }
+  return content;                     //para mostrar al usuario que esta cargando use un spinner
 };
 
 export default ActivityDetail;
