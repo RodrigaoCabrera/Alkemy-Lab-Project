@@ -1,11 +1,10 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import ActivitiesForm from './Components/Activities/ActivitiesForm';
 import CategoriesForm from './Components/Categories/CategoriesForm';
 import NewsForm from './Components/News/NewsForm';
 import TestimonialForm from './Components/Testimonials/TestimonialsForm';
-import UserForm from './Components/Users/UsersForm';
 import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
@@ -26,6 +25,9 @@ import MembersList from './Components/Backoffice/Members/';
 import FormEditUsers from './Components/Users/FormEditUsers';
 import FormMembers from './Components/Backoffice/FormMembers';
 import ActivityContent from './Components/Activities/ActivityContent';
+import PublicRoute from './ComponentsRoute/PublicRoute';
+import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
+
 import UsersList from './Components/Backoffice/Users/UsersList';
 
 function App() {
@@ -33,45 +35,35 @@ function App() {
     <>
       <BrowserRouter>
         <Switch>
-
-          <Route path='/create-activity' component={ActivitiesForm} />
-          <Route path='/create-category' component={CategoriesForm} />
-          <Route path='/create-news' component={NewsForm} />
-          <Route path='/backoffice/organization/edit' component={OrganizationForm} />
-          <Route path="/novedades" component={NewDetail} />
-          {/*<Route path="/novedades" component={News} />*/}
-          <Route path="/" exact component={Home} />
-          <Route path="/create-activity" component={ActivitiesForm} />
-          <Route path="/backoffice/organization/edit" component={OrganizationForm} />
-          <Route path="/create-category" component={CategoriesForm} />
-          <Route path="/create-news" component={NewsForm} />
-          <Route path="/backoffice/create-slide" component={SlidesForm} />
-          <Route path="/create-testimonials" component={TestimonialForm} />
-          <Route path="/create-user" component={UserForm} />
-          <Route path="/create-member" component={MembersForm} />
-          <Route path="/create-project" component={ProjectsForm} />
-          <Route path="/school-campaign" component={SchoolCampaign} />
-          <Route path="/toys-campaign" component={ToysCampaign} />
-          <Route path="/novedades" component={NewDetail} />
-          <Route path="/backoffice/categories" component={CategoriesPage} />
-          <Route path='/backoffice/create-slide' component={SlidesForm} />
-          <Route path='/backoffice/slides' component={sildesList} exact />
-          <Route path='/backoffice/activities' component={ActivitiesList} />
-          <Route path='/create-testimonials' component={TestimonialForm} />
-          <Route path='/create-user' component={UserForm} />
-          <Route path="/contacto" component={ContactPage} />
-          <Route path='/create-member' component={MembersForm} />
-          <Route path='/create-project' component={ProjectsForm} />
-          <Route path='/school-campaign' component={SchoolCampaign} />
-          <Route path='/toys-campaign' component={ToysCampaign} />
-         
-          <Route path='/create-edit-form' component={CreateEditForm} />
-          <Route path="/actividades/:id" component={ActivityDetail} />
-          <Route path='/nosotros' component={AboutUs} />
-          <Route path='/editar-usuario' component={FormEditUsers} />
-          <Route path='/editar-miembros' component={FormMembers} />
-          <Route path="/create-slides" component={SlidesForm} />
-          <Route path='/activity-content' component={ActivityContent} />
+          <PublicRoute path="/" exact component={Home}/>
+          <PublicRoute path="/novedades" component={NewDetail}/>
+          <PublicRoute path="/school-campaign" component={SchoolCampaign} />
+          <PublicRoute path="/toys-campaign" component={ToysCampaign} />
+          <PublicRoute path="/contacto" component={ContactPage} />
+          <PublicRoute path='/nosotros' component={AboutUs} />
+          <PublicRoute path="/actividades/:id" component={ActivityDetail} />
+          <PublicRoute path='/activity-content' component={ActivityContent} />
+          <PublicRoute path="/create-member" component={MembersForm} />
+        </Switch>
+      </BrowserRouter>
+      <BrowserRouter>
+        <Switch>
+          <BackOfficeRoute path='/create-activity' component={ActivitiesForm} />
+          <BackOfficeRoute path='/create-category' component={CategoriesForm} />
+          <BackOfficeRoute path='/create-news' component={NewsForm} />
+          <BackOfficeRoute path='/backoffice/organization/edit' component={OrganizationForm} />
+          <BackOfficeRoute path="/backoffice/create-slide" component={SlidesForm} />
+          <BackOfficeRoute path="/create-testimonials" component={TestimonialForm} />
+          <BackOfficeRoute path='/backoffice/members' component={MembersList} />
+          <BackOfficeRoute path="/create-project" component={ProjectsForm} />
+          <BackOfficeRoute path="/backoffice/categories" component={CategoriesPage} />
+          <BackOfficeRoute path='/backoffice/create-slide' component={SlidesForm} />
+          <BackOfficeRoute path='/backoffice/slides' component={sildesList} exact />
+          <BackOfficeRoute path='/backoffice/activities' component={ActivitiesList} />
+          <BackOfficeRoute path='/create-edit-form' component={CreateEditForm} />
+          <BackOfficeRoute path='/editar-miembros' component={FormMembers} />
+          <BackOfficeRoute path="/create-slides" component={SlidesForm} />
+          <BackOfficeRoute path="/create-user" component={FormEditUsers} />
         </Switch>
       </BrowserRouter>
       <div className='App'>
