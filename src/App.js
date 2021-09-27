@@ -16,6 +16,7 @@ import NewDetail from './Components/New/Detail';
 import sildesList from './Components/Backoffice/Slides/sildesList';
 import Home from './Components/Home/Home';
 import ActivitiesList from './Components/Activities/ActivitiesList';
+import News from './Components/News/News';
 import ContactPage from './Components/Contact/ContactPage';
 import { AboutUs } from './Components/About/AboutUs';
 import CategoriesPage from './Components/Categories/CategoriesPage';
@@ -24,6 +25,8 @@ import MembersList from './Components/Backoffice/Members/';
 import FormEditUsers from './Components/Users/FormEditUsers';
 import FormMembers from './Components/Backoffice/Members/FormMembers';
 import ActivityContent from './Components/Activities/ActivityContent';
+import SlidesDetail from './Components/SlidesForm/SlidesDetail';
+
 import { useSelector } from 'react-redux';
 import { LoginForm } from './Components/Auth/LoginForm';
 
