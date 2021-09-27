@@ -7,19 +7,17 @@ import {FormControl,
   Box, Heading, Stack,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
-import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Button } from '@chakra-ui/button';
+import { PostUser, PutUser } from '../../Services/userServices';
 
-
-
-const FormEditUsers = ({object}) => {
+const FormEditUsers = ({location: {user}}) => {
   const Schema = Yup.object().shape({
     name: Yup.string()
       .required('Nombre requerido'),
     image: Yup.mixed()
-      .required('Debe seleccionar una foto de perfil JPG o PNG'),
+      .required('Debe selecionar una foto de perfil JPG o PNG'),
     description:Yup.string()
       .required ('Debe contener minimo 10 caracteres'),
     role_id:Yup.mixed(),
@@ -27,38 +25,17 @@ const FormEditUsers = ({object}) => {
       .required('Mimino 6 caracteres'),
     email:Yup.string()
       .required('debe contener @ y extension .com ')
-    
   });
 
   const handleSubmit = (formData) => {
-    console.log('submit');
-    if (object) {
-      axios 
-        .patch(`http://ongapi.alkemy.org/api/users/${object.id}`, {
-          name: formData.name,
-          description: formData.description,
-          image: formData.image,
-          profile_image:formData.profile_image,
-          role_id:formData.role_id,
-          password:formData.password,
-          email:formData.email
-
-        })
-        .catch(err => console.error(err))
-        .then(res => console.log(res));
+    if (user) {
+      PutUser(formData)
+        .then(res => console.log(res))
+        .catch(error => console.error(error));
     } else {
-      axios
-        .post('http://ongapi.alkemy.org/api/users', {
-          name: formData.name,
-          description: formData.description,
-          image: formData.image,
-          profile_image:formData.profile_image,
-          role_id:formData.role_id,
-          password:formData.password,
-          email:formData.email
-        })
-        .catch(err => console.error(err))
-        .then(res => console.log(res));
+      PostUser(formData)
+        .then(res => console.log(res))
+        .catch(error => console.error(error));
     }
   };
   
@@ -86,13 +63,12 @@ const FormEditUsers = ({object}) => {
         > 
           <Formik
             initialValues={{
-              name: object?.name || '',
-              description: object?.description || '',
-              image: object?.image || '',
-              role_id: object?.role_id || '',
-              password: object?.password || '',
-              email: object?.email || '',
-
+              name: user ? user.name : '',
+              description: user ? user.description : '',
+              image: user ? user.image : '',
+              role_id: user ? user.role_id : '0',
+              password: user ? user.password : '',
+              email: user ? user.email : '',
             }}
             validationSchema={Schema}
             onSubmit={handleSubmit}
@@ -109,7 +85,7 @@ const FormEditUsers = ({object}) => {
                     type='text' />
                   <ErrorMessage component={FormErrorMessage} name='name' />
                 </FormControl>
-                <FormControl marginTop={3} isREquired is Inavlid={errors.description && touched.description}>
+                <FormControl marginTop={3} isRequired isInvalid={errors.description && touched.description}>
                   <FormLabel htmlFor='description'>Descripcion</FormLabel>
                   <Field
                     as={CKEditor}
@@ -149,11 +125,12 @@ const FormEditUsers = ({object}) => {
                     type='email'
                     placeholder=' @ y extension .com '
                     name='email'
-                    value={values.email}
+                    autoComplete='off'
                     errorBorderColor='tomato'
                   />
                   <ErrorMessage component={FormErrorMessage} name='email'/>
                 </FormControl>
+
                 <FormControl marginTop={6} isRequired isInvalid={touched.password && errors.password}>
                   <FormLabel htmlFor='password'>Contraseña</FormLabel>
                   <Field
@@ -164,16 +141,14 @@ const FormEditUsers = ({object}) => {
                   <ErrorMessage component={FormErrorMessage} name='password' />
                 </FormControl>
 
-
                 <FormControl>
-                  <FormLabel htmlFor='role_Id' className="label-edit">Rol:</FormLabel>
-                  <Field name='role_Id' as='select' className='input-edit'>
-                    <option value='admin'>Administrador</option>
-                    <option value='user'>Usuario </option>
+                  <FormLabel htmlFor='role_id'>Rol:</FormLabel>
+                  <Field name='role_id' as='select'>
+                    <option value='0'>Administrador</option>
+                    <option value='1'>Usuario </option>
                   </Field>
                 </FormControl>
-
-
+                
                 <Button
                   width='full'
                   marginTop={4}
@@ -187,9 +162,9 @@ const FormEditUsers = ({object}) => {
                     bg: '#5FA5ED'
                   }}
                 >
-                  {object ? 'Actualizar' : 'Crear'}
+                  {user ? 'Actualizar' : 'Crear'}
                 </Button>
-              </Form>   
+              </Form>
             )}
           </Formik>
         </Box>

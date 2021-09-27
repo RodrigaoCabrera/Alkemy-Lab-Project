@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { Button } from '@chakra-ui/button';
 import axios from 'axios';
 import { FaInstagram, FaFacebookF } from 'react-icons/fa';
-import { PatchMembers, PostMembers } from '../../Services/MembersService';
+import { PatchMembers, PostMembers } from '../../../Services/MembersService';
 
 const FormMembers = ({ object }) => {
   const schema = Yup.object().shape({
@@ -23,11 +23,11 @@ const FormMembers = ({ object }) => {
   const handleSubmit = (formData) => {
     console.log('submit');
     if (object) {
-        PatchMembers(object.id, formData) //Inclusión de método Patch
+      PatchMembers(object.id, formData) //Inclusión de método Patch
         .catch(err => console.error(err))
         .then(res => console.log(res));
     } else {
-        PostMembers(formData) //Inclusión de método Post
+      PostMembers(formData) //Inclusión de método Post
         .catch(err => console.error(err))
         .then(res => console.log(res));
     }

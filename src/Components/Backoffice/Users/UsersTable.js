@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -9,54 +9,72 @@ import {
   Button,
 
 } from '@chakra-ui/react';
-import { Link } from '@chakra-ui/layout';
-import { Link as RouterLink } from 'react-router-dom';
+import { Stack } from '@chakra-ui/layout';
+import { Link } from 'react-router-dom';
+import { GetUsers, DeleteUser } from '../../../Services/userServices';
+import { MdDelete, MdEdit } from 'react-icons/md';
 
-const UsersTable = (props) => (
-  <Table variant="striped" colorScheme="messenger" size='sm'>
- 
- 
-    <Thead>
-      <Tr>
-        <Th>Name</Th>
-        <Th>Email</Th>
-        <Th>Actions</Th>
-      </Tr>
-    </Thead>
-    <Tbody>
-      {props.users.length > 0 ? (
-        props.users.map(user => (
-          <Tr key={user.id}>
-            <Td>{user.name}</Td>
-            <Td>{user.email}</Td>
-            <Td>
-              <Link 
-                as={RouterLink}
-                to='/editar-usuario'
-                color='#398BE1'
-                fontWeight='bold'
-                fontSize='18px'
-                alignSelf='center'
-                _hover={{
-                  color: '#418BCC'
-                }}
-              ><Button variant='link' boxSize='30px'color='#398be1' /> Edit </Link>
-              <Button size='sm' variant='outline' colorScheme='red'
-                onClick={() => props.userDelete(user.id)}
-              >
-                Delete
-              </Button>
-              
-            </Td>
-          </Tr>
-        ))
-      ) : (
+const UsersTable = () => {
+
+  const [users, setUsers] = useState([]);
+  const [error, setError] = useState({
+    message: ''
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(async () => {
+    GetUsers()
+      .then(res => {
+        setUsers(res.state);
+        setError(res.error);
+        setLoading(res.loading);
+      });
+  }, []);
+
+  const handleDelete = (id) => {
+    DeleteUser(id);
+    setUsers(users.filter(user => user.id !== id));
+  };
+  
+  return (
+    <Table variant="striped" colorScheme="messenger" size='sm'>
+      <Thead>
         <Tr>
-          <Td colSpan={3}>No users</Td>
+          <Th>Name</Th>
+          <Th>Email</Th>
+          <Th>Actions</Th>
         </Tr>
-      )}
-    </Tbody>
-  </Table>
-);
+      </Thead>
+      <Tbody>
+        {
+          !loading && users.map(user => {
+            return (
+              <Tr key={user.id}>
+                <Td>{user.name}</Td>
+                <Td>{user.email}</Td>
+                <Td>
+                  <Stack direction='row' spacing={2}>
+                    <Button variant='unstyled'>
+                      <Link to={{pathname:'/create-user', user}}>
+                        <MdEdit size='30px' color='#398be1' />
+                      </Link> 
+                    </Button>
+                    <Button variant='unstyled'
+                      onClick={() => {
+                        handleDelete(user.id);
+                      }}
+                    >
+                      <MdDelete size='30px' color='#398be1' />
+                    </Button>
+                  </Stack>
+                </Td>
+              </Tr>
+            );
+          })
+        }
+      </Tbody>
+    </Table>
+  );
+};
 
 export default UsersTable;
