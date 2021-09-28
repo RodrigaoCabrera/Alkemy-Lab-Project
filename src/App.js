@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import ActivitiesForm from './Components/Activities/ActivitiesForm';
 import CategoriesForm from './Components/Categories/CategoriesForm';
 import NewsForm from './Components/News/NewsForm';
@@ -29,12 +29,9 @@ import SlidesDetail from './Components/SlidesForm/SlidesDetail';
 
 import { useSelector } from 'react-redux';
 import { LoginForm } from './Components/Auth/LoginForm';
-
 import { AnimatedSwitch } from 'react-router-transition';
-import './index.css';
 import PublicRoute from './ComponentsRoute/PublicRoute';
 import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
-
 import UsersList from './Components/Backoffice/Users/UsersList';
 
 function App() {
@@ -62,14 +59,13 @@ function App() {
             scale: 1,
           }}
           mapStyles={mapStyles}
-          className="switch-wrapper"
         >
-          <PublicRoute path="/" exact component={Home} />
-          <PublicRoute path='/login'>
+          <Route path="/" exact component={Home} />
+          <Route path='/login'>
             {
               loggedIn ? <Redirect to='/' /> : <LoginForm />
             }
-          </PublicRoute>
+          </Route>
           <PublicRoute path="/novedades" component={NewDetail} />
           <PublicRoute path="/school-campaign" component={SchoolCampaign} />
           <PublicRoute path="/toys-campaign" component={ToysCampaign} />
@@ -79,8 +75,6 @@ function App() {
           <PublicRoute path='/activity-content' component={ActivityContent} />
           <PublicRoute path="/create-member" component={MembersForm} />
         </AnimatedSwitch>
-      </BrowserRouter>
-      <BrowserRouter>
         <AnimatedSwitch
           atEnter={{
             opacity: 0,
@@ -95,7 +89,6 @@ function App() {
             scale: 1,
           }}
           mapStyles={mapStyles}
-          className="switch-wrapper"
         >
           <BackOfficeRoute path='/create-activity' component={ActivitiesForm} />
           <BackOfficeRoute path='/create-category' component={CategoriesForm} />
