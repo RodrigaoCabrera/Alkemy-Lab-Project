@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Spinner, Center, Text } from '@chakra-ui/react';
+import { GetSlides } from '../../Services/SlidesService';
 
-import {GetSlides} from '/Service/SlidesService';
 
 const SlidesDetail = (props) => {
 
