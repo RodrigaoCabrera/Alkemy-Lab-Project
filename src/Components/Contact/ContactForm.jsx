@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import * as yup from 'yup';
 import { PostContact } from '../../Services/ContactService';
+import { showErrorAlert } from '../../Services/alertsService';
 
 
 //Este form solo usa formik yup y chakra ui- falta mejorar el debounce
@@ -38,7 +39,15 @@ const ContactForm = () => {
       validationSchema={schema}
       validateOnMount={true}
       onSubmit={(values) => {
-        PostContact(values);
+        PostContact(values)
+          .then(response => {
+            if (!response.data) {
+              showErrorAlert('Hubo un error al cargar el contenido, intente nuevamente');
+            }
+          })
+          .catch(error => {
+            showErrorAlert();
+          });
       }}
       initialValues={{
         name: '',

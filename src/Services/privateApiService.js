@@ -1,11 +1,5 @@
 import axios from 'axios';
 
-const config = {
-  headers: {
-    Group: 65
-  }
-};
-
 export const GetRequest = async(link,id) => {
   const header = verifyTokenAuthorization();
   if (id === undefined) {
@@ -73,6 +67,6 @@ export const DeleteRequest = async (url, id) => {
 export const verifyTokenAuthorization = () => {
   const token = localStorage.getItem('token');
   if(token){
-    return {Authorization: 'Bearer ' + token};
+    return {Authorization: 'Bearer ' + token, Group: 65};
   }
 };

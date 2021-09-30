@@ -8,121 +8,10 @@ import L from 'leaflet';
 import axios from 'axios';
 import { AiOutlineArrowLeft} from 'react-icons/ai';
 import ContactInfoItem from './ContactInfoItem';
+import { showErrorAlert } from '../../Services/alertsService';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
-const mockData = [
-  {
-    'id': 2,
-    'name': 'asdqwe',
-    'email': 'andreagallo264@gmail.com',
-    'phone': '[object Undefined]',
-    'message': 'mensaje de prueba',
-    'deleted_at': null,
-    'created_at': '2021-04-27T15:57:11.000000Z',
-    'updated_at': '2021-04-27T15:57:11.000000Z',
-    'group_id': null
-  },
-  {
-    'id': 3,
-    'name': 'asdqwe',
-    'email': 'asd@asd.com',
-    'phone': '[object Undefined]',
-    'message': 'qqqqqqqqqqqqqqqqqqqqqqq',
-    'deleted_at': null,
-    'created_at': '2021-04-27T16:00:27.000000Z',
-    'updated_at': '2021-04-27T16:00:27.000000Z',
-    'group_id': null
-  },
-  {
-    'id': 4,
-    'name': 'asdqwe',
-    'email': 'asd@asd.com',
-    'phone': '[object Undefined]',
-    'message': 'qqqqqqqqqqqqqqqqqqqqqqq',
-    'deleted_at': null,
-    'created_at': '2021-04-27T16:00:48.000000Z',
-    'updated_at': '2021-04-27T16:00:48.000000Z',
-    'group_id': null
-  },
-  {
-    'id': 5,
-    'name': 'asdqwe',
-    'email': 'asd@asd.com',
-    'phone': '2133212321',
-    'message': 'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
-    'deleted_at': null,
-    'created_at': '2021-04-27T16:02:12.000000Z',
-    'updated_at': '2021-04-27T16:02:12.000000Z',
-    'group_id': null
-  },
-  {
-    'id': 6,
-    'name': 'asdqwe',
-    'email': 'asd@asd.com',
-    'phone': '13223132',
-    'message': 'ddddddddddddddddddddddddddddddddd',
-    'deleted_at': null,
-    'created_at': '2021-04-27T16:03:19.000000Z',
-    'updated_at': '2021-04-27T16:03:19.000000Z',
-    'group_id': null
-  },
-  {
-    'id': 7,
-    'name': 'asdqwe',
-    'email': 'andreagallo264@gmail.com',
-    'phone': '6545654556',
-    'message': 'eeeeeeeeeeeeeeeeeeeeeeee',
-    'deleted_at': null,
-    'created_at': '2021-04-27T16:04:14.000000Z',
-    'updated_at': '2021-04-27T16:04:14.000000Z',
-    'group_id': null
-  },
-  {
-    'id': 8,
-    'name': 'asdqwe',
-    'email': 'andreagallo264@gmail.com',
-    'phone': '45645656',
-    'message': 'qqqqqqqqqqqqqqqqqqqqqq',
-    'deleted_at': null,
-    'created_at': '2021-04-27T16:05:05.000000Z',
-    'updated_at': '2021-04-27T16:05:05.000000Z',
-    'group_id': null
-  },
-  {
-    'id': 9,
-    'name': 'asdqwe',
-    'email': 'asd@asd.com',
-    'phone': '456456456',
-    'message': 'este es un mensaje de prueba',
-    'deleted_at': null,
-    'created_at': '2021-04-27T16:16:42.000000Z',
-    'updated_at': '2021-04-27T16:16:42.000000Z',
-    'group_id': null
-  },
-  {
-    'id': 10,
-    'name': 'Juan',
-    'email': 'gabriel.rios@intive.com',
-    'phone': '111111111',
-    'message': 'xdasdsadsada',
-    'deleted_at': null,
-    'created_at': '2021-05-05T18:10:47.000000Z',
-    'updated_at': '2021-05-05T18:10:47.000000Z',
-    'group_id': null
-  },
-  {
-    'id': 11,
-    'name': 'asdqwe',
-    'email': 'asd@asd.com',
-    'phone': '132213213',
-    'message': 'aaaaaaaaaaaaaaaaaaaaaa',
-    'deleted_at': null,
-    'created_at': '2021-05-05T18:21:27.000000Z',
-    'updated_at': '2021-05-05T18:21:27.000000Z',
-    'group_id': null
-  }];
 
 const ContactPage = () =>{
 
@@ -134,13 +23,17 @@ const ContactPage = () =>{
   useEffect(async () => {
     GetContact()
       .then((response) => {
-        setContactData(response.data);
+        if (!response.data) {
+          showErrorAlert('Hubo un error al cargar el contenido, intente nuevamente');
+        } else {
+          setContactData(response.data);
+        }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(error => {
+        showErrorAlert();
       });
     getPosition();
-  }, [setContactData]);
+  }, [onForm]);
 
   const getPosition = async () => {
     const response = await axios.get('http://ongapi.alkemy.org/api/organization');
