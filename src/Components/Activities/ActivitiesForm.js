@@ -7,14 +7,15 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import * as Yup from 'yup';
 import { Button } from '@chakra-ui/button';
-import { useDispatch } from 'react-redux';
+import { showSuccessAlert, showErrorAlert } from '../../Services/alertsService';
+import { useDispatch, useSelector } from 'react-redux';
 import { postActivity, putActivity } from '../../features/activitiesReducer';
+import Loading from '../UI/Loading'
 
-
-const ActivitiesForm = ({ location: {activity}}) => {
+const ActivitiesForm = ({ location: { activity } }) => {
 
   const dispatch = useDispatch();
-
+  const { status } = useSelector(store => store.activities)
   const schema = Yup.object().shape({
     name: Yup.string().required('Nombre requerido'),
     image: Yup
@@ -23,7 +24,7 @@ const ActivitiesForm = ({ location: {activity}}) => {
   });
 
   const handleSubmit = (formData) => {
-    
+
     if (activity) {
       const data = {
         id: activity.id,
@@ -40,109 +41,319 @@ const ActivitiesForm = ({ location: {activity}}) => {
         description: formData.description,
         image: formData.image
       }));
+
     }
   };
 
-  return (
-    <Stack
-      height='100vh'
-      alignItems='center'
-      justifyContent='center'
-    >
-      <Stack
-        padding={8}
-        direction='column'
-        width={['sm', 'lg']}
-        borderWidth={1}
-        borderRadius={8}
-        boxShadow='lg'
+  let content;
+  switch (status) {
+    case 'idle':
+      content = <Stack
+        height='100vh'
+        alignItems='center'
+        justifyContent='center'
       >
-        <Box textAlign='center'>
-          <Heading as='h1' color='#398BE1'>Actividades</Heading>
-        </Box>
-        <Box 
-          marginY={4}
-        > 
-          <Formik
-            initialValues={{
-              name: activity ? activity.name : '',
-              description: activity ? activity.description : '',
-              image: activity ? activity.image : ''
-            }}
-            validationSchema={schema}
-            onSubmit={handleSubmit}
+        <Stack
+          padding={8}
+          direction='column'
+          width={['sm', 'lg']}
+          borderWidth={1}
+          borderRadius={8}
+          boxShadow='lg'
+        >
+          <Box textAlign='center'>
+            <Heading as='h1' color='#398BE1'>Actividades</Heading>
+          </Box>
+          <Box
+            marginY={4}
           >
-            {({errors, touched, values, setFieldValue}) => (
-              <Form>
-                <FormControl isRequired isInvalid={errors.name && touched.name}>
-                  <FormLabel htmlFor='name'>Nombre</FormLabel>
-                  <Field 
-                    as={Input}
-                    autoComplete='off'
-                    id='name'
-                    name='name'
-                    type='text'
-                  />
-                  <ErrorMessage component={FormErrorMessage} name='name' />
-                </FormControl>
+            <Formik
+              initialValues={{
+                name: activity ? activity.name : '',
+                description: activity ? activity.description : '',
+                image: activity ? activity.image : ''
+              }}
+              validationSchema={schema}
+              onSubmit={handleSubmit}
+            >
+              {({ errors, touched, values, setFieldValue }) => (
+                <Form>
+                  <FormControl isRequired isInvalid={errors.name && touched.name}>
+                    <FormLabel htmlFor='name'>Nombre</FormLabel>
+                    <Field
+                      as={Input}
+                      autoComplete='off'
+                      id='name'
+                      name='name'
+                      type='text'
+                    />
+                    <ErrorMessage component={FormErrorMessage} name='name' />
+                  </FormControl>
 
-                <FormControl marginTop={3}>
-                  <FormLabel htmlFor='description'>Descripción</FormLabel>
-                  <Field
-                    as={CKEditor}
-                    data={values.description}
-                    name='description'
-                    editor={ClassicEditor}
-                    onBlur={()=>{}}
-                    onFocus={()=>{
-                      touched.description=true;
-                    }}
-                    onChange={(event,editor) => {
-                      setFieldValue('description', editor.getData());
-                    }}
-                  />  
-                </FormControl>
+                  <FormControl marginTop={3}>
+                    <FormLabel htmlFor='description'>Descripción</FormLabel>
+                    <Field
+                      as={CKEditor}
+                      data={values.description}
+                      name='description'
+                      editor={ClassicEditor}
+                      onBlur={() => { }}
+                      onFocus={() => {
+                        touched.description = true;
+                      }}
+                      onChange={(event, editor) => {
+                        setFieldValue('description', editor.getData());
+                      }}
+                    />
+                  </FormControl>
 
-                <FormControl marginTop={3} isRequired isInvalid={errors.image && touched.image}>
-                  <FormLabel>Imagen</FormLabel>
-                  <Field 
-                    accept='image/jpeg,image/png'
-                    as={Input}
-                    name='image'
-                    onChange={(e) => {
-                      const reader = new FileReader();
-                      reader.readAsDataURL(e.currentTarget.files[0]);
-                      reader.onload = () => setFieldValue('image', reader.result);
-                    }}
-                    paddingTop={1}
-                    type='file'
-                    value={undefined}
-                  />
-                  <ErrorMessage component={FormErrorMessage} name='image' />
-                </FormControl>
+                  <FormControl marginTop={3} isRequired isInvalid={errors.image && touched.image}>
+                    <FormLabel>Imagen</FormLabel>
+                    <Field
+                      accept='image/jpeg,image/png'
+                      as={Input}
+                      name='image'
+                      onChange={(e) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(e.currentTarget.files[0]);
+                        reader.onload = () => setFieldValue('image', reader.result);
+                      }}
+                      paddingTop={1}
+                      type='file'
+                      value={undefined}
+                    />
+                    <ErrorMessage component={FormErrorMessage} name='image' />
+                  </FormControl>
 
-                <Button
-                  width='full'
-                  marginTop={4}
-                  type='submit'
-                  backgroundColor='#398BE1'
-                  color='#FFF'
-                  _hover={{
-                    bg: '#5FA5ED'
-                  }}
-                  _active={{
-                    bg: '#5FA5ED'
-                  }}
-                >
-                  {activity ? 'Actualizar' : 'Crear'}
-                </Button>
-              </Form>
-            )}
-          </Formik>
-        </Box>
+                  <Button
+                    width='full'
+                    marginTop={4}
+                    type='submit'
+                    backgroundColor='#398BE1'
+                    color='#FFF'
+                    _hover={{
+                      bg: '#5FA5ED'
+                    }}
+                    _active={{
+                      bg: '#5FA5ED'
+                    }}
+                  >
+                    {activity ? 'Actualizar' : 'Crear'}
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Stack>
       </Stack>
-    </Stack>
-  );
+      break;
+    case 'success':
+      showSuccessAlert();
+      content = <Stack
+        height='100vh'
+        alignItems='center'
+        justifyContent='center'
+      >
+        <Stack
+          padding={8}
+          direction='column'
+          width={['sm', 'lg']}
+          borderWidth={1}
+          borderRadius={8}
+          boxShadow='lg'
+        >
+          <Box textAlign='center'>
+            <Heading as='h1' color='#398BE1'>Actividades</Heading>
+          </Box>
+          <Box
+            marginY={4}
+          >
+            <Formik
+              initialValues={{
+                name: activity ? activity.name : '',
+                description: activity ? activity.description : '',
+                image: activity ? activity.image : ''
+              }}
+              validationSchema={schema}
+              onSubmit={handleSubmit}
+            >
+              {({ errors, touched, values, setFieldValue }) => (
+                <Form>
+                  <FormControl isRequired isInvalid={errors.name && touched.name}>
+                    <FormLabel htmlFor='name'>Nombre</FormLabel>
+                    <Field
+                      as={Input}
+                      autoComplete='off'
+                      id='name'
+                      name='name'
+                      type='text'
+                    />
+                    <ErrorMessage component={FormErrorMessage} name='name' />
+                  </FormControl>
+
+                  <FormControl marginTop={3}>
+                    <FormLabel htmlFor='description'>Descripción</FormLabel>
+                    <Field
+                      as={CKEditor}
+                      data={values.description}
+                      name='description'
+                      editor={ClassicEditor}
+                      onBlur={() => { }}
+                      onFocus={() => {
+                        touched.description = true;
+                      }}
+                      onChange={(event, editor) => {
+                        setFieldValue('description', editor.getData());
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormControl marginTop={3} isRequired isInvalid={errors.image && touched.image}>
+                    <FormLabel>Imagen</FormLabel>
+                    <Field
+                      accept='image/jpeg,image/png'
+                      as={Input}
+                      name='image'
+                      onChange={(e) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(e.currentTarget.files[0]);
+                        reader.onload = () => setFieldValue('image', reader.result);
+                      }}
+                      paddingTop={1}
+                      type='file'
+                      value={undefined}
+                    />
+                    <ErrorMessage component={FormErrorMessage} name='image' />
+                  </FormControl>
+
+                  <Button
+                    width='full'
+                    marginTop={4}
+                    type='submit'
+                    backgroundColor='#398BE1'
+                    color='#FFF'
+                    _hover={{
+                      bg: '#5FA5ED'
+                    }}
+                    _active={{
+                      bg: '#5FA5ED'
+                    }}
+                  >
+                    {activity ? 'Actualizar' : 'Crear'}
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Stack>
+      </Stack>
+      break;
+    case 'failed':
+      showErrorAlert('Ha ocurrido un error al recuperar la informacion de las actividades');
+      content = <Stack
+        height='100vh'
+        alignItems='center'
+        justifyContent='center'
+      >
+        <Stack
+          padding={8}
+          direction='column'
+          width={['sm', 'lg']}
+          borderWidth={1}
+          borderRadius={8}
+          boxShadow='lg'
+        >
+          <Box textAlign='center'>
+            <Heading as='h1' color='#398BE1'>Actividades</Heading>
+          </Box>
+          <Box
+            marginY={4}
+          >
+            <Formik
+              initialValues={{
+                name: activity ? activity.name : '',
+                description: activity ? activity.description : '',
+                image: activity ? activity.image : ''
+              }}
+              validationSchema={schema}
+              onSubmit={handleSubmit}
+            >
+              {({ errors, touched, values, setFieldValue }) => (
+                <Form>
+                  <FormControl isRequired isInvalid={errors.name && touched.name}>
+                    <FormLabel htmlFor='name'>Nombre</FormLabel>
+                    <Field
+                      as={Input}
+                      autoComplete='off'
+                      id='name'
+                      name='name'
+                      type='text'
+                    />
+                    <ErrorMessage component={FormErrorMessage} name='name' />
+                  </FormControl>
+
+                  <FormControl marginTop={3}>
+                    <FormLabel htmlFor='description'>Descripción</FormLabel>
+                    <Field
+                      as={CKEditor}
+                      data={values.description}
+                      name='description'
+                      editor={ClassicEditor}
+                      onBlur={() => { }}
+                      onFocus={() => {
+                        touched.description = true;
+                      }}
+                      onChange={(event, editor) => {
+                        setFieldValue('description', editor.getData());
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormControl marginTop={3} isRequired isInvalid={errors.image && touched.image}>
+                    <FormLabel>Imagen</FormLabel>
+                    <Field
+                      accept='image/jpeg,image/png'
+                      as={Input}
+                      name='image'
+                      onChange={(e) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(e.currentTarget.files[0]);
+                        reader.onload = () => setFieldValue('image', reader.result);
+                      }}
+                      paddingTop={1}
+                      type='file'
+                      value={undefined}
+                    />
+                    <ErrorMessage component={FormErrorMessage} name='image' />
+                  </FormControl>
+
+                  <Button
+                    width='full'
+                    marginTop={4}
+                    type='submit'
+                    backgroundColor='#398BE1'
+                    color='#FFF'
+                    _hover={{
+                      bg: '#5FA5ED'
+                    }}
+                    _active={{
+                      bg: '#5FA5ED'
+                    }}
+                  >
+                    {activity ? 'Actualizar' : 'Crear'}
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Stack>
+      </Stack>
+      break;
+    default:
+      content = <Box mt={'50%'}><Loading /></Box>;
+      break;
+  }
+  return content;
 };
- 
+
 export default ActivitiesForm;
