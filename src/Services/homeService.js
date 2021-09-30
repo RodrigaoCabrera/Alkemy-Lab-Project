@@ -1,10 +1,10 @@
 import { GetRequest, PostRequest } from './publicApiService';
 
-const ORG_API_URL = 'http://ongapi.alkemy.org/api/organization';
+const ORG_API_URL = 'http://ongapi.alkemy.org/api/auth/me';
 //conectado con el  home.
 export const getWelcomeTextRequest = async ()=>{
   const res = await GetRequest(ORG_API_URL);
-  return res.data['welcome_text'];
+  return res;
 };
 //conectado con el formulario de home.
 export const postWelcomeTextRequest = async (data) =>{
@@ -17,7 +17,7 @@ export const postWelcomeTextRequest = async (data) =>{
 //conectado con el home.
 export const getTitleRequest = async ()=>{
   const getRes = await GetRequest(ORG_API_URL);
-  return getRes.data['name'];
+  return getRes;
 };
 //conectado con el formulario de organizacion.
 export const postTitleRequest = async (data) =>{

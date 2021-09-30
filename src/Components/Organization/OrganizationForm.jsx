@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import * as yup from 'yup';
 import { postTitleRequest } from '../../Services/homeService';
+import errorApiAlert from '../../Services/ErrorApiAlert';
 const liURL ='(https?:\\/\\/(www.)?linkedin.com\\/(mwlite\\/|m\\/)?in\\/[a-zA-Z0-9_.-]+\\/?)';
 const igURL = /(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am|instagr.com)\/(\w+)/;
 const twURL = /^(?:https?:\/\/)?(?:www\.)?twitter\.com\/(#!\/)?[a-zA-Z0-9_]+$/i;
@@ -52,9 +53,10 @@ const OrganizationForm = () => {
       validationSchema={schema}
       validateOnMount={true}
       onSubmit={(values) => {
-        console.log(values);
-        postTitleRequest(values.name).then(res=> console.log(res));
-        //aca van el resto de los post de organizacion.
+        postTitleRequest(values.name)
+          .then(res => {
+            if(res >= 400 && res < 600)errorApiAlert(res);})
+          .catch(error=>errorApiAlert(error));
       }}
       initialValues={{
         name: '',

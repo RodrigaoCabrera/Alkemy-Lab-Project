@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Text, Heading, Center } from '@chakra-ui/react';
 import { getTitleRequest, getWelcomeTextRequest } from '../../Services/homeService';
 import { BiErrorCircle } from 'react-icons/bi';
+import errorApiAlert from '../../Services/ErrorApiAlert';
 
 const Home = () => {
   const [titleText,setTitle] = useState('');
@@ -11,18 +12,28 @@ const Home = () => {
 
   useEffect(()=>{
     const setData =async ()=>{
-      getTitleRequest().then(res=>setTitle(res)).catch(error=>console.log(error));
-      getWelcomeTextRequest().then(res=>setWelcome(res)).catch(error=>console.log(error));
+      getTitleRequest()
+        .then(res=>{
+          if(res >= 400 && res < 600)errorApiAlert(res);
+          setTitle(res.data['name']);
+        })
+        .catch(error=>errorApiAlert(error));
+        
+      getWelcomeTextRequest()
+        .then(res=>{
+          if(res >= 400 && res < 600)errorApiAlert(res);
+          setWelcome(res.data['welcome_text']);
+        })
+        .catch(error=> errorApiAlert(error));
     };
     setData();
-
   },[]);
   
   return (
-    <Box id="home">
-      <Box p={10} backgroundColor="#9ac9fb" color="white">
-        <Heading textAlign="center">{titleText}</Heading>
-        <Text textAlign="justify" fontWeight="bold">{ welcomeText}</Text>
+    <Box id="home" display="block">
+      <Box px={6} backgroundColor="#9ac9fb" color="white">
+        <Heading textAlign="center" mb={4}>{titleText}</Heading>
+        <Text textAlign="justify" fontWeight="bold" pb={4}>{ welcomeText}</Text>
       </Box>
       <Box>
         {/* componente slider */}

@@ -8,6 +8,7 @@ import '../FormStyles.css';
 import SlideHomeForm from './SlideHomeForm';
 import { postWelcomeTextRequest } from '../../Services/homeService';
 import axios from 'axios';
+import errorApiAlert from '../../Services/ErrorApiAlert';
 
 const HomeForm = () => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -28,7 +29,10 @@ const HomeForm = () => {
   const handleSubmit = () =>{
     //aca falta el envio de los datos de las slides
     //el post devuelve undef de rta pero anda igual!
-    postWelcomeTextRequest(title);
+    postWelcomeTextRequest(title)
+      .then(res => {
+        if(res >= 400 && res < 600)errorApiAlert(res);})
+      .catch(error=>errorApiAlert(error));
   };
 
   const modalHandlerAdd = () => {
