@@ -7,12 +7,16 @@ import { newsReducer } from '../features/newsReducer';
 
 import { activitiesReducer } from '../features/activitiesReducer';
 
+//Members
+import { membersReducer } from '../features/membersReducer';
+
 export default configureStore({
   reducer: {
     counter: counterReducer,
     auth: authReducer,
     slides: slideReducer,
     activities: activitiesReducer,
+    members: membersReducer,
     categories: CategoriesSlice.reducer,
     news: newsReducer
   },

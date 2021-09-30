@@ -1,75 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Member from './Member';
-import { Flex, Box, Heading, Stack } from '@chakra-ui/layout';
-import { Link, Spinner, Center } from '@chakra-ui/react';
+import {
+  Flex,
+  Heading,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Link,
+  Spinner,
+  Center,
+  Text,
+} from '@chakra-ui/react';
+
 import { Link as ReachLink } from 'react-router-dom';
-import { GetMembers } from '../../../Services/MembersService';
+
+import { getMembers, deleteMembers } from '../../../features/membersReducer';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MembersList = () => {
-    const [membersList, setMembersList] = useState([]);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        GetMembers() //Método get.
-            .then((response) => {
-                setMembersList(response.data);
-                console.log(response.data)
-            })
-            .catch((error) => {
-                console.log('Erroor');
-            });
-    }, []);
+  const {
+    members: { members, status },
+  } = useSelector((state) => state);
 
-    //Función para eliminar miembros de la lista. Se lo pasa por props a el componente Buttons.
-    const deletMember = (id) => {
-        const newMember = membersList.filter(m => m.id !== id);//Se filtra los miembros que sean diferentes al que se quiere eliminar. Así se crea un nuevo array con los miembros deseados
-        setMembersList(newMember);
-    };
-    //Función para editar miembros de la lista. Se lo pasa por props a el componente Buttons.
-    const editMember = (name, id, image) => {
-        const editedMember = membersList.map(member => member.id === id ? { name: name, id: id, photo: image } : member)//Se mapea los miembros y se agrega el miembro editado mediante una validación de id. El resto ssigue igual.
-        setMembersList(editedMember);
-    };
+  useEffect(() => {
+    dispatch(getMembers());
+  }, [dispatch]);
 
-    return (
-        <Stack
-            alignItems='center'
-            justifyContent='center'
-            marginTop='5'
-            spacing={6}
+  return (
+    <Flex direction='column' m={5} p={5}>
+      <Flex justify='center' align="center" direction='column'>
+        <Heading>Lista de Miembros</Heading>
+        <Link
+          as={ReachLink}
+          to='/editar-miembros'
+          color='#9AC9FB'
+          fontWeight='bold'
+          fontSize='18px'
         >
-
-            <Heading as='h1'>Listado Actividades</Heading>
-            <Flex justify='center'>
-                <Link
-                    as={ReachLink}
-                    to="/backoffice/members/create"
-                    color='#9AC9FB'
-                    fontWeight='bold'
-                    fontSize='18px'
-                >
-                    Crear Miembro
-                </Link>
-            </Flex>
-
-            <Flex
-                w='100%'
-                wrap='wrap'
-                justify='space-around'
-            >
-                {
-                    membersList?.map((member, idx) => (
-                        <Flex direction='column' key={idx}>
-                            <Member
-                                member={member}
-                                deletMember={deletMember}
-                                editMember={editMember}
-                            />
-                        </Flex>
-                    ))
-                }
-            </Flex>
-        </Stack>
-    )
-}
+          Crear Miembro
+        </Link>
+      </Flex>
+      {status === 'loading' ? (
+        <Center h='50vh'><Spinner /></Center>
+      ) : members?.length !== 0 && members !== undefined ? (
+        <Table variant='simple' mt={5} bg='rgba(154, 201, 251,0.5)' rounded={5}>
+          <Thead>
+            <Tr>
+              <Th>Name</Th>
+              <Th textAlign='center'>Photo</Th>
+              <Th></Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {members.map((member) => {
+              return (
+                <Tr key={member.id}>
+                  <Member 
+                    member={member} 
+                    dispatch={dispatch} 
+                    deleteMembers={deleteMembers}
+                  />
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      ) : (
+        <Text fontWeight='700'>La lista está vacia</Text>
+      )}
+    </Flex>
+  );
+};
 
 export default MembersList;

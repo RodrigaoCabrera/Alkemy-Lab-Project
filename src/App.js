@@ -7,13 +7,13 @@ import NewsForm from './Components/News/NewsForm';
 import TestimonialForm from './Components/Testimonials/TestimonialsForm';
 import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
-import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
 import CreateEditForm from './Components/CreateEditForm/CreateEditForm';
 import ActivityDetail from './Components/Activities/ActivityDetail';
 import OrganizationForm from './Components/Organization/OrganizationForm';
 import NewDetail from './Components/New/Detail';
 import sildesList from './Components/Backoffice/Slides/sildesList';
+
 import Home from './Components/Home/Home';
 import ActivitiesList from './Components/Activities/ActivitiesList';
 import News from './Components/News/News';
@@ -76,7 +76,6 @@ function App() {
           <PublicRoute path='/nosotros' component={AboutUs} />
           <PublicRoute path="/actividades/:id" component={ActivityDetail} />
           <PublicRoute path='/activity-content' component={ActivityContent} />
-          <PublicRoute path="/create-member" component={MembersForm} />
         </AnimatedSwitch>
         <AnimatedSwitch
           atEnter={{

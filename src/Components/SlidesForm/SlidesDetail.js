@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Spinner, Center, Text } from '@chakra-ui/react';
 import { GetSlides } from '../../Services/SlidesService';
 
-
 const SlidesDetail = (props) => {
 
   const { match: { params } } = props;

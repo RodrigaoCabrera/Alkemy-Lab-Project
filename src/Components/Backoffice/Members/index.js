@@ -2,12 +2,11 @@ import React from 'react';
 import MembersList from './MembersList';
 
 const index = () => {
+  return (
+    <>
+      <MembersList />
+    </>
+  );
+};
 
-    return (
-        <>
-            <MembersList/>
-        </>
-    )
-}
-
-export default index
+export default index;

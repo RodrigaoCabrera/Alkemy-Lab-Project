@@ -1,74 +1,55 @@
-import React, { useState } from 'react';
-import { Text, Flex, ScaleFade, useDisclosure, Input  } from "@chakra-ui/react";
-import Buttons from './Buttons';
-import MemberImage from './MemberImage';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
+import { Flex, Image, Button, Td } from '@chakra-ui/react';
+import { createBreakpoints } from '@chakra-ui/theme-tools';
+import { MdDelete, MdEdit } from 'react-icons/md';
 
-const Member = ({ member, deletMember, editMember }) => {
-    const [isEdit, setIsEdit] = useState(false);
-    const [idMember, setIdMember] = useState('');
-    const [nameMember, setNameMember] = useState(member.name);
-    const [memberImage, setMemberImage] = useState(member.image);
+const Member = ({ member, dispatch, deleteMembers }) => {
+  const breakpoints = createBreakpoints({
+    //Puntos de quiebre para hacer responsive las imágenes.
+    sm: '414px',
+    md: '550px',
+    lg: '768px',
+    xl: '1023px',
+  });
 
-    const handleChange = (e) => {
-        setNameMember(e.target.value);//Se establece el nombre que se edita en el input
-        setIdMember(member.id);
-    };
+  const handleDelete = (id) => {
+    dispatch(deleteMembers(id));
+  };
 
-    const { isOpen, onToggle } = useDisclosure();//useHooks de chakra para la transición animada cuando se boorra un elemento.
-
-    return (
-        <ScaleFade initialScale={0.9} in={!isOpen}>
-            <Flex
-                bg='#6898c8'
-                w='320px'
-                minH='300px'
-                mt='10px'
-                direction='column'
-                justify='space-between'
-                boxShadow={isEdit ? '2xl' : 'md'}
-                borderRadius='6px'
-                p='3px'
-            >
-                <MemberImage 
-                    isEdit={isEdit}
-                    memberImage={memberImage} 
-                    setMemberImage={setMemberImage} 
-                />
-
-                {isEdit && member.id === idMember ? //Condicional que permite editar la card que se seleccione por medio de la comprobación de la id. 
-
-                    <Input 
-                        value={nameMember}
-                        onChange={handleChange}
-                        size='md'
-                        bg='#cdfcff'
-                    />
-                    :
-                    <Text
-                        align='center'
-                        fontSize='xl'
-                        pl='10px'
-                        pb='10px'
-                        color='#fff'
-                    >{idMember === member.id ? nameMember : member.name}</Text>
-                }
-                <Buttons
-                    deletMember={() => deletMember(member.id)}
-                    member={member}
-                    editMember={editMember}
-                    isEdit={isEdit}
-                    setIsEdit={setIsEdit}
-                    idMember={idMember}
-                    setIdMember={setIdMember}
-                    nameMember={nameMember}
-                    setNameMember={setNameMember}
-                    memberImage={memberImage}
-                    onToggle={onToggle}
-                />
-            </Flex>
-        </ScaleFade>
-    )
+  return (
+    <>
+      <Td>{member.name}</Td>
+      <Td textAlign='center'>
+        <Flex h='100%' w='100%' align='center' justify='center'>
+          <Image
+            src={member.image}
+            alt='miembro de la ONG'
+            boxSize={{ base: '100%', sm: '100%', md: '60%' }}
+            borderRadius='6px'
+          />
+        </Flex>
+      </Td>
+      <Td>
+        <Flex justify='center' align='center'>
+          <Button variant="unstyled">
+            <Link to={{ pathname: '/editar-miembros', member }}>
+              <MdEdit size='30px' color='#398be1' />
+            </Link>
+          </Button>
+          <Button
+            variant='unstyled'
+            onClick={() => {
+              handleDelete(member.id);
+            }}
+          >
+            <MdDelete size='30px' color='#398be1' />
+          </Button>
+        </Flex>
+      </Td>
+    </>
+  );
 };
 
 export default Member;
