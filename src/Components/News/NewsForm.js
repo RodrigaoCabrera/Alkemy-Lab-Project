@@ -7,10 +7,12 @@ import {FormLabel,Button,Container,Alert,AlertIcon,Text} from '@chakra-ui/react'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { showErrorAlert } from '../../Services/alertsService';
-import { PostNews, PutNews} from '../../Services/NovedadesService';
+import { useDispatch } from 'react-redux';
+import { postNews, putNews} from '../../features/newsReducer';
 
 
 const NewsForm = ({novedades}) => {
+  const dispatch = useDispatch();
   // eslint-disable-next-line no-undef
   const url = process.env.REACT_APP_NEWS;
   const [Categoria, setCategoria] = useState([]);
@@ -41,13 +43,13 @@ const NewsForm = ({novedades}) => {
               slug: formData.slug,
               image: formData.image
             };
-            PostNews(data)
-              .then(function () {
-                setEnvioExitoso(true);
-                resetForm();
-              }).catch(function () {
-                setEnvioError(true);
-              });} 
+            dispatch(postNews(data)).then(() => {
+              setEnvioExitoso(true);
+              resetForm();
+            }).catch(() => {
+              setEnvioError(true);
+            });
+          } 
           else {
             const data ={
               name: formData.name,
@@ -56,13 +58,13 @@ const NewsForm = ({novedades}) => {
               id: novedades.id,
               slug: formData.slug,
             };
-            PutNews(novedades.id,data)
-              .then(function () {
-                setEnvioExitoso(true);
-                resetForm();
-              }).catch(function () {
-                setEnvioError(true);
-              });}
+            dispatch(putNews(data)).then(() => {
+              setEnvioExitoso(true);
+              resetForm();
+            }).catch(() => {
+              setEnvioError(true);
+            });
+          }
         }}
         validationSchema ={Yup.object({
           name: Yup.string().required('Requiere title').min(4,'Minimo 4 caracteres'),

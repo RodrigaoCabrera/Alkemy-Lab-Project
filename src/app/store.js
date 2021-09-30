@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../features/authReducer';
 import counterReducer from '../features/counter/counterSlice';
 import CategoriesSlice from './categories-slice';
+import { newsReducer } from '../features/newsReducer';
 
 import { activitiesReducer } from '../features/activitiesReducer';
 
@@ -10,6 +11,7 @@ export default configureStore({
     counter: counterReducer,
     auth: authReducer,
     activities: activitiesReducer,
-    categories: CategoriesSlice.reducer
+    categories: CategoriesSlice.reducer,
+    news: newsReducer
   },
 });
