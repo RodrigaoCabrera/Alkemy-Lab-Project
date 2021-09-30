@@ -1,7 +1,7 @@
 import { GetRequest, PutRequest, PostRequest/*, PatchRequest*/, DeleteRequest } from './privateApiService';
 
-
-const urlRequest = 'http://ongapi.alkemy.org/api/contacts';
+// eslint-disable-next-line no-undef
+const urlRequest = process.env.REACT_APP_CONTACT;
 
 export const GetContact = async (id) => {
   const res = await GetRequest(urlRequest, id);
