@@ -1,16 +1,14 @@
 import React from 'react';
 import { Formik, Form, Field,ErrorMessage } from 'formik';
-import {FormControl,
-  Input,
-  FormErrorMessage,
-  FormLabel,
-  Box, Heading, Stack,
-} from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Button } from '@chakra-ui/button';
 import { PostUser, PutUser } from '../../Services/userServices';
+import { Box, Heading, Stack } from '@chakra-ui/layout';
+import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/form-control';
+import { Input } from '@chakra-ui/input';
+import { UserMap } from './UserMap';
 
 const FormEditUsers = ({location: {user}}) => {
   const Schema = Yup.object().shape({
@@ -28,17 +26,35 @@ const FormEditUsers = ({location: {user}}) => {
   });
 
   const handleSubmit = (formData) => {
+    const data = {
+      ...formData,
+      latitude: address.lat,
+      longitude: address.lng,
+      address: address.name
+    };
     if (user) {
-      PutUser(formData)
+      PutUser(data)
         .then(res => console.log(res))
         .catch(error => console.error(error));
     } else {
-      PostUser(formData)
+      PostUser(data)
         .then(res => console.log(res))
         .catch(error => console.error(error));
     }
   };
-  
+
+  const [address, setAddress] = React.useState({
+    lat: 0,
+    lng: 0,
+    name: ''
+  });
+
+  const handleChange = React.useCallback(
+    (address) => {
+      setAddress(address);
+    },
+    [setAddress],
+  );
 
   return(
     
@@ -46,6 +62,10 @@ const FormEditUsers = ({location: {user}}) => {
       height='100vh'
       alignItems='center'
       justifyContent='center'
+      flexDirection={{
+        base: 'column',
+        lg: 'row'
+      }}
     >
       <Stack
         padding={8}
@@ -54,6 +74,7 @@ const FormEditUsers = ({location: {user}}) => {
         borderWidth={1}
         borderRadius={8}
         boxShadow='lg'
+        marginRight={6}
       >
         <Box textAlign='center'>
           <Heading as='h1' color='#398BE1'>Editar Usuario</Heading>
@@ -85,6 +106,7 @@ const FormEditUsers = ({location: {user}}) => {
                     type='text' />
                   <ErrorMessage component={FormErrorMessage} name='name' />
                 </FormControl>
+
                 <FormControl marginTop={3} isRequired isInvalid={errors.description && touched.description}>
                   <FormLabel htmlFor='description'>Descripcion</FormLabel>
                   <Field
@@ -100,6 +122,7 @@ const FormEditUsers = ({location: {user}}) => {
                       setFieldValue('description', editor.getData());
                     } } />
                 </FormControl>
+
                 <FormControl marginTop={3} isRequired isInvalid={errors.image && touched.image}>
                   <FormLabel>Imagen</FormLabel>
                   <Field
@@ -117,7 +140,7 @@ const FormEditUsers = ({location: {user}}) => {
                   <ErrorMessage component={FormErrorMessage} name='image' />
                 </FormControl>
 
-                <FormControl m={2} isRequired isInvalid={touched.email && errors.email}>
+                <FormControl marginTop={3} isRequired isInvalid={touched.email && errors.email}>
                   <FormLabel>Email</FormLabel>
                   <Field 
                     as={Input}
@@ -129,9 +152,9 @@ const FormEditUsers = ({location: {user}}) => {
                     errorBorderColor='tomato'
                   />
                   <ErrorMessage component={FormErrorMessage} name='email'/>
-                </FormControl>
+                </FormControl>              
 
-                <FormControl marginTop={6} isRequired isInvalid={touched.password && errors.password}>
+                <FormControl marginTop={3} isRequired isInvalid={touched.password && errors.password}>
                   <FormLabel htmlFor='password'>Contraseña</FormLabel>
                   <Field
                     as={Input}
@@ -141,7 +164,7 @@ const FormEditUsers = ({location: {user}}) => {
                   <ErrorMessage component={FormErrorMessage} name='password' />
                 </FormControl>
 
-                <FormControl>
+                <FormControl marginTop={3}>
                   <FormLabel htmlFor='role_id'>Rol:</FormLabel>
                   <Field name='role_id' as='select'>
                     <option value='0'>Administrador</option>
@@ -168,6 +191,15 @@ const FormEditUsers = ({location: {user}}) => {
             )}
           </Formik>
         </Box>
+      </Stack>
+      <Stack
+        padding={4}
+        direction='column'
+        borderWidth={1}
+        borderRadius={8}
+        boxShadow='lg'
+      >
+        <UserMap setAddress={handleChange} />
       </Stack>
     </Stack>
   );

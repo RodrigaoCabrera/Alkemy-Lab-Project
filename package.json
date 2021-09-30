@@ -8,6 +8,7 @@
     "@ckeditor/ckeditor5-react": "^3.0.2",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
+    "@react-google-maps/api": "^2.4.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
