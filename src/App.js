@@ -25,17 +25,18 @@ import MembersList from './Components/Backoffice/Members/';
 import FormEditUsers from './Components/Users/FormEditUsers';
 import FormMembers from './Components/Backoffice/Members/FormMembers';
 import ActivityContent from './Components/Activities/ActivityContent';
-import SlidesDetail from './Components/SlidesForm/SlidesDetail';
-
+//import SlidesDetail from './Components/SlidesForm/SlidesDetail';
 import { useSelector } from 'react-redux';
 import { LoginForm } from './Components/Auth/LoginForm';
 import { AnimatedSwitch } from 'react-router-transition';
 import PublicRoute from './ComponentsRoute/PublicRoute';
 import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
+import PrivateRoute from './ComponentsRoute/PrivateRoute'
 import UsersList from './Components/Backoffice/Users/UsersList';
-
+import RegisterForm from './Components/Auth/RegisterForm'
 function App() {
   const loggedIn = useSelector(state => state.auth.Autenticacion);
+
   function mapStyles(styles) {
     return {
       opacity: styles.opacity,
@@ -64,8 +65,9 @@ function App() {
           <Route path='/login'>
             {
               loggedIn ? <Redirect to='/' /> : <LoginForm />
-            }
+            }          
           </Route>
+          <PrivateRoute path='/register' component={RegisterForm} />
           <PublicRoute path="/novedades" component={NewDetail} />
           <PublicRoute path="/school-campaign" component={SchoolCampaign} />
           <PublicRoute path="/toys-campaign" component={ToysCampaign} />
