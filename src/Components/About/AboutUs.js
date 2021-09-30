@@ -4,7 +4,6 @@ import TitlePages from "../UI/TitlePages";
 import { GetRequest } from "../../Services/privateApiService";
 import { Spinner, Center, Alert } from "@chakra-ui/react";
 import { BiErrorCircle } from "react-icons/bi";
-
 //Redes Sociales
 import SocialNetworks from "./SocialNetworks";
 
@@ -67,3 +66,4 @@ export const AboutUs = () => {
     </Stack>
   );
 };
+export default AboutUs;
