@@ -35,6 +35,7 @@ import PrivateRoute from './ComponentsRoute/PrivateRoute'
 import UsersList from './Components/Backoffice/Users/UsersList';
 import RegisterForm from './Components/Auth/RegisterForm'
 function App() {
+
   const loggedIn = useSelector(state => state.auth.Autenticacion);
 
   function mapStyles(styles) {

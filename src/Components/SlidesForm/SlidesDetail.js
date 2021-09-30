@@ -22,7 +22,6 @@ const SlidesDetail = (props) => {
 
   return (loading === false) ? (
     <div>
-   
       <Text> <span dangerouslySetInnerHTML={{ __html: Slides.description  }} /> </Text>
     </div>
   ) : 
