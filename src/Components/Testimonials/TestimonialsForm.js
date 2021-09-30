@@ -7,6 +7,10 @@ import axios from 'axios';
 import '../FormStyles.css';
 import { showErrorAlert } from '../../Services/alertsService';
 
+
+// eslint-disable-next-line no-undef
+const url = process.env.REACT_APP_TESTIMONIALS;
+
 const TestimonialForm = ({ values }) => {
   const [message, setMessage] = useState('');
   const [error, seterror] = useState(false);
@@ -67,9 +71,9 @@ const TestimonialForm = ({ values }) => {
       };
       console.log(objectSend);
       if(values){
-        response = await axios.put('http://ongapi.alkemy.org/api/testimonials/'+ values.id, objectSend);
+        response = await axios.put(`${url}/${TestimonialForm.id}`, objectSend);
       }else{
-        response = await axios.post('http://ongapi.alkemy.org/api/testimonials', objectSend);
+        response = await axios.post(url, objectSend);
       }
       if(response.data.success){
         seterror(false);
