@@ -8,6 +8,7 @@ import Loading from './Components/UI/Loading';
 
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 
+
 const ActivitiesForm = lazy(() => import('./Components/Activities/ActivitiesForm'));
 const CategoriesForm = lazy(() => import('./Components/Categories/CategoriesForm'));
 const NewsForm = lazy(() => import('./Components/News/NewsForm'));
@@ -33,6 +34,7 @@ const FormEditUsers = lazy(() => import('./Components/Users/FormEditUsers'));
 const FormMembers = lazy(() => import('./Components/Backoffice/Members/FormMembers'));
 const ActivityContent = lazy(() => import('./Components/Activities/ActivityContent'));
 const SlidesDetail = lazy(() => import('./Components/SlidesForm/SlidesDetail'));
+const NewsTable = lazy(() => import('./Components/News/NewsTable'));
 import { LoginForm } from './Components/Auth/LoginForm';
 import PrivateRoute from './ComponentsRoute/PrivateRoute';
 const UsersList = lazy(() => import('./Components/Backoffice/Users/UsersList'));
@@ -138,6 +140,7 @@ function App() {
             <BackOfficeRoute path="/create-slides" component={SlidesForm} />
             <BackOfficeRoute path="/create-user" component={FormEditUsers} />
             <BackOfficeRoute path="/backoffice/users" component={UsersList} />
+            <BackOfficeRoute path="/backoffice/news" component={NewsTable} />
           </AnimatedSwitch>
         </Suspense>
       </BrowserRouter>

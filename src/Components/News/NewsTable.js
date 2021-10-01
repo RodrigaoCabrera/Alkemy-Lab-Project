@@ -1,88 +1,120 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Link,
-  Textarea,
-  TableCaption,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
-  Modal,
-  ModalOverlay,
-  ModalFooter,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  Image,
   Flex,
-  Spinner,
-  Input
+  FormControl,
+  Image,
+  Input,
+  Stack,
+  Table,
+  TableCaption,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import debounce from 'lodash.debounce';
+import { useDispatch, useSelector } from 'react-redux';
+import { getNews, getNewsWithQuery } from '../../features/newsReducer';
 
-const NewsTable = ({news}) => {
+const NewsTable = () => {
+
+  const { news } = useSelector(state => state.news);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getNews());
+  }, []);
+
+  const handleChange = (e) => {
+    if (e.target.value < 3) {
+      dispatch(getNews());
+    } else {
+      dispatch(getNewsWithQuery(e.target.value));
+    }
+  };
+
+  const debouncedChangeHandler = useCallback(
+    debounce(handleChange, 400)
+    , []);
+
   return(
     <Box w='100%' textAlign='center'>
       <Button variant='outline' colorScheme='blue' m='2'>
-        <Link href='/backoffice/news/create'> Crear Novedad</Link>
+        <Link to='/create-news'> Crear Novedad</Link>
       </Button>
+      <Box margin={6} flex={1} alignSelf='center'>
+        <Input maxWidth='500px' placeholder='Novedad' onChange={debouncedChangeHandler} />
+      </Box>
       <Table variant="striped" colorScheme="messenger" size='sm'>
         <TableCaption>ONG Somos Mas</TableCaption>
         <Thead>
           <Tr>
-            <Th>Nombre</Th>
-            <Th>Imagen</Th>
-            <Th isNumeric>Creacion</Th>
+            <Th textAlign='center'>Nombre</Th>
+            <Th textAlign='center'>Imagen</Th>
+            <Th textAlign='center' isNumeric>Creacion</Th>
             <Th textAlign='center'>Editar / Eliminar</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {news.map((item) => <RowTable key={item.id} item={item} />)}
+          {news && news.map((item) => <RowTable key={item.id} item={item} />)}
         </Tbody>
       </Table>
     </Box>
   );
 };
 
-const RowTable = ({item}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [viewModalEdit, setViewModalEdit] = useState(false);
-
-  const viewImage = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const viewEdit = () => {
-    setViewModalEdit(!viewModalEdit);
-  };
-
-  const editHandler = (itemEdit) => {
-    console.log('enviando ', itemEdit);
-  };
+const RowTable = ({item: novedades}) => {
 
   const deletHandler = () => {
-    console.log('borrado el item: ', item.id );
+    console.log('borrado el item: ', novedades.id );
   };
 
   return(
     <>
       <Tr>
-        <Td maxW='200px'>{item.name.slice(0, 70)}...</Td>
-        <Td>
-          <Button variant='outline' size='xs' colorScheme='blue' onClick={viewImage}>
-            Ver Imagen
-          </Button>
+        <Td maxW='200px'>{novedades.name.slice(0, 70)}...</Td>
+        <Td  minWidth={{
+          base: '100%',
+          md: '300px',
+          lg: '592px'
+        }}>
+          <Accordion allowToggle>
+            <AccordionItem border='none'>
+              <AccordionButton>
+                <Box flex='1' textAlign='center'>
+                   Mostrar imagen
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel display='flex' justifyContent='center'>
+                <Image 
+                  src={novedades.image} 
+                  alt={novedades.name} 
+                  width={{
+                    base:'sm',
+                  }}
+                />
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
         </Td>
-        <Td isNumeric>{item.created_at.slice(11, 16)} - {item.created_at.slice(0, 10)}</Td>
+        <Td isNumeric>{novedades.created_at.slice(11, 16)} - {novedades.created_at.slice(0, 10)}</Td>
         <Td>
           <Flex justifyContent='space-around'>
-            <Button size='sm' variant='outline' colorScheme='yellow' onClick={viewEdit}>
-              <AiOutlineEdit size='1.5em'/>
+            <Button size='sm' variant='outline' colorScheme='yellow'>
+              <Link to={{pathname:'/create-news', novedades}}>
+                <AiOutlineEdit size='1.5em'/>
+              </Link> 
             </Button>
             <Button size='sm' variant='outline' colorScheme='red' onClick={deletHandler}>
               <AiOutlineDelete size='1.7em'/>
@@ -90,78 +122,8 @@ const RowTable = ({item}) => {
           </Flex>
         </Td>
       </Tr>
-      <ModalImage image={item.image} isOpen={isOpen} viewImage={viewImage} />
-      <ModalEdit item={item} isOpen={viewModalEdit} viewModal={setViewModalEdit} editHandler={editHandler} />
     </>
   );
 };
 
-const ModalImage = ({image, isOpen, viewImage}) => {
-  return (
-    <Modal isOpen={isOpen} onClose={viewImage}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
-          <ModalCloseButton/>
-        </ModalHeader>
-        <ModalBody display='flex' justifyContent='center'>
-          <Spinner position='absolute' zIndex='-1'/>
-          <Image src={image}/>
-        </ModalBody>
-      </ModalContent>
-        
-    </Modal>
-  );
-};
-
-const ModalEdit = ({item, isOpen, viewModal, editHandler}) => {
-  const [editItem, setEditItem] = useState({
-    name: item.name
-
-  });
-
-  const saveEdit = () => {
-    editHandler(editItem);
-  };
-
-  const imageHandler = (e) => {
-    const reader = new FileReader();
-    if(e.target.files[0]){
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onload = function () {
-        setEditItem({...editItem, image: reader.result});
-      };
-    }
-  };
-
-  const inputsHandler = (e) => {
-    if(e.target.name === 'name'){
-      setEditItem({...editItem, name: e.target.value});
-    }
-    else if(e.target.name === 'image'){
-      imageHandler(e);
-    }
-  };
-
-  return(
-    <>
-      <Modal isOpen={isOpen} onClose={viewModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Textarea value={editItem.name} name='name' resize='none' onChange={inputsHandler}/>
-            <Input type='file' mt='4' pt='1' name='image' onChange={inputsHandler}/>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={saveEdit}>
-                  Guardar
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
-  );
-};
 export default NewsTable;

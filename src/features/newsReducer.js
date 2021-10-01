@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { DeleteNews, GetNews, PostNews, PutNews} from '../Services/NovedadesService';
+import { DeleteNews, GetNews, GetNewsWithQuery, PostNews, PutNews} from '../Services/NovedadesService';
 
 const initialState = {
   news: [],
@@ -39,6 +39,14 @@ export const deleteNews = createAsyncThunk(
   }
 );
 
+export const getNewsWithQuery = createAsyncThunk(
+  'news/getNewsQuery',
+  async (search) => {
+    const res = await GetNewsWithQuery(search);
+    return res;
+  }
+);
+
 export const newsSlice = createSlice({
   name: 'news',
   initialState,
@@ -58,7 +66,20 @@ export const newsSlice = createSlice({
     [getNews.rejected]: (state) => {
       state.status = false;
     },
-
+    [getNewsWithQuery.pending]: (state) => {
+      state.status = false;
+    },
+    [getNewsWithQuery.fulfilled]: (state, { payload }) => {
+      if (payload.success) {
+        state.status = true;
+        state.news = payload.data;
+      } else {
+        state.status = false;
+      }
+    },
+    [getNewsWithQuery.rejected]: (state) => {
+      state.status = false;
+    },
     [postNews.pending]: (state) => {
       state.status = false;
     },
