@@ -1,16 +1,34 @@
-import React from 'react';
-import { Formik, Form, Field,ErrorMessage } from 'formik';
+import React, { useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Checkbox,
+  Text,
+  InputGroup
+} from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Button } from '@chakra-ui/button';
 import { PostUser, PutUser } from '../../Services/userServices';
+import PdfReader from './PdfReader';
 import { Box, Heading, Stack } from '@chakra-ui/layout';
 import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/form-control';
 import { Input } from '@chakra-ui/input';
 import { UserMap } from './UserMap';
 
 const FormEditUsers = ({location: {user}}) => {
+
+  const [Terms, setTerms] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const Schema = Yup.object().shape({
     name: Yup.string()
       .required('Nombre requerido'),
@@ -21,7 +39,7 @@ const FormEditUsers = ({location: {user}}) => {
     role_id:Yup.mixed(),
     password:Yup.string()
       .required('Mimino 6 caracteres'),
-    email:Yup.string()
+    email: Yup.string()
       .required('debe contener @ y extension .com ')
   });
 
@@ -56,8 +74,13 @@ const FormEditUsers = ({location: {user}}) => {
     [setAddress],
   );
 
-  return(
-    
+  const handleTerms = () => {
+    setTerms(!Terms);
+    onClose();
+  };
+
+  return (
+
     <Stack
       height='100vh'
       alignItems='center'
@@ -79,9 +102,9 @@ const FormEditUsers = ({location: {user}}) => {
         <Box textAlign='center'>
           <Heading as='h1' color='#398BE1'>Editar Usuario</Heading>
         </Box>
-        <Box 
+        <Box
           marginY={4}
-        > 
+        >
           <Formik
             initialValues={{
               name: user ? user.name : '',
@@ -114,13 +137,13 @@ const FormEditUsers = ({location: {user}}) => {
                     data={values.description}
                     name='description'
                     editor={ClassicEditor}
-                    onBlur={() => { } }
+                    onBlur={() => { }}
                     onFocus={() => {
                       touched.description = true;
-                    } }
+                    }}
                     onChange={(_event, editor) => {
                       setFieldValue('description', editor.getData());
-                    } } />
+                    }} />
                 </FormControl>
 
                 <FormControl marginTop={3} isRequired isInvalid={errors.image && touched.image}>
@@ -133,7 +156,7 @@ const FormEditUsers = ({location: {user}}) => {
                       const reader = new FileReader();
                       reader.readAsDataURL(e.currentTarget.files[0]);
                       reader.onload = () => setFieldValue('image', reader.result);
-                    } }
+                    }}
                     paddingTop={1}
                     type='file'
                     value={undefined} />
@@ -142,7 +165,7 @@ const FormEditUsers = ({location: {user}}) => {
 
                 <FormControl marginTop={3} isRequired isInvalid={touched.email && errors.email}>
                   <FormLabel>Email</FormLabel>
-                  <Field 
+                  <Field
                     as={Input}
                     p='15px 30px'
                     type='email'
@@ -153,7 +176,6 @@ const FormEditUsers = ({location: {user}}) => {
                   />
                   <ErrorMessage component={FormErrorMessage} name='email'/>
                 </FormControl>              
-
                 <FormControl marginTop={3} isRequired isInvalid={touched.password && errors.password}>
                   <FormLabel htmlFor='password'>Contraseña</FormLabel>
                   <Field
@@ -170,8 +192,40 @@ const FormEditUsers = ({location: {user}}) => {
                     <option value='0'>Administrador</option>
                     <option value='1'>Usuario </option>
                   </Field>
+                  {/* POP UP */}
+                  <InputGroup>
+                    <Checkbox size='md'
+                      _active={{
+                        bg: '#5FA5ED'
+                      }} mr={3}
+                      onChange={ handleTerms }
+                      isChecked= { Terms ? true : false }
+                    />
+                    <Text onClick={onOpen} style={{ cursor: 'pointer' }}>
+                    Terminos y condiciones
+                    </Text>
+                  </InputGroup>
+                  <Modal
+                    onClose={onClose}
+                    isOpen={isOpen}
+                    scrollBehavior='inside'
+                    size='xl'
+                  >
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader>Terminos y condiciones</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        <PdfReader />
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button onClick={handleTerms} mr={3}>Aceptar</Button>
+                        <Button onClick={onClose}>Cancelar</Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
+                  {/* END POPUP */}
                 </FormControl>
-                
                 <Button
                   width='full'
                   marginTop={4}
@@ -184,6 +238,7 @@ const FormEditUsers = ({location: {user}}) => {
                   _active={{
                     bg: '#5FA5ED'
                   }}
+                  isDisabled={!Terms}
                 >
                   {user ? 'Actualizar' : 'Crear'}
                 </Button>
@@ -204,6 +259,6 @@ const FormEditUsers = ({location: {user}}) => {
     </Stack>
   );
 };
- 
-    
+
+
 export default FormEditUsers;
