@@ -32,7 +32,7 @@ export const loginUsuarioAction = (correo,contra) => async (dispatch, getState) 
     password:contra
   };
   try {
-    const res = await axios.get('http://ongapi.alkemy.org/api/login',data);
+    const res = await axios.post('http://ongapi.alkemy.org/api/login',data);
     dispatch({
       type: LOGIN_USUARIO,
       payload: res.data,
@@ -51,7 +51,7 @@ export const registrarUsuarioAction = (nombre,correo,contra) =>  async(dispatch,
     password:contra
   };
   try {
-    const res = await axios.get('http://ongapi.alkemy.org/api/register',data);
+    const res = await axios.post('http://ongapi.alkemy.org/api/register',data);
     dispatch({
       type: REGISTRAR_USUARIO,
       payload: res.data,

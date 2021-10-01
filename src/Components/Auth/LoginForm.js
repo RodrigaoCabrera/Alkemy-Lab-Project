@@ -8,12 +8,12 @@ import {
   Input,
   Button,
   Heading,
-  Link,
   Image,
   Divider
 } from '@chakra-ui/react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 
 export const LoginForm = () => {
 
@@ -115,7 +115,7 @@ export const LoginForm = () => {
             )}
           </Formik>
         </Box>
-        <Link href='/register'>Registrarse</Link>
+        <Link to='/register'>Registrarse</Link>
       </Box>
     </Flex>
   );

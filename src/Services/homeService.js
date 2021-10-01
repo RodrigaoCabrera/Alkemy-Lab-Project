@@ -1,6 +1,6 @@
 import { GetRequest, PostRequest } from './publicApiService';
 
-const ORG_API_URL = 'http://ongapi.alkemy.org/api/auth/me';
+const ORG_API_URL = 'http://ongapi.alkemy.org/api/organization';
 //conectado con el  home.
 export const getWelcomeTextRequest = async ()=>{
   const res = await GetRequest(ORG_API_URL);

@@ -13,11 +13,11 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Link,
   Tooltip,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { MdInfo } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const RegisterForm = () => {
 
@@ -161,27 +161,26 @@ const RegisterForm = () => {
                   />
                   <ErrorMessage component={FormErrorMessage} name='confirmPassword' />
                 </FormControl>
+                <Button
+                  width='full'
+                  marginTop={4}
+                  type='submit'
+                  backgroundColor='#9AC9FB'
+                  color='#000'
+                  _hover={{
+                    bg: '#5FA5ED'
+                  }}
+                  _active={{
+                    bg: '#5FA5ED'
+                  }}
+                >
+                  Registrarse
+                </Button>
               </Form>
             )}
-            <Button
-              width='full'
-              marginTop={4}
-              type='submit'
-              backgroundColor='#9AC9FB'
-              color='#000'
-              _hover={{
-                bg: '#5FA5ED'
-              }}
-              _active={{
-                bg: '#5FA5ED'
-              }}
-            >
-              Registrarse
-            </Button>
           </Formik>
-          
         </Box>
-        <Link href='/login'>¿Ya tienes una cuenta? Inicia sesión.</Link>
+        <Link to='/login'>¿Ya tienes una cuenta? Inicia sesión.</Link>
       </Box>
     </Flex>
   );
