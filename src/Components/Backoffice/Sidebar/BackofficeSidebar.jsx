@@ -16,7 +16,6 @@ import {GiHamburgerMenu} from 'react-icons/gi';
 import { Link } from 'react-router-dom';
 const BackofficeSidebar = ({categories})=>{
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(categories);
   return (
     <>
       <Button as={GiHamburgerMenu} onClick={onOpen} size='sm'/>
@@ -24,7 +23,7 @@ const BackofficeSidebar = ({categories})=>{
         <DrawerOverlay />
         <DrawerContent bg='rgb(154, 201, 251)'>
           <Flex direction='column'>
-            <DrawerCloseButton color='white'/>
+            <DrawerCloseButton color='white' onClick={onClose}/>
             <DrawerHeader borderBottomWidth="1px"  color='white' >
               <Heading>Back Office</Heading>
             </DrawerHeader>

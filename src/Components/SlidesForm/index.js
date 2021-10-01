@@ -49,7 +49,6 @@ const CreateEditForm = ({ location : prop }) => {
         break;      
     }
   } 
-  console.log(object.object)
   const formShema = Yup.object().shape({
     name: Yup.string().required('Campo requerido').min(4,'Minimo 4 caracteres'),
     description: Yup.string().required('Campo requerido'),

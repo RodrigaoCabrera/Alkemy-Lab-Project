@@ -41,7 +41,7 @@ const sildesList = () => {
         >
           <HeaderList
             titleList="Slides List"
-            linkCreate='/backoffice/slides/create'
+            linkCreate='/backoffice/create-slide/'
           />
           <Center>
             <Box w="90%" p={4} color="black"
