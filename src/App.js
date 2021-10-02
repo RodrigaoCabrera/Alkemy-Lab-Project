@@ -1,5 +1,5 @@
-import React, { Suspense, lazy } from 'react';
-import { useSelector } from 'react-redux';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { AnimatedSwitch } from 'react-router-transition';
 import PublicRoute from './ComponentsRoute/PublicRoute';
 import PrivateRoute from './ComponentsRoute/PrivateRoute';
@@ -7,8 +7,9 @@ import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
 import './App.css';
 import Loading from './Components/UI/Loading';
 
-import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+import { BrowserRouter, Link, Redirect, Route } from 'react-router-dom';
 import LayoutBackoffice from './Components/Backoffice/LayoutBackoffice';
+import  {login}  from './features/authReducer';
 const DashboardHome = lazy(() => import('./Components/Backoffice/DashboardHome'));
 const ActivitiesForm = lazy(() => import('./Components/Activities/ActivitiesForm'));
 const CategoriesForm = lazy(() => import('./Components/Categories/CategoriesForm'));
@@ -35,12 +36,16 @@ const FormEditUsers = lazy(() => import('./Components/Users/FormEditUsers'));
 const FormMembers = lazy(() => import('./Components/Backoffice/Members/FormMembers'));
 const ActivityContent = lazy(() => import('./Components/Activities/ActivityContent'));
 const SlidesDetail = lazy(() => import('./Components/SlidesForm/SlidesDetail'));
-const { LoginForm } = lazy(() => import('./Components/Auth/LoginForm'));
+const  LoginForm  = lazy(() => import('./Components/Auth/LoginForm'));
 const UsersList = lazy(() => import('./Components/Backoffice/Users/UsersList'));
 const News = lazy(() => import('./Components/News/News'));
 const NewsDetail = lazy(() => import('./Components/New/Detail/index'));
 const RegisterForm = lazy(() => import('./Components/Auth/RegisterForm'));
 function App() {
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(login(0));
+  },[]);
   const loggedIn = useSelector((state) => state.auth.Autenticacion);
 
   function mapStyles(styles) {
@@ -149,7 +154,9 @@ function App() {
           </LayoutBackoffice>
         </Suspense>
       </BrowserRouter>
-      <div className="App"></div>
+      <div className="App">
+        
+      </div>
     </>
   );
 }

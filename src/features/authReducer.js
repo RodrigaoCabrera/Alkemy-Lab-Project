@@ -71,3 +71,25 @@ export const logoutAction = () =>  (dispatch, getState) => {
     payload: {Autenticacion:false, Usuario:{}}
   });
 };
+export const login = (role=0)=>(dispatch)=>{
+  const user = {
+    name: 'Test',
+    role_id: role,
+    password:'asd123!'
+  };
+  dispatch({
+    type: LOGIN_USUARIO,
+    payload:user
+  });
+};
+export const register = (role=0)=>(dispatch)=>{
+  const user = {
+    name: 'Test',
+    role_id: role,
+    password:'asd123!'
+  };
+  dispatch({
+    type:REGISTRAR_USUARIO,
+    payload:user
+  });
+};
