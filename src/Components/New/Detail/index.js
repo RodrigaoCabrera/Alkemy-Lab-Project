@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import Title from './Title';
 import { Box, Grid, Flex, Text, Image, extendTheme } from '@chakra-ui/react';
 import Comments from './Comments';
 import { createBreakpoints } from "@chakra-ui/theme-tools";
+import { useSelector } from 'react-redux';
 
-const Detail = () => {
+const Detail = (props) => {
+    const { match: { params} } = props;
+    const { news: {news, status } } = useSelector(state => state)
+
+    const [newDetail,setNew] = useState({
+        title:'',
+        image:'',
+        content:''
+    })
+    useEffect(() => {
+       setNew(news.filter(newDetail => newDetail.id == params.id)[0])
+    }, [])
     const breakpoints = createBreakpoints({
         sm: '414px',
         md: '550px',
@@ -17,7 +29,6 @@ const Detail = () => {
         image: 'http://ongapi.alkemy.org/storage/onIkohBvrv.jpeg',
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco'
     });
-
     return (
         <>
             <Flex direction='column' align='center'>

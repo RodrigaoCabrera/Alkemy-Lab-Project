@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
 import { AnimatedSwitch } from 'react-router-transition';
 import PublicRoute from './ComponentsRoute/PublicRoute';
+import PrivateRoute from './ComponentsRoute/PrivateRoute'
 import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
 import './App.css';
 import Loading from './Components/UI/Loading';
@@ -37,6 +38,7 @@ const SlidesDetail = lazy(() => import("./Components/SlidesForm/SlidesDetail"));
 const { LoginForm } = lazy(() => import("./Components/Auth/LoginForm"));
 const UsersList = lazy(() => import("./Components/Backoffice/Users/UsersList"));
 const News = lazy(() => import('./Components/News/News'));
+const NewsDetail = lazy(() => import('./Components/New/Detail/index'));
 const RegisterForm = lazy(() => import('./Components/Auth/RegisterForm'));
 function App() {
   const loggedIn = useSelector((state) => state.auth.Autenticacion);
@@ -80,6 +82,7 @@ function App() {
             <PublicRoute path="/activity-content" component={ActivityContent} />
             <PublicRoute path="/create-member" component={MembersForm} />
             <PublicRoute path="/news" component={News} />
+            <PublicRoute path="/news/:id" component={NewsDetail} />
           </AnimatedSwitch>
           <LayoutBackoffice>
             <AnimatedSwitch
