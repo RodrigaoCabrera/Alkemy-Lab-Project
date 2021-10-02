@@ -31,7 +31,7 @@ const Detail = () => {
                     bgColor='#398be1'
                     justifySelf='center'
                     direction={{ base: 'column', sm: 'column', md: 'row' }}
-                    boxShadow={{ base: 'xl', sm: 'xl', md: '2xl' }}
+                    boxShadow={{ base: 'lg', sm: 'xl', md: 'xl' }}
                 >
                     <Box 
                          
@@ -60,6 +60,7 @@ const Detail = () => {
                             fontSize={{ base: '20px', sm: '20px', md: '16.5px' }}
                             fontWeight='600'
                             w='full'
+                            color='#fff'
                         >
                             {stateInitial.content}
                         </Text>
