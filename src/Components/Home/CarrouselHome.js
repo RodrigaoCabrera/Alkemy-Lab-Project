@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Image, Box, Flex, Text, Heading, Button, HStack} from '@chakra-ui/react';
 import { FcNext, FcPrevious } from 'react-icons/fc';
 
-const CarruselHome = ({slides}) => {
+const CarrouselHome = ({slides}) => {
   const [slideActual, setSlideActual] = useState(0);
   let timeSlide;
 
@@ -109,4 +109,4 @@ const Slide = ({image, title, text}) => {
   );
 };
 
-export default CarruselHome;
+export default CarrouselHome;
