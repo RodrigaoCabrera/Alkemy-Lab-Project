@@ -73,8 +73,8 @@ function App() {
             }}
             mapStyles={mapStyles}
           >
-            <Route path="/" exact component={Home} />
-            <Route path="/login">
+            <PublicRoute path="/" exact component={Home} />
+            <Route path="/login" component={LoginForm}>
               {loggedIn ? <Redirect to="/" /> : <LoginForm />}
             </Route>
             <PrivateRoute path='/register' component={RegisterForm} />

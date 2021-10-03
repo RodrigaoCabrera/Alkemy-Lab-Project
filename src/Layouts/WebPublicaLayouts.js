@@ -5,18 +5,17 @@ import Footer from '../Components/Footer/Footer';
 
 
 const WebPublicaLayout = ({ children }) => {
-  const LinkInside = [
-    { text: 'Inicio', link: '/', onlyUserLoged: true },
-    { text: 'Actividades', link: '/activity-content', onlyUserLoged: true },
-    { text: 'Novedades', link: '/novedades', onlyUserLoged: true },
-    { text: 'Nosotros', link: '/nosotros', onlyUserLoged: true },
-    { text: 'Contacto', link: '/contacto', onlyUserLoged: true },
-    { text: 'CrearUsuario', link:'/create-user', onlyUserLoged:true },
+  const navigation = [
+    { text: 'Inicio', link: '/', onlyUserLoged: false },
+    { text: 'Actividades', link: '/activity-content', onlyUserLoged: false },
+    { text: 'Novedades', link: '/novedades', onlyUserLoged: false },
+    { text: 'Nosotros', link: '/nosotros', onlyUserLoged: false },
+    { text: 'Contacto', link: '/contacto', onlyUserLoged: false },
+    { text: 'Backoffice', link: '/backoffice', onlyUserLoged: true }, 
   ];
   return (
     <>
-  
-      <HeaderPublic options = {LinkInside}/>
+      <HeaderPublic navigation={navigation}/>
       {children}
       <Footer/>
     </>

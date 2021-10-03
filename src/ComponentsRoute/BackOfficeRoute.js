@@ -8,7 +8,7 @@ export default function BackOfficeRoute({component,path}) {
   const { Usuario } = useSelector(state => state.auth);
 
   if(token === undefined){
-    return <Redirect to="/login"/>;
+    return <Redirect to="/"/>;
   }
   else if (Usuario.role_id === 0 ) {
     // Role_id === 0 (Usuario administrador)
