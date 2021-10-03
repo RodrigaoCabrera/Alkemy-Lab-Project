@@ -36,11 +36,11 @@ const FormEditUsers = lazy(() => import('./Components/Users/FormEditUsers'));
 const FormMembers = lazy(() => import('./Components/Backoffice/Members/FormMembers'));
 const ActivityContent = lazy(() => import('./Components/Activities/ActivityContent'));
 const SlidesDetail = lazy(() => import('./Components/SlidesForm/SlidesDetail'));
-const  LoginForm  = lazy(() => import('./Components/Auth/LoginForm'));
+import { LoginForm } from './Components/Auth/LoginForm';
 const UsersList = lazy(() => import('./Components/Backoffice/Users/UsersList'));
 const News = lazy(() => import('./Components/News/News'));
-const NewsDetail = lazy(() => import('./Components/New/Detail/index'));
 const RegisterForm = lazy(() => import('./Components/Auth/RegisterForm'));
+
 function App() {
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -78,7 +78,7 @@ function App() {
               {loggedIn ? <Redirect to="/" /> : <LoginForm />}
             </Route>
             <PrivateRoute path='/register' component={RegisterForm} />
-            <PublicRoute path="/novedades" component={NewDetail} />
+            <PublicRoute path="/novedades" component={News} />
             <PublicRoute path="/school-campaign" component={SchoolCampaign} />
             <PublicRoute path="/toys-campaign" component={ToysCampaign} />
             <PublicRoute path="/contacto" component={ContactPage} />
@@ -86,8 +86,7 @@ function App() {
             <PublicRoute path="/actividades/:id" component={ActivityDetail} />
             <PublicRoute path="/activity-content" component={ActivityContent} />
             <PublicRoute path="/create-member" component={MembersForm} />
-            <PublicRoute path="/news" component={News} />
-            <PublicRoute path="/news/:id" component={NewsDetail} />
+            <PublicRoute path="/news/:id" component={NewDetail} />
           </AnimatedSwitch>
           <LayoutBackoffice>
             <AnimatedSwitch
@@ -122,7 +121,6 @@ function App() {
                 component={TestimonialForm}
               />
               <BackOfficeRoute path="/backoffice/members" component={MembersList} />
-              <BackOfficeRoute path="/backoffice/News" component={NewsTable} />
               <BackOfficeRoute path="/create-project" component={ProjectsForm} />
               <BackOfficeRoute
                 path="/backoffice/categories"

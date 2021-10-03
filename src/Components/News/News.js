@@ -1,23 +1,32 @@
-import {React,useEffect,useState} from 'react';
-import { GetNews } from '../../Services/NovedadesService';
+import { Box, Stack } from '@chakra-ui/layout';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getNews } from '../../features/newsReducer';
 import TitlePages from '../UI/TitlePages';
 import NewsList from './NewsList';
 import UltimoEvento from './UltimoEvento';
 
 
 const News = () => {
-  const [NewMock, setNewMock] = useState([]);
-  useEffect(() => {
-    GetNews()
-      .then(res => setNewMock(res.data));
+  
+  const dispatch = useDispatch();
+  const { news } = useSelector(state => state.news);
+
+  React.useEffect(() => {
+    dispatch(getNews());
   }, []);
+
   return (
-    <div>
+    <Stack spacing={8}>
       <TitlePages text="Novedades" />
-      <NewsList news={ NewMock } />
-      <UltimoEvento
-        videoUrl={'https://www.youtube.com/watch?v=4YnSk1gI_Oo'}/>
-    </div>
+      <Box marginX='10px'>
+        <NewsList news={news.slice(news.length - 4, news.length)} />
+      </Box>
+      <Box alignItems='center'>
+        <UltimoEvento
+          videoUrl={'https://www.youtube.com/watch?v=4YnSk1gI_Oo'}/>
+      </Box>
+    </Stack>
   );
 };
 

@@ -1,12 +1,12 @@
-import React from "react";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { Box, Flex, SlideFade } from "@chakra-ui/react";
+import React from 'react';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { Box, Flex, SlideFade } from '@chakra-ui/react';
 
 const Loader = ({ isOpen }) => {
   let textSkeleton = [];
   for (let index = 0; index < 10; index++) {
     textSkeleton.push(
-      <SlideFade in={isOpen} offsetY="40px">
+      <SlideFade in={isOpen} offsetY="40px" ley={index}>
         <Box m="10px 10px" key={index}>
           <Skeleton height={50} duration={2} />
         </Box>

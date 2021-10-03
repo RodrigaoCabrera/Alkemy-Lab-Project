@@ -2,10 +2,11 @@ import React from 'react';
 import '../CardListStyles.css';
 import { Text, Flex, Stack } from '@chakra-ui/react';
 import NewsCard from './NewsCard';
+import { Link } from 'react-router-dom';
 
 const NewsList = ({ news }) => {
 
-  return !(news === undefined) ? (
+  return !(news.length === 0) ? (
     <div>
       <Flex justifyContent='center' alignItems='center'>
         <Text
@@ -14,14 +15,16 @@ const NewsList = ({ news }) => {
           color='#9AC9FB' zIndex='9'
           mb = '5'
         >
-                    Listado de Novedades
+          Ultimas novedades
         </Text>
       </Flex>
       <Stack direction={['column', 'row']} spacing="24px" className="list-container">
         {
           news.map(x =>
             <div className="card-info" key={x.id}>
-              <NewsCard title={x.name} imageUrl={'http://ongapi.alkemy.org/storage/onIkohBvrv.jpeg'} description={x.description} />
+              <Link to={`/news/${x.id}`}>
+                <NewsCard title={x.name} imageUrl={x.image} content={x.content} />
+              </Link>
             </div>)
         }
       </Stack>
@@ -33,7 +36,7 @@ const NewsList = ({ news }) => {
         as='h1' fontWeight='700'
         color='#9AC9FB' zIndex='9'
       >
-            No hay nuevas novedades
+        No hay nuevas novedades
       </Text>
     </Flex>;
 };

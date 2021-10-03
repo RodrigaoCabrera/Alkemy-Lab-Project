@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Box, Flex, Text, SlideFade, useDisclosure } from "@chakra-ui/react";
-import axios from "axios";
-import Skeleton from "./Skeleton";
-import Comment from "./Comment";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Box, Flex, Text, SlideFade, useDisclosure } from '@chakra-ui/react';
+import axios from 'axios';
+import Skeleton from './Skeleton';
+import Comment from './Comment';
+import { showErrorAlert } from '../../../Services/alertsService';
 
 const Comments = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,9 +14,10 @@ const Comments = () => {
   //Llamada a la API para traer los comentarios
   const getComments = () => {
     axios
-      .get("http://ongapi.alkemy.org/api/comments")
+      .get('http://ongapi.alkemy.org/api/comments')
       .catch((err) => {
         setIsLoading(false);
+        showErrorAlert(err);
       })
       .then((res) => {
         if (res) {
@@ -31,30 +33,30 @@ const Comments = () => {
   const handleScroll = () => {
     if (document.documentElement.scrollTop > 130) {
       //Si el scroll supera los 200:
-      document.getElementById("comment").style.display = "block"; //La sección 'comments' aparece
+      // document.getElementById('comment').style.display = 'block'; //La sección 'comments' aparece
       getComments(); //Se invoca el método que llama a la api.
       !isOpen && onToggle(); //Se activa la animación.
     } else {
       // Si el scroll es menora a 200:
-      document.getElementById("comment").style.display = "none"; //La sección 'comments' desaparece.
+      // document.getElementById('comment').style.display = 'none'; //La sección 'comments' desaparece.
       isOpen && onToggle(); //Se desactiva la animación.
       setIsLoading(true); // Se activa el skeleton.
     }
   };
 
   const debounce = (funcion, tiempo) => {
-      let timeoutId;
-      return function (){
-          if(timeoutId){
-            clearTimeout(timeoutId)
-          }
-        const context = this;
-        const args = arguments;
-        timeoutId = setTimeout(() => {
-            funcion.apply(context, args)
-        }, tiempo);
+    let timeoutId;
+    return function (){
+      if(timeoutId){
+        clearTimeout(timeoutId);
       }
-  }
+      const context = this;
+      const args = arguments;
+      timeoutId = setTimeout(() => {
+        funcion.apply(context, args);
+      }, tiempo);
+    };
+  };
 
   const debounceScroll = useCallback(debounce(handleScroll, 500), []);
 
@@ -66,7 +68,7 @@ const Comments = () => {
     <>
       <Text
         as="h2"
-        fontSize={{ base: "20px", md: "25px" }}
+        fontSize={{ base: '20px', md: '25px' }}
         fontWeight="700"
         color="#398be1"
         textAlign="center"
@@ -94,7 +96,7 @@ const Comments = () => {
               <SlideFade in={isOpen} offsetY="40px">
                 <Text
                   as="h3"
-                  fontSize={{ base: "15px", md: "20px" }}
+                  fontSize={{ base: '15px', md: '20px' }}
                   fontWeight="700"
                   color="#db5752"
                   textAlign="center"
