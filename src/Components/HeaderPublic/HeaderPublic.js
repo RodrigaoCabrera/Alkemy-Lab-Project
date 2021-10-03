@@ -13,7 +13,6 @@ import {
   BreadcrumbItem
 } from '@chakra-ui/react';
 import {verifyTokenAuthorization} from '../../Services/privateApiService';
-import { LinkInside } from '../../Layouts/LinkInside';
 import { Link } from 'react-router-dom';
 
 const HeaderPublic = ({navigation=[]}) => {
@@ -36,7 +35,7 @@ const HeaderPublic = ({navigation=[]}) => {
   </svg>;
   
   return(
-    <Box position='fixed' top='0' left='0' bg='#418BCC' width='100%' p='3'>
+    <Box top='0' left='0' bg='#418BCC' width='100%' p='3'>
       <Flex alignItems='center' justifyContent='space-between' width='100%' height={{base: '5vh', md: '7vh'}} px='3'>
         <Image src="http://ongapi.alkemy.org/storage/4ZR8wsUwr9.png" alt="Logo ONG Somos Mas" width='6rem'/>
         <Menu>
@@ -53,24 +52,38 @@ const HeaderPublic = ({navigation=[]}) => {
           />
           <MenuList display={{md:'none'}}>
             {navigation.map((item) => {
-              if(item.onlyUserLoged && loged){
+              if(loged){
                 return <Item 
                   key={item.text}
                   isMobile={true} 
-                  text={item.text} link={item.LinkInside} 
-                  isActive={isCurrentPage(item.LinkInside)}
+                  text={item.text} linkTo={item.link} 
+                  isActive={isCurrentPage(item.link)}
+                />;
+              }else if(!item.onlyUserLoged){
+                return <Item 
+                  key={item.text}
+                  isMobile={true} 
+                  text={item.text} linkTo={item.link} 
+                  isActive={isCurrentPage(item.link)}
                 />;
               }
             })}
           </MenuList>
           <Breadcrumb display={{base:'none', md:'block'}}>
             {navigation.map((item) => {
-              if(item.onlyUserLoged && loged){
+              if(loged){
                 return <Item 
                   key={item.text}
                   isMobile={false} 
-                  text={item.text} link={item.LinkInside} 
-                  isActive={isCurrentPage(item.LinkInside)}
+                  text={item.text} linkTo={item.link} 
+                  isActive={isCurrentPage(item.link)}
+                />;
+              }else if(!item.onlyUserLoged){
+                return <Item 
+                  key={item.text}
+                  isMobile={false} 
+                  text={item.text} linkTo={item.link} 
+                  isActive={isCurrentPage(item.link)}
                 />;
               }
             })}
@@ -81,17 +94,17 @@ const HeaderPublic = ({navigation=[]}) => {
   );
 };
 
-const Item = ({isMobile, text, link, isActive}) => {
+const Item = ({isMobile, text, linkTo, isActive}) => {
   if(isMobile){
-    return (
-      <MenuItem bg={isActive ? '#3896A8' : '#fff'} _focus={{bg: '#none'}}>
-        <Link to={link} fontSize='1.2rem' fontWeight='600'>{text}</Link>
+    return ( 
+      <MenuItem _focus={{bg: '#none'}}>
+        <Link to={linkTo} fontSize='1.2rem' fontWeight='600'>{text}</Link>
       </MenuItem>
     );
   }
   return (
     <BreadcrumbItem mx='7'>
-      <BreadcrumbLink to={link} color='#fff' textDecoration={isActive ? 'underline' : 'none'}>
+      <BreadcrumbLink as={Link} to={linkTo} color='#fff' >
         {text}
       </BreadcrumbLink>
     </BreadcrumbItem>
