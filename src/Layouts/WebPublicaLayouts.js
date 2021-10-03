@@ -1,8 +1,7 @@
 import React from 'react';
 import HeaderPublic from '../Components/HeaderPublic/HeaderPublic';
 import Footer from '../Components/Footer/Footer';
-
-
+import { Box } from '@chakra-ui/layout';
 
 const WebPublicaLayout = ({ children }) => {
   const navigation = [
@@ -14,11 +13,13 @@ const WebPublicaLayout = ({ children }) => {
     { text: 'Backoffice', link: '/backoffice', onlyUserLoged: true }, 
   ];
   return (
-    <>
+    <Box height='100vh'>
       <HeaderPublic navigation={navigation}/>
       {children}
-      <Footer/>
-    </>
+      <Box flex={1} alignItems='flex-end'>
+        <Footer/>
+      </Box>
+    </Box>
   );
 };
 

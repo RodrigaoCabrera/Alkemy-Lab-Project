@@ -44,7 +44,7 @@ const Home = () => {
     });
     GetNews().then(res => {
       if(res.data) {
-        setNews(res.data.slice(0,4));
+        setNews(res.data.slice(res.data.length - 4, res.data.length));
         setLoading(false);
       } else {
         showErrorAlert();

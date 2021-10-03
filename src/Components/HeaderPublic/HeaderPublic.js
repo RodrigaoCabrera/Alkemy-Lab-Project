@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import {verifyTokenAuthorization} from '../../Services/privateApiService';
 import { Link } from 'react-router-dom';
+import AuthButtons from '../UI/AuthButtons';
 
 const HeaderPublic = ({navigation=[]}) => {
   const [location, setLocation] = useState('');
@@ -35,9 +36,11 @@ const HeaderPublic = ({navigation=[]}) => {
   </svg>;
   
   return(
-    <Box top='0' left='0' bg='#418BCC' width='100%' p='3'>
+    <Box bg='#418BCC' width='100%' p='3'>
       <Flex alignItems='center' justifyContent='space-between' width='100%' height={{base: '5vh', md: '7vh'}} px='3'>
-        <Image src="http://ongapi.alkemy.org/storage/4ZR8wsUwr9.png" alt="Logo ONG Somos Mas" width='6rem'/>
+        <Link to='/'>
+          <Image src="http://ongapi.alkemy.org/storage/4ZR8wsUwr9.png" alt="Logo ONG Somos Mas" width='6rem'/>
+        </Link>
         <Menu>
           <MenuButton
             display={{md:'none'}}
@@ -68,6 +71,9 @@ const HeaderPublic = ({navigation=[]}) => {
                 />;
               }
             })}
+            <Box display='flex' flexDirection='column' maxWidth='50%'>
+              <AuthButtons />
+            </Box>
           </MenuList>
           <Breadcrumb display={{base:'none', md:'block'}}>
             {navigation.map((item) => {
@@ -87,6 +93,7 @@ const HeaderPublic = ({navigation=[]}) => {
                 />;
               }
             })}
+            <AuthButtons />
           </Breadcrumb>
         </Menu>
       </Flex>
@@ -97,14 +104,16 @@ const HeaderPublic = ({navigation=[]}) => {
 const Item = ({isMobile, text, linkTo, isActive}) => {
   if(isMobile){
     return ( 
-      <MenuItem _focus={{bg: '#none'}}>
-        <Link to={linkTo} fontSize='1.2rem' fontWeight='600'>{text}</Link>
-      </MenuItem>
+      <Link to={linkTo} fontSize='1.2rem' fontWeight='600'>
+        <MenuItem bg={isActive ? '#9AC9FB' : '#fff'} _focus={{bg: '#none'}}>
+          {text}
+        </MenuItem>
+      </Link>
     );
   }
   return (
     <BreadcrumbItem mx='7'>
-      <BreadcrumbLink as={Link} to={linkTo} color='#fff' >
+      <BreadcrumbLink as={Link} to={linkTo} color='#fff' textDecoration={isActive ? 'underline' : 'none'}>
         {text}
       </BreadcrumbLink>
     </BreadcrumbItem>

@@ -20,8 +20,11 @@ import {
   Text,
   IconButton,
 } from '@chakra-ui/react';
-import BackofficeSidebar from './Sidebar/BackofficeSidebar'
+import BackofficeSidebar from './Sidebar/BackofficeSidebar';
 import { Link } from 'react-router-dom';
+import AuthButtons from '../UI/AuthButtons';
+import ButtonLogout from '../UI/ButtonLogout';
+
 export default function HeaderBackOffice() {
 
   const categories = [
@@ -62,12 +65,14 @@ export default function HeaderBackOffice() {
     }
   ];
 
-  const menuHamburger = <BackofficeSidebar categories={categories} />
+  const menuHamburger = <BackofficeSidebar categories={categories} />;
 
   return (
-    <Box  top='0' left='0' bg='#418BCC' width='100%' p='3'>
+    <Box top='0' left='0' bg='#418BCC' width='100%' p='3'>
       <Flex alignItems='center' justifyContent='space-between' width='100%' height={{ base: '5vh', md: '7vh' }} px='3'>
-        <Image src="http://ongapi.alkemy.org/storage/4ZR8wsUwr9.png" alt="Logo ONG Somos Mas" width='6rem' />
+        <Link to='/'>
+          <Image src="http://ongapi.alkemy.org/storage/4ZR8wsUwr9.png" alt="Logo ONG Somos Mas" width='6rem' />
+        </Link>
         <Menu>
           <MenuButton
             display={{ md: 'none' }}
@@ -85,6 +90,7 @@ export default function HeaderBackOffice() {
             {
               categories.map(x => <BreadcrumbItem key={x.id} color='white'><Link to={x.path}><Text fontWeight="extrabold" fontSize="lg" p={2} >{x.name}</Text></Link></BreadcrumbItem>)
             }
+            <ButtonLogout />
           </Breadcrumb>
         </Menu>
       </Flex>

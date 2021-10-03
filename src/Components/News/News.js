@@ -22,9 +22,9 @@ const News = () => {
       <TitlePages text="Novedades" />
       <NewsSearch/>
       <Box marginX='10px'>
-        <NewsList news={news.slice(news.length - 3, news.length)} />
+        <NewsList news={news.slice(news.length - 4, news.length)} />
       </Box>
-      <Box alignItems='center'>
+      <Box alignItems='center' paddingY={20}>
         <UltimoEvento
           videoUrl={'https://www.youtube.com/watch?v=4YnSk1gI_Oo'}/>
       </Box>

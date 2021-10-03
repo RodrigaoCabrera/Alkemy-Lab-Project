@@ -14,13 +14,13 @@ import {
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
+import { login } from '../../features/authReducer';
+import { useDispatch } from 'react-redux';
+import { BiArrowBack } from 'react-icons/bi';
 
 const LoginForm = () => {
 
-  const [formValues, setFormValues] = useState({
-    email: '',
-    password: ''
-  });
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -67,7 +67,7 @@ const LoginForm = () => {
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              setFormValues(values);
+              dispatch(login({ ...values, role_id: 0, name: 'Test' }));
             }}
           >
             {({errors, touched}) => (
@@ -116,6 +116,13 @@ const LoginForm = () => {
           </Formik>
         </Box>
         <Link to='/register'>Registrarse</Link>
+        <Box marginTop={2}>
+          <Link to='/'>
+            <Box display='flex' alignItems='center'>
+              <BiArrowBack /> Regresar
+            </Box>
+          </Link>
+        </Box>
       </Box>
     </Flex>
   );

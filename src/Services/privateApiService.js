@@ -67,6 +67,6 @@ export const DeleteRequest = async (url, id) => {
 export const verifyTokenAuthorization = () => {
   const token = localStorage.getItem('token');
   if(token){
-    return {Authorization: 'Bearer ' + token, Group: 65};
+    return {Authorization: 'Bearer ' + token};
   }
 };

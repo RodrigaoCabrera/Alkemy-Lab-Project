@@ -18,16 +18,13 @@ import {
 import * as Yup from 'yup';
 import { MdInfo } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { register } from '../../features/authReducer';
+import { useDispatch } from 'react-redux';
+import { BiArrowBack } from 'react-icons/bi';
 
 const RegisterForm = () => {
 
-  const [formValues, setFormValues] = useState({
-    name: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -84,7 +81,7 @@ const RegisterForm = () => {
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              setFormValues(values);
+              dispatch(register({ ...values, role_id: 0, name: 'Test' }));
             }}
           >
             {({errors, touched}) => (
@@ -181,6 +178,13 @@ const RegisterForm = () => {
           </Formik>
         </Box>
         <Link to='/login'>¿Ya tienes una cuenta? Inicia sesión.</Link>
+        <Box marginTop={2}>
+          <Link to='/'>
+            <Box display='flex' alignItems='center'>
+              <BiArrowBack /> Regresar
+            </Box>
+          </Link>
+        </Box>
       </Box>
     </Flex>
   );

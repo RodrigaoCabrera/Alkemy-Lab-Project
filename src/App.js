@@ -38,13 +38,10 @@ const SlidesDetail = lazy(() => import('./Components/SlidesForm/SlidesDetail'));
 import LoginForm from './Components/Auth/LoginForm';
 const UsersList = lazy(() => import('./Components/Backoffice/Users/UsersList'));
 const News = lazy(() => import('./Components/News/News'));
-const RegisterForm = lazy(() => import('./Components/Auth/RegisterForm'));
+import RegisterForm from './Components/Auth/RegisterForm';
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(login(0));
-  },[]);
+  
   const loggedIn = useSelector((state) => state.auth.Autenticacion);
 
   function mapStyles(styles) {
@@ -151,9 +148,6 @@ function App() {
           </LayoutBackoffice>
         </Suspense>
       </BrowserRouter>
-      <div className="App">
-        
-      </div>
     </>
   );
 }

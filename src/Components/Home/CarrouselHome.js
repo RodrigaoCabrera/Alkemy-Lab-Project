@@ -29,6 +29,7 @@ const CarrouselHome = ({slides}) => {
       alignItems='center'
     >
       <Button zIndex='3' variant="ghost"
+        display={{base: 'none', md: 'block'}}
         w={{base: '50vw', md: 'auto'}}
         h={{base: '100%', md: 'auto'}}
         _hover={
@@ -63,6 +64,7 @@ const CarrouselHome = ({slides}) => {
         </HStack>
       </Flex>
       <Button zIndex='3' variant="ghost"
+        display={{base: 'none', md: 'block'}}
         w={{base: '50vw', md: 'auto'}}
         h={{base: '100%', md: 'auto'}}
         _hover={
