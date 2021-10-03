@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNews } from '../../features/newsReducer';
 import TitlePages from '../UI/TitlePages';
 import NewsList from './NewsList';
+import NewsSearch from './NewsSearch';
 import UltimoEvento from './UltimoEvento';
 
 
@@ -19,8 +20,9 @@ const News = () => {
   return (
     <Stack spacing={8}>
       <TitlePages text="Novedades" />
+      <NewsSearch/>
       <Box marginX='10px'>
-        <NewsList news={news.slice(news.length - 4, news.length)} />
+        <NewsList news={news.slice(news.length - 3, news.length)} />
       </Box>
       <Box alignItems='center'>
         <UltimoEvento
