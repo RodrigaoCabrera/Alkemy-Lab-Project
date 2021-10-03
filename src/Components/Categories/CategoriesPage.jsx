@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {Table,Thead,Tbody,Tr,Th,Td, Heading, Flex, Icon, Button,} from '@chakra-ui/react';
+import {Table,Thead,Tbody,Tr,Th,Td, Heading, Flex, Icon, Button, Box, Center, Spinner} from '@chakra-ui/react';
 import {BsPlusSquare} from 'react-icons/bs';
 import {BiEdit} from 'react-icons/bi';
 import {RiDeleteBin4Line} from 'react-icons/ri';
 import { useEffect } from 'react';
 import { deleteCategory, getCategories } from '../../Services/categoryService';
 import { fetchCategory, removeCategory } from '../../app/categories-slice';
-
+import Loading from '../UI/Loading';
 
 
 //aca se debe obtener la data desde useSelector del reducer
@@ -22,6 +22,7 @@ const CategoriesPage = () =>{
     //aca va a tener que conectarse el tema de alertas, trabajando con la response
     dispatch(removeCategory(idCategory));
   };
+  console.log(status)
   return(
     <Flex direction='column' m={5} p={5}>
       <Flex justify='space-between' align='center'>
@@ -39,7 +40,7 @@ const CategoriesPage = () =>{
           </Tr>
         </Thead>
         <Tbody>
-          {categories && categories.map(category =>{
+          { (status==='success' && categories) ? categories.map(category =>{
             return (
               <Tr key={category.id}>
                 <Td>{category.name}</Td>
@@ -55,7 +56,9 @@ const CategoriesPage = () =>{
                 </Td>
               </Tr>
             );
-          })}
+          }):
+            <Box ml={'30vw'} > <Center h='50vh' ><Loading/></Center> </Box>
+          }
         </Tbody>
       </Table>
     </Flex>

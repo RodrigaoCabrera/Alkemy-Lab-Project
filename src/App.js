@@ -6,7 +6,6 @@ import PrivateRoute from './ComponentsRoute/PrivateRoute';
 import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
 import './App.css';
 import Loading from './Components/UI/Loading';
-
 import { BrowserRouter, Link, Redirect, Route } from 'react-router-dom';
 import LayoutBackoffice from './Components/Backoffice/LayoutBackoffice';
 import  {login}  from './features/authReducer';
@@ -36,7 +35,7 @@ const FormEditUsers = lazy(() => import('./Components/Users/FormEditUsers'));
 const FormMembers = lazy(() => import('./Components/Backoffice/Members/FormMembers'));
 const ActivityContent = lazy(() => import('./Components/Activities/ActivityContent'));
 const SlidesDetail = lazy(() => import('./Components/SlidesForm/SlidesDetail'));
-import { LoginForm } from './Components/Auth/LoginForm';
+import LoginForm from './Components/Auth/LoginForm';
 const UsersList = lazy(() => import('./Components/Backoffice/Users/UsersList'));
 const News = lazy(() => import('./Components/News/News'));
 const RegisterForm = lazy(() => import('./Components/Auth/RegisterForm'));

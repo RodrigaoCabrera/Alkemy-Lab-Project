@@ -18,7 +18,8 @@ const SlidesForm = ({
   isSubmitting,
   object,
   imgPreview,
-  setImgPreview
+  setImgPreview,
+  isLoading
 }) => (
   <Form className="form-container">
     <FormLabel htmlFor='title'>Nombre</FormLabel>
@@ -64,6 +65,7 @@ const SlidesForm = ({
       className="submit-btn"
       type="submit"
       disabled={isSubmitting}
+      isLoading = {isLoading}
     >
       {object ? 'Actualizar' : 'Crear'}
     </button>

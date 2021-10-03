@@ -8,6 +8,7 @@ import { showSuccessAlert, showErrorAlert } from '../../Services/alertsService'
 //validación del formulario
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { Redirect } from 'react-router-dom';
 
 
 const CreateEditForm = ({ location : prop }) => {
@@ -23,8 +24,7 @@ const CreateEditForm = ({ location : prop }) => {
   const [ submitSend, setSubmitSend ] = useState(false);
 
   const handleSubmit  = (formData) => {
-    setSubmitSend(true);
-    console.log('submit');
+
     const data = {
       name: formData.name,
       description: formData.description,
@@ -35,6 +35,7 @@ const CreateEditForm = ({ location : prop }) => {
     } else {
       dispatch( createSlideAction(data) );
     }
+    setSubmitSend(true);
   };
 
   if(submitSend === true){
@@ -68,17 +69,19 @@ const CreateEditForm = ({ location : prop }) => {
         validationSchema={formShema}
         onSubmit={(formData, { resetForm }) => handleSubmit(formData, resetForm)}
       >
-
         {props => {
           return(<SlidesForm
             {...props}
             object={object}
             imgPreview={imgPreview}
             setImgPreview={setImgPreview}
+            isLoading={ Status === 'loading' }
           />);}
         }
-
       </Formik>
+      {
+        (Status === 'success' && submitSend === true)  && <Redirect to='/backoffice/slides' />
+      }
     </Container>
   );
 };

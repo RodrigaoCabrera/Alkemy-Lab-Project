@@ -23,10 +23,13 @@ import { Box, Heading, Stack } from '@chakra-ui/layout';
 import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/form-control';
 import { Input } from '@chakra-ui/input';
 import { UserMap } from './UserMap';
+import { showErrorAlert, showSuccessAlert } from '../../Services/alertsService';
+import { Redirect } from 'react-router-dom';
 
 const FormEditUsers = ({location: {user}}) => {
 
   const [Terms, setTerms] = useState(false);
+  const [status, setStatus] = useState('idle');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const Schema = Yup.object().shape({
@@ -50,14 +53,15 @@ const FormEditUsers = ({location: {user}}) => {
       longitude: address.lng,
       address: address.name
     };
+    setStatus('loading');
     if (user) {
       PutUser(data)
-        .then(res => console.log(res))
-        .catch(error => console.error(error));
+        .then(res => (setStatus('success')))
+        .catch(error => (setStatus('failed')));
     } else {
       PostUser(data)
-        .then(res => console.log(res))
-        .catch(error => console.error(error));
+        .then(res => (setStatus('success')))
+        .catch(error => (setStatus('failed')));
     }
   };
 
@@ -79,7 +83,7 @@ const FormEditUsers = ({location: {user}}) => {
     onClose();
   };
 
-  return (
+  return !(status === 'success') ? (
 
     <Stack
       height='100vh'
@@ -239,12 +243,14 @@ const FormEditUsers = ({location: {user}}) => {
                     bg: '#5FA5ED'
                   }}
                   isDisabled={!Terms}
+                  isLoading={ status === 'loading' }
                 >
                   {user ? 'Actualizar' : 'Crear'}
                 </Button>
               </Form>
             )}
           </Formik>
+          { status === 'failed' && showErrorAlert() }
         </Box>
       </Stack>
       <Stack
@@ -257,6 +263,11 @@ const FormEditUsers = ({location: {user}}) => {
         <UserMap setAddress={handleChange} />
       </Stack>
     </Stack>
+  ):(
+    <>
+      { showSuccessAlert() }
+      <Redirect to='/backoffice/users' /> 
+    </>
   );
 };
 

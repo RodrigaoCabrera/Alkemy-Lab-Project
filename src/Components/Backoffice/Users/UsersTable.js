@@ -7,12 +7,13 @@ import {
   Th,
   Td,
   Button,
-
+  Spinner 
 } from '@chakra-ui/react';
-import { Stack } from '@chakra-ui/layout';
+import { Box, Center, Stack } from '@chakra-ui/layout';
 import { Link } from 'react-router-dom';
 import { GetUsers, DeleteUser } from '../../../Services/userServices';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import Loading from '../../UI/Loading';
 
 const UsersTable = () => {
 
@@ -47,7 +48,7 @@ const UsersTable = () => {
       </Thead>
       <Tbody>
         {
-          !loading && users.map(user => {
+          !loading ? users.map(user => {
             return (
               <Tr key={user.id}>
                 <Td>{user.name}</Td>
@@ -70,7 +71,7 @@ const UsersTable = () => {
                 </Td>
               </Tr>
             );
-          })
+          }): <Box ml={'30vw'} > <Center h='50vh' ><Loading/></Center> </Box>
         }
       </Tbody>
     </Table>

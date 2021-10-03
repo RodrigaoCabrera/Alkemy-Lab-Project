@@ -7,8 +7,9 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { showErrorAlert } from '../../Services/alertsService';
 import { getCategories } from '../../Services/categoryService';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postNews, putNews} from '../../features/newsReducer';
+import { Redirect } from 'react-router';
 
 const NewsForm = ({location: {novedades}}) => {
 
@@ -128,6 +129,7 @@ const NewsForm = ({location: {novedades}}) => {
             </Button>
             {EnvioExitoso && <Alert status="success"><AlertIcon />Novedad Enviada</Alert>}
             {EnvioError && showErrorAlert()}
+            {EnvioExitoso && <Redirect to='/backoffice/news' />}
           </form >
         )}
       </Formik>

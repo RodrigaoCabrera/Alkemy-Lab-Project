@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useCallback} from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Box, Heading, Stack } from "@chakra-ui/layout";
 import { Input, InputGroup, InputLeftAddon } from "@chakra-ui/input";
@@ -15,10 +15,15 @@ import { FaInstagram, FaFacebookF } from "react-icons/fa";
 
 //Members Reducer
 import { putMembers, postMembers } from '../../../features/membersReducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
+import { Redirect } from "react-router-dom";
+import { showErrorAlert, showSuccessAlert } from '../../../Services/alertsService';
 
 const FormMembers = ({ location: {member}}) => {
+
   const dispatch = useDispatch();
+  const status = useSelector( store => store.members.status );
+  const [ submited, setSubmited ] = useState(false);
 
   const schema = Yup.object().shape({
     name: Yup.string().required("Nombre requerido"),
@@ -40,9 +45,10 @@ const FormMembers = ({ location: {member}}) => {
     } else {
       dispatch(postMembers(formData)); //Inclusión de método postMembers
     }
+    setSubmited(true);
   };
 
-  return (
+  return !( status === 'success' && submited === true ) ? (
     <Stack height="100vh" alignItems="center" justifyContent="center">
       <Stack
         padding={8}
@@ -186,15 +192,22 @@ const FormMembers = ({ location: {member}}) => {
                   _active={{
                     bg: "#5FA5ED",
                   }}
+                  isLoading = { status === 'loading' }
                 >
                   {member ? "Actualizar" : "Crear"}
                 </Button>
               </Form>
             )}
           </Formik>
+          { status === 'failed' && showErrorAlert() }
         </Box>
       </Stack>
     </Stack>
+  ) : (
+    <>
+      { showSuccessAlert() }
+      <Redirect to='/backoffice/members' /> 
+    </>
   );
 };
 export default FormMembers;

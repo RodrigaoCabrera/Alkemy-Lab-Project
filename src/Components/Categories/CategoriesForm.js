@@ -8,6 +8,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCategory, updateCategory } from '../../app/categories-slice';
+import { Redirect } from 'react-router-dom';
+import { showErrorAlert, showSuccessAlert } from '../../Services/alertsService';
 
 const CategoriesForm = ({location: {categoria}}) => {
   const dispatch = useDispatch();
@@ -15,7 +17,10 @@ const CategoriesForm = ({location: {categoria}}) => {
   const {status} = useSelector(state=>state.categories);
   const [EnvioExitoso, setEnvioExitoso] = useState(false);
   const [EnvioError, setEnvioError] = useState(false);
-  return ( 
+  const [submited, setSubmited] = useState(false);
+  console.log("categories",status);
+
+  return  !(status === 'success' && submited === true) ? ( 
     <Container mt={3}>
       <Formik
         initialValues={{
@@ -35,6 +40,7 @@ const CategoriesForm = ({location: {categoria}}) => {
           else {
             dispatch(updateCategory({id:categoria.id,data:data}));
           }
+          setSubmited(true);
           // esto queda comentado para el que conecte las alertas y loading. 
           /* if (categoria === undefined) {
             const data = {
@@ -130,14 +136,20 @@ const CategoriesForm = ({location: {categoria}}) => {
             <Button  
               mt={4} 
               colorScheme="teal" 
-              type="submit">Send</Button>
-            {EnvioExitoso && <Alert status="success"><AlertIcon />Categoria Enviada</Alert>}
-            {EnvioError && <Alert status="error"><AlertIcon />Categoria No enviado</Alert>}
+              type="submit"
+              isLoading={ status === 'loading' }
+            >Send</Button>
+            {/*EnvioExitoso && <Alert status="success"><AlertIcon />Categoria Enviada</Alert>*/}
+            {/*EnvioError && <Alert status="error"><AlertIcon />Categoria No enviado</Alert>*/}
           </form >
         )}
       </Formik>
+      { (status === 'failed' && submited === true ) && showErrorAlert()  }
     </Container>
-  );
+  ):<>
+    {showSuccessAlert() }
+    <Redirect to="/backoffice/categories" />
+  </>;
 };
  
 export default CategoriesForm;

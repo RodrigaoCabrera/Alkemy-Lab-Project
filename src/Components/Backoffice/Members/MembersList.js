@@ -9,7 +9,6 @@ import {
   Tr,
   Th,
   Link,
-  Spinner,
   Center,
   Text,
 } from '@chakra-ui/react';
@@ -18,6 +17,7 @@ import { Link as ReachLink } from 'react-router-dom';
 
 import { getMembers, deleteMembers } from '../../../features/membersReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import Loading from '../../UI/Loading';
 
 const MembersList = () => {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const MembersList = () => {
         </Link>
       </Flex>
       {status === 'loading' ? (
-        <Center h='50vh'><Spinner /></Center>
+        <Center h='50vh'><Loading /></Center>
       ) : members?.length !== 0 && members !== undefined ? (
         <Table variant='simple' mt={5} bg='rgba(154, 201, 251,0.5)' rounded={5}>
           <Thead>

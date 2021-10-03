@@ -15,7 +15,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 
-export const LoginForm = () => {
+const LoginForm = () => {
 
   const [formValues, setFormValues] = useState({
     email: '',
@@ -120,3 +120,5 @@ export const LoginForm = () => {
     </Flex>
   );
 };
+
+export default LoginForm;
