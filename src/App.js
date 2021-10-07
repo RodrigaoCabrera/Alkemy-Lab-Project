@@ -74,7 +74,7 @@ const DonationScreen = lazy(()=> import('./Components/Donations/DonationScreen')
 const ThanksScreen = lazy(()=> import('./Components/Donations/ThanksScreen'));
 function App() {
   
-  const loggedIn = useSelector((state) => state.auth.Autenticacion);
+  const { Autenticacion, Usuario } = useSelector((state) => state.auth);
 
   function mapStyles(styles) {
     return {
@@ -103,13 +103,15 @@ function App() {
           >
             <PublicRoute path="/" exact component={Home} />
             <Route path="/login" component={LoginForm}>
-              {loggedIn ? <Redirect to="/" /> : <LoginForm />}
+              {Autenticacion ? <Redirect to="/" /> : <LoginForm />}
             </Route>
             <PrivateRoute path='/register' component={RegisterForm} />
             <PublicRoute path="/novedades" component={News} />
             <PublicRoute path="/school-campaign" component={SchoolCampaign} />
             <PublicRoute path="/toys-campaign" component={ToysCampaign} />
-            <PublicRoute path="/contacto" component={ContactPage} />
+            <Route path="/contacto" component={ContactPage}>
+              {Usuario.role_id === 0 ? <Redirect to="/" /> : <ContactPage />}
+            </Route>
             <PublicRoute path="/nosotros" component={AboutUs} />
             <PublicRoute path="/actividades/:id" component={ActivityDetail} />
             <PublicRoute path="/activity-content" component={ActivityContent} />

@@ -16,8 +16,10 @@ import {verifyTokenAuthorization} from '../../Services/privateApiService';
 import DonationsButton from '../Donations/DonationsButton';
 import { Link } from 'react-router-dom';
 import AuthButtons from '../UI/AuthButtons';
+import { useSelector } from 'react-redux';
 
 const HeaderPublic = ({navigation=[]}) => {
+  const Usuario = useSelector(state => state.auth.Usuario);
   const [location, setLocation] = useState('');
   const [loged, setLoged] = useState(false);
 
@@ -76,14 +78,15 @@ const HeaderPublic = ({navigation=[]}) => {
           />
           <MenuList display={{md:'none'}}>
             {navigation.map((item) => {
-              if(loged){
+              const hiddenContacto = Usuario.role_id === 0 && item.text === 'Contacto';
+              if(loged && !hiddenContacto){
                 return <Item 
                   key={item.text}
                   isMobile={true} 
                   text={item.text} linkTo={item.link} 
                   isActive={isCurrentPage(item.link)}
                 />;
-              }else if(!item.onlyUserLoged){
+              }else if(!item.onlyUserLoged && !hiddenContacto){
                 return <Item 
                   key={item.text}
                   isMobile={true} 
@@ -100,14 +103,15 @@ const HeaderPublic = ({navigation=[]}) => {
           <Breadcrumb display={{base:'none', md:'block'}}>
             
             {navigation.map((item) => {
-              if(loged){
+              const hiddenContacto = Usuario.role_id === 0 && item.text === 'Contacto';
+              if(loged && !hiddenContacto){
                 return <Item 
                   key={item.text}
                   isMobile={false} 
                   text={item.text} linkTo={item.link} 
                   isActive={isCurrentPage(item.link)}
                 />;
-              }else if(!item.onlyUserLoged){
+              }else if(!item.onlyUserLoged && !hiddenContacto){
                 return <Item 
                   key={item.text}
                   isMobile={false} 
