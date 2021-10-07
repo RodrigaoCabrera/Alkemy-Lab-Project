@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import { deleteCategory, getCategories, getCategory, putCategory, postCategory } from '../Services/categoryService';
+import { deleteCategory, getCategories, getCategory, putCategory, postCategory, seachCategory } from '../Services/categoryService';
 export const fetchCategory = createAsyncThunk(
   'categories/fetchCategory', async (id) => {
     let res;
@@ -31,6 +31,13 @@ export const addCategory = createAsyncThunk(
   'categories/addCategory',
   async (category) => {
     const res = await postCategory(category);
+    return res;
+  }
+);
+export const seachCategoryQuery = createAsyncThunk(
+  'categories/seachCategory',
+  async( search ) => {
+    const res = await seachCategory(search);
     return res;
   }
 );
@@ -93,7 +100,22 @@ const CategoriesSlice = createSlice({
     },
     [addCategory.rejected]: (state) => {
       state.status = 'failed';
-    }
+    },
+    //seachCategoryQuery
+    [seachCategoryQuery.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [seachCategoryQuery.fulfilled]: (state, { payload }) => {
+      if (payload.success) {
+        state.status = 'success';
+        state.categories = payload.data;
+      } else {
+        state.status = 'failed';
+      }
+    },
+    [seachCategoryQuery.rejected]: (state) => {
+      state.status = 'failed';
+    }    
   }
 });
 

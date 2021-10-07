@@ -6,10 +6,9 @@ import {BsPlusSquare} from 'react-icons/bs';
 import {BiEdit} from 'react-icons/bi';
 import {RiDeleteBin4Line} from 'react-icons/ri';
 import { useEffect } from 'react';
-import { deleteCategory, getCategories } from '../../Services/categoryService';
 import { fetchCategory, removeCategory } from '../../app/categories-slice';
 import Loading from '../UI/Loading';
-
+import CategoriesSeach from './CategoriesSeach'
 
 //aca se debe obtener la data desde useSelector del reducer
 const CategoriesPage = () =>{
@@ -22,7 +21,6 @@ const CategoriesPage = () =>{
     //aca va a tener que conectarse el tema de alertas, trabajando con la response
     dispatch(removeCategory(idCategory));
   };
-  console.log(status)
   return(
     <Flex direction='column' m={5} p={5}>
       <Flex justify='space-between' align='center'>
@@ -31,6 +29,7 @@ const CategoriesPage = () =>{
           <Icon as={BsPlusSquare} boxSize='30px' mr={5} color='#418bcc'/>
         </Link>
       </Flex>
+      <CategoriesSeach/>
       <Table variant="simple" mt={5} bg='rgba(154, 201, 251,0.5)'rounded={5}>
         <Thead>
           <Tr>

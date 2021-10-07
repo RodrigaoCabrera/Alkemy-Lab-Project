@@ -23,3 +23,8 @@ export const deleteCategory = async (id)=>{
   const response = await DeleteRequest(url, id);
   return response;
 };
+
+export const seachCategory = async( search ) => {
+  const response = await GetRequest(`${url}?search=${search}`);
+  return response;
+}
