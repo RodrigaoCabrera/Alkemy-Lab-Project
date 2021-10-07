@@ -3,19 +3,19 @@ import { Center, Text } from '@chakra-ui/react';
 import TitlePages from '../UI/TitlePages';
 import { showErrorAlert } from '../../Services/alertsService';
 import Loading from '../UI/Loading';
-import { useDispatch, useSelector } from 'react-redux';
-import { getActivity } from '../../features/activitiesReducer';
+import { useSelector } from 'react-redux';
 
 const ActivityDetail = (props) => {
-
   const { match: { params } } = props;                         //obtengo el id del url
+  const { activities: {activities, status} } = useSelector(state => state);
 
-  const { activities: {activities: activity , status} } = useSelector(state => state);
-
-  const dispatch = useDispatch();
+  const [activity, setActivity] = useState({
+    name: '',
+    description: ''
+  });
 
   useEffect(() => {
-    dispatch(getActivity(params.id));
+    setActivity(activities.filter(activity => activity.id == params.id)[0]);
   }, []);
   let content;
   switch (status) {

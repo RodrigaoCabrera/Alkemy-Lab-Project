@@ -8,7 +8,10 @@ export const GetActivities = async (id) => {
   id ? res = await GetRequest(url, id) : res = await GetRequest(url);
   return res;
 };
-
+export const GetActivitiesWithQuery = async(search) => {
+  const res = await GetRequest(`${url}?search=${search}`); 
+  return res;
+};
 export const PutActivity = async (id, data) => {
   const res = await PutRequest(url, id, data);
   return res;
