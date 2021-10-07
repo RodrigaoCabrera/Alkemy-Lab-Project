@@ -1,10 +1,13 @@
 import React, { useState} from 'react';
+import { useEffect } from 'react';
+import {SlidesSearchForm} from '../Backoffice/Slides/SlidesSearchForm';
+import { GetSlides } from '../../Services/SlidesService';
 import '../FormStyles.css';
 import SlidesForm from './SlidesForm';
-import { Container } from '@chakra-ui/react';
-import { createSlideAction, updateSlideAction } from '../../features/slideReducer'
+import { Container, Flex } from '@chakra-ui/react';
+import { createSlideAction, updateSlideAction } from '../../features/slideReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { showSuccessAlert, showErrorAlert } from '../../Services/alertsService'
+import { showSuccessAlert, showErrorAlert } from '../../Services/alertsService';
 //validación del formulario
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -40,14 +43,14 @@ const CreateEditForm = ({ location : prop }) => {
 
   if(submitSend === true){
     switch(Status){
-      case 'success':
-        showSuccessAlert();
-        break;
-      case 'failed':
-        showErrorAlert();
-        break;
-      default:
-        break;      
+    case 'success':
+      showSuccessAlert();
+      break;
+    case 'failed':
+      showErrorAlert();
+      break;
+    default:
+      break;      
     }
   } 
   const formShema = Yup.object().shape({
@@ -58,6 +61,7 @@ const CreateEditForm = ({ location : prop }) => {
   });
 
   return (
+
     <Container h='800px'>
       <Formik
         initialValues={{
@@ -69,6 +73,9 @@ const CreateEditForm = ({ location : prop }) => {
         validationSchema={formShema}
         onSubmit={(formData, { resetForm }) => handleSubmit(formData, resetForm)}
       >
+        <Flex justify='space-around' w='100%' align='start' >
+          <SlidesSearchForm w='70%'/>
+        </Flex>
         {props => {
           return(<SlidesForm
             {...props}
