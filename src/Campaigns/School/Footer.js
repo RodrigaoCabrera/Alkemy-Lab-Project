@@ -11,7 +11,7 @@ const Footer = () => {
         base: '150px',
         md: '200px',
       }}
-      width='100vw'
+      width='100%'
       color='white'
       flexDirection='row'
       alignItems='center'
