@@ -70,7 +70,8 @@ import LoginForm from './Components/Auth/LoginForm';
 const UsersList = lazy(() => import('./Components/Backoffice/Users/UsersList'));
 const News = lazy(() => import('./Components/News/News'));
 import RegisterForm from './Components/Auth/RegisterForm';
-
+const DonationScreen = lazy(()=> import('./Components/Donations/DonationScreen'));
+const ThanksScreen = lazy(()=> import('./Components/Donations/ThanksScreen'));
 function App() {
   
   const loggedIn = useSelector((state) => state.auth.Autenticacion);
@@ -113,7 +114,8 @@ function App() {
             <PublicRoute path="/actividades/:id" component={ActivityDetail} />
             <PublicRoute path="/activity-content" component={ActivityContent} />
             <PublicRoute path="/create-member" component={MembersForm} />
-            <PublicRoute path="/news/:id" component={NewDetail} />
+            <PublicRoute path="/donar" component={DonationScreen} />
+            <PublicRoute path="/gracias" component={ThanksScreen} />
           </AnimatedSwitch>
           <LayoutBackoffice>
             <AnimatedSwitch
