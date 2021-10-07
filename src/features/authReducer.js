@@ -2,6 +2,7 @@ import axios from 'axios';
 //constante
 const dataInicial ={
   Autenticacion:false,
+  IsAdmin:false,
   Usuario:{}
 };
 
