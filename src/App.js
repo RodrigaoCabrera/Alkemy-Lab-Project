@@ -1,36 +1,9 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Redirect, Route } from 'react-router-dom';
-import ActivitiesForm from './Components/Activities/ActivitiesForm';
-import CategoriesForm from './Components/Categories/CategoriesForm';
-import NewsForm from './Components/News/NewsForm';
-import TestimonialForm from './Components/Testimonials/TestimonialsForm';
-import SchoolCampaign from './Campaigns/School/SchoolCampaign';
-import ToysCampaign from './Campaigns/Toys/ToysCampaign';
-import MembersForm from './Components/Members/MembersForm';
-import ProjectsForm from './Components/Projects/ProjectsForm';
-import CreateEditForm from './Components/CreateEditForm/CreateEditForm';
-import ActivityDetail from './Components/Activities/ActivityDetail';
-import OrganizationForm from './Components/Organization/OrganizationForm';
-import NewDetail from './Components/New/Detail';
-import sildesList from './Components/Backoffice/Slides/sildesList';
-import Home from './Components/Home/Home';
-import ActivitiesList from './Components/Activities/ActivitiesList';
-//import News from './Components/News/News';
-import ContactPage from './Components/Contact/ContactPage';
-import { AboutUs } from './Components/About/AboutUs';
-import CategoriesPage from './Components/Categories/CategoriesPage';
-import SlidesForm from './Components/SlidesForm/';
-import MembersList from './Components/Backoffice/Members/';
-import FormEditUsers from './Components/Users/FormEditUsers';
-import FormMembers from './Components/Backoffice/Members/FormMembers';
-import ActivityContent from './Components/Activities/ActivityContent';
-//import SlidesDetail from './Components/SlidesForm/SlidesDetail';
-
 import { useSelector } from 'react-redux';
-import { LoginForm } from './Components/Auth/LoginForm';
+import LoginForm from './Components/Auth/LoginForm';
 import { Suspense, lazy, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AnimatedSwitch } from 'react-router-transition';
 import PublicRoute from './ComponentsRoute/PublicRoute';
 import PrivateRoute from './ComponentsRoute/PrivateRoute';
@@ -66,7 +39,7 @@ const FormEditUsers = lazy(() => import('./Components/Users/FormEditUsers'));
 const FormMembers = lazy(() => import('./Components/Backoffice/Members/FormMembers'));
 const ActivityContent = lazy(() => import('./Components/Activities/ActivityContent'));
 const SlidesDetail = lazy(() => import('./Components/SlidesForm/SlidesDetail'));
-import LoginForm from './Components/Auth/LoginForm';
+
 const UsersList = lazy(() => import('./Components/Backoffice/Users/UsersList'));
 const News = lazy(() => import('./Components/News/News'));
 import RegisterForm from './Components/Auth/RegisterForm';
@@ -75,6 +48,7 @@ const ThanksScreen = lazy(()=> import('./Components/Donations/ThanksScreen'));
 function App() {
   
   const { Autenticacion, Usuario } = useSelector((state) => state.auth);
+
 
   function mapStyles(styles) {
     return {

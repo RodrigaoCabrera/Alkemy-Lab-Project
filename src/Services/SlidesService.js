@@ -1,6 +1,6 @@
 import { GetRequest, PutRequest, PostRequest, DeleteRequest } from './privateApiService';
 
-const url = 'http://ongapi.alkemy.org/api/slides';
+const url = process.env.REACT_APP_SLIDES;
 
 export const GetSlides = async (id) => {
   let res;

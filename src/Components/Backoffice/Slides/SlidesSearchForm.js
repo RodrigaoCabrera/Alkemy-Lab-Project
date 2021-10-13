@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import debounce from 'lodash.debounce';
 import { useDispatch } from 'react-redux';
-import {getSlides, getSlidesWithQuery} from '../../../features/slideReducer';
+import {getSlidesAction, getSlidesWithQuery} from '../../../features/slideReducer';
 
 const schema = yup.object().shape({
   activity: yup.string()
@@ -21,7 +21,7 @@ const SlidesSearchForm = () =>{
   const changeHandler = (event)=>{
     event.preventDefault();
     if(event.target.value.length<3){
-      dispatch (getSlides());
+      dispatch (getSlidesAction());
     }
     else{
       dispatch(getSlidesWithQuery (event.target.value));

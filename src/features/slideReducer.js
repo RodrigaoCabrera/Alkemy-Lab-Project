@@ -14,7 +14,7 @@ const dataInicial ={
 //types
 
 const GET_SLIDES = 'GET_SLIDES';
-const getSlidesWithQuery='slides/getSlides';
+export const getSlidesWithQuery='slides/getSlides';
 const CREATE_SLIDE = 'CREATE_SLIDE';
 const UPDATE_SLIDE = 'UPDATE_SLIDE';
 const DELETE_SLIDE = 'DELETE_SLIDE';
