@@ -9,7 +9,7 @@ const WebPublicaLayout = ({ children }) => {
     { text: 'Actividades', link: '/activity-content', onlyUserLoged: false },
     { text: 'Novedades', link: '/novedades', onlyUserLoged: false },
     { text: 'Nosotros', link: '/nosotros', onlyUserLoged: false },
-    { text: 'Contacto', link: '/contacto', onlyUserLoged: false },
+    { text: 'Contacto', link: '/contacto', onlyUserLoged: false, notAdmin: true },
     { text: 'Backoffice', link: '/backoffice', onlyUserLoged: true }, 
   ];
   return (

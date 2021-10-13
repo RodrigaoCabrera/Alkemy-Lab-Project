@@ -1,18 +1,7 @@
-import React from 'react';
-import './App.css';
+import React, { lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
-import LoginForm from './Components/Auth/LoginForm';
-import { Suspense, lazy, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AnimatedSwitch } from 'react-router-transition';
-import PublicRoute from './ComponentsRoute/PublicRoute';
-import PrivateRoute from './ComponentsRoute/PrivateRoute';
-import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
-import './App.css';
-import Loading from './Components/UI/Loading';
-import { BrowserRouter, Link, Redirect, Route } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import LayoutBackoffice from './Components/Backoffice/LayoutBackoffice';
-import  {login}  from './features/authReducer';
 const DashboardHome = lazy(() => import('./Components/Backoffice/DashboardHome'));
 const ActivitiesForm = lazy(() => import('./Components/Activities/ActivitiesForm'));
 const CategoriesForm = lazy(() => import('./Components/Categories/CategoriesForm'));
@@ -43,11 +32,17 @@ const SlidesDetail = lazy(() => import('./Components/SlidesForm/SlidesDetail'));
 const UsersList = lazy(() => import('./Components/Backoffice/Users/UsersList'));
 const News = lazy(() => import('./Components/News/News'));
 import RegisterForm from './Components/Auth/RegisterForm';
+import { AnimatedSwitch } from 'react-router-transition';
+import Loading from './Components/UI/Loading';
+import PublicRoute from './ComponentsRoute/PublicRoute';
+import PrivateRoute from './ComponentsRoute/PrivateRoute';
+import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
 const DonationScreen = lazy(()=> import('./Components/Donations/DonationScreen'));
 const ThanksScreen = lazy(()=> import('./Components/Donations/ThanksScreen'));
+
 function App() {
   
-  const { Autenticacion, Usuario } = useSelector((state) => state.auth);
+  const { Autenticacion } = useSelector((state) => state.auth);
 
 
   function mapStyles(styles) {
@@ -59,7 +54,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Suspense fallback={<Loading/>}>
+        <Suspense fallback={<Loading />}>
           <AnimatedSwitch
             atEnter={{
               opacity: 0,
@@ -83,9 +78,7 @@ function App() {
             <PublicRoute path="/novedades" component={News} />
             <PublicRoute path="/school-campaign" component={SchoolCampaign} />
             <PublicRoute path="/toys-campaign" component={ToysCampaign} />
-            <Route path="/contacto" component={ContactPage}>
-              {Usuario.role_id === 0 ? <Redirect to="/" /> : <ContactPage />}
-            </Route>
+            <PublicRoute path="/contacto" component={ContactPage} />
             <PublicRoute path="/nosotros" component={AboutUs} />
             <PublicRoute path="/actividades/:id" component={ActivityDetail} />
             <PublicRoute path="/activity-content" component={ActivityContent} />

@@ -9,56 +9,63 @@ const AuthButtons = () => {
 
   return (
     <>
-      <Button 
-        marginRight={5}
-        marginBottom={{
-          base: 1,
-          md: 0
-        }}
-        marginLeft={{
-          base: 2,
-          md: 0
-        }}
-        backgroundColor='#418BCC'
-        borderColor='#FFF'
-        border='1px'
-        color='#FFF'
-        _hover={{
-          bg: '#5FA5ED'
-        }}
-        _active={{
-          bg: '#5FA5ED'
-        }}
-        as={Link}
-        to='/login'
-        hidden={Autenticacion}
-      >
-        Login
-      </Button>
-      {Autenticacion && <ButtonLogout />}
-      <Button 
-        backgroundColor='#5FA5ED'
-        color='#FFF'
-        marginLeft={{
-          base: 2,
-          md: 0
-        }}
-        _hover={{
-          bg: '#418BCC',
-          borderColor: '#FFF',
-          border: '1px'
-        }}
-        _active={{
-          bg: '#418BCC',
-          borderColor: '#FFF',
-          border: '1px'
-        }}
-        as={Link}
-        to='/register'
-        hidden={Autenticacion}
-      >
-        Sign Up
-      </Button>
+      {
+        Autenticacion 
+          ? <ButtonLogout /> 
+          : (
+            <>
+              <Button 
+                marginRight={5}
+                marginBottom={{
+                  base: 1,
+                  md: 0
+                }}
+                marginLeft={{
+                  base: 2,
+                  md: 0
+                }}
+                backgroundColor='#418BCC'
+                borderColor='#FFF'
+                border='1px'
+                color='#FFF'
+                _hover={{
+                  bg: '#5FA5ED'
+                }}
+                _active={{
+                  bg: '#5FA5ED'
+                }}
+                as={Link}
+                to='/login'
+                hidden={Autenticacion}
+              >
+                Login
+              </Button>
+              <Button 
+                backgroundColor='#5FA5ED'
+                color='#FFF'
+                marginLeft={{
+                  base: 2,
+                  md: 0
+                }}
+                _hover={{
+                  bg: '#418BCC',
+                  borderColor: '#FFF',
+                  border: '1px'
+                }}
+                _active={{
+                  bg: '#418BCC',
+                  borderColor: '#FFF',
+                  border: '1px'
+                }}
+                as={Link}
+                to='/register'
+                hidden={Autenticacion}
+              >
+                Sign Up
+              </Button>
+            </>
+          ) 
+      }
     </>
   );
 };

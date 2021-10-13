@@ -1,6 +1,6 @@
 //import { GetRequest, PostRequest, PutRequest, DeleteRequest } from '../Services/privateApiService';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { GetSlides, PutSlides,GetSlidesWithQuery, PostSlides, DeleteSlides } from '../Services/SlidesService';
+import { GetSlides, PutSlides,getSlidesWithQuery, PostSlides, DeleteSlides } from '../Services/SlidesService';
 //const
 const dataInicial ={
   Status:'idle',
@@ -14,7 +14,6 @@ const dataInicial ={
 //types
 
 const GET_SLIDES = 'GET_SLIDES';
-export const getSlidesWithQuery='slides/getSlides';
 const CREATE_SLIDE = 'CREATE_SLIDE';
 const UPDATE_SLIDE = 'UPDATE_SLIDE';
 const DELETE_SLIDE = 'DELETE_SLIDE';
@@ -122,5 +121,10 @@ export const deleteSlideAction = (id) => async (dispatch, getState) => {
       payload: { error : error }
     });
   }
+};
+
+export const GetSlidesWithQuery = (search) => async (dispatch) => {
+  const res = await getSlidesWithQuery(search);
+  return res;
 };
 

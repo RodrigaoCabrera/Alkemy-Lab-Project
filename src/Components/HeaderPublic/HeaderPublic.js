@@ -19,21 +19,16 @@ import AuthButtons from '../UI/AuthButtons';
 import { useSelector } from 'react-redux';
 
 const HeaderPublic = ({navigation=[]}) => {
-  const Usuario = useSelector(state => state.auth.Usuario);
+  const { Usuario, Autenticacion } = useSelector(state => state.auth);
   const [location, setLocation] = useState('');
-  const [loged, setLoged] = useState(false);
 
   useEffect(()=>{
     setLocation(window.location.pathname);
-    if(verifyTokenAuthorization()){
-      setLoged(true);
-    }
   },[]);
 
   const isCurrentPage = (Link) => {
     return (location === Link);
   };
- 
   
   const menuHamburger = <svg width="34" height="25" viewBox="0 0 34 25" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M3 21.8182H30.6818M3 3H30.6818H3ZM3 12.4091H30.6818H3Z" stroke="black" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -43,27 +38,14 @@ const HeaderPublic = ({navigation=[]}) => {
     <Box bg='#418BCC' width='100%' p='3'>
       <Flex alignItems='center' justifyContent='space-between' width='100%' height={{base: '5vh', md: '7vh'}} px='3'>
         
-        <DonationsButton 
-          _hover={{bg:'none'}}
-          _focus={{bg:'none'}}
-          _active={{bg:'none'}}
-        >
-          <MenuList display={{md:'none'}}>
-            {navigation.map((item) => {
-              if(item.onlyUserLoged && loged){
-                return <Item 
-                  text={item.text} link={item.link} 
-                  isActive={isCurrentPage(item.link)}
-                />;
-              }
-            })}
-          </MenuList>
-        </DonationsButton>
-   
-        
-        <Link to='/'>
-          <Image src="http://ongapi.alkemy.org/storage/4ZR8wsUwr9.png" alt="Logo ONG Somos Mas" width='6rem'/>
-        </Link>
+        <Box display='flex'>
+          <Box marginRight='15px'>
+            { Usuario.role_id !== 0 && <DonationsButton /> }
+          </Box>
+          <Link to='/'>
+            <Image src="http://ongapi.alkemy.org/storage/4ZR8wsUwr9.png" alt="Logo ONG Somos Mas" width='6rem'/>
+          </Link>
+        </Box>
         <Menu>
           <MenuButton
             display={{md:'none'}}
@@ -78,18 +60,27 @@ const HeaderPublic = ({navigation=[]}) => {
           />
           <MenuList display={{md:'none'}}>
             {navigation.map((item) => {
-              const hiddenContacto = Usuario.role_id === 0 && item.text === 'Contacto';
-              if(loged && !hiddenContacto){
+              const role = Usuario.role_id;
+              if(Autenticacion) {
+                if(role === 0) {
+                  return !item.notAdmin && <Item 
+                    key={item.text}
+                    isMobile={false} 
+                    text={item.text} linkTo={item.link} 
+                    isActive={isCurrentPage(item.link)}
+                  />;
+                } else {
+                  return !item.onlyUserLoged && <Item 
+                    key={item.text}
+                    isMobile={false} 
+                    text={item.text} linkTo={item.link} 
+                    isActive={isCurrentPage(item.link)}
+                  />;
+                } 
+              } else if (!item.notAdmin && !item.onlyUserLoged) {
                 return <Item 
                   key={item.text}
-                  isMobile={true} 
-                  text={item.text} linkTo={item.link} 
-                  isActive={isCurrentPage(item.link)}
-                />;
-              }else if(!item.onlyUserLoged && !hiddenContacto){
-                return <Item 
-                  key={item.text}
-                  isMobile={true} 
+                  isMobile={false} 
                   text={item.text} linkTo={item.link} 
                   isActive={isCurrentPage(item.link)}
                 />;
@@ -101,17 +92,25 @@ const HeaderPublic = ({navigation=[]}) => {
           </MenuList>
 
           <Breadcrumb display={{base:'none', md:'block'}}>
-            
             {navigation.map((item) => {
-              const hiddenContacto = Usuario.role_id === 0 && item.text === 'Contacto';
-              if(loged && !hiddenContacto){
-                return <Item 
-                  key={item.text}
-                  isMobile={false} 
-                  text={item.text} linkTo={item.link} 
-                  isActive={isCurrentPage(item.link)}
-                />;
-              }else if(!item.onlyUserLoged && !hiddenContacto){
+              const role = Usuario.role_id;
+              if(Autenticacion) {
+                if(role === 0) {
+                  return !item.notAdmin && <Item 
+                    key={item.text}
+                    isMobile={false} 
+                    text={item.text} linkTo={item.link} 
+                    isActive={isCurrentPage(item.link)}
+                  />;
+                } else {
+                  return !item.onlyUserLoged && <Item 
+                    key={item.text}
+                    isMobile={false} 
+                    text={item.text} linkTo={item.link} 
+                    isActive={isCurrentPage(item.link)}
+                  />;
+                } 
+              } else if (!item.onlyUserLoged) {
                 return <Item 
                   key={item.text}
                   isMobile={false} 

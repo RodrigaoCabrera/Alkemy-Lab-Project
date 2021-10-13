@@ -1,7 +1,5 @@
 import React, { useState} from 'react';
-import { useEffect } from 'react';
 import SlidesSearchForm from '../Backoffice/Slides/SlidesSearchForm';
-import { GetSlides } from '../../Services/SlidesService';
 import '../FormStyles.css';
 import SlidesForm from './SlidesForm';
 import { Container, Flex } from '@chakra-ui/react';
