@@ -96,7 +96,7 @@ const RegisterForm = () => {
                         name='name'
                         autoComplete='off'
                       />
-                      <ErrorMessage component={FormErrorMessage} name='name' />
+                      <ErrorMessage data-testid="ErrorNombre" component={FormErrorMessage} name='name' />
                     </FormControl>
                     <FormControl isRequired isInvalid={touched.name && errors.name} display='flex' flexDirection='column' marginLeft={4}>
                       <FormLabel htmlFor='lastName'>Apellido</FormLabel>
@@ -106,7 +106,7 @@ const RegisterForm = () => {
                         name='lastName'
                         autoComplete='off'
                       />
-                      <ErrorMessage component={FormErrorMessage} name='lastName' />
+                      <ErrorMessage data-testid="errorLastName" component={FormErrorMessage} name='lastName' />
                     </FormControl>
                   </InputGroup>
                 </FormControl>
@@ -120,7 +120,7 @@ const RegisterForm = () => {
                     type='email'
                     autoComplete='off'
                   />
-                  <ErrorMessage component={FormErrorMessage} name='email' />
+                  <ErrorMessage data-testid="ErrorEmail" component={FormErrorMessage} name='email' />
                 </FormControl>
 
                 <FormControl marginTop={6} isRequired isInvalid={touched.password && errors.password}>
@@ -131,6 +131,7 @@ const RegisterForm = () => {
                       id='password'
                       name='password'
                       type='password'
+                      data-testid="Password"
                     />
                     <InputRightElement>
                       <Tooltip 
@@ -145,7 +146,7 @@ const RegisterForm = () => {
                       </Tooltip>
                     </InputRightElement>
                   </InputGroup>
-                  <ErrorMessage component={FormErrorMessage} name='password' />
+                  <ErrorMessage data-testid="ErrorPassword" component={FormErrorMessage} name='password' />
                 </FormControl>
 
                 <FormControl marginTop={2} isRequired isInvalid={touched.confirmPassword && errors.confirmPassword}>
@@ -156,7 +157,7 @@ const RegisterForm = () => {
                     name='confirmPassword'
                     type='password'
                   />
-                  <ErrorMessage component={FormErrorMessage} name='confirmPassword' />
+                  <ErrorMessage data-testid="ErrorConfirmPassword" component={FormErrorMessage} name='confirmPassword' />
                 </FormControl>
                 <Button
                   width='full'

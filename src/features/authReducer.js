@@ -8,7 +8,7 @@ const dataInicial ={
 
 //types
 const LOGIN_USUARIO = 'LOGIN_USUARIO';
-const REGISTRAR_USUARIO = 'REGISTRAR_USUARIO';
+export const REGISTRAR_USUARIO = 'REGISTRAR_USUARIO';
 const LOGOUT = 'LOGOUT';
 
 //reducer
@@ -80,10 +80,10 @@ export const login = (values)=>(dispatch)=>{
     payload:user
   });
 };
-export const register = (values)=>(dispatch)=>{
+export const register = (values)=>{
   localStorage.setItem('token', values.name);
   const user = { ...values };
-  dispatch({
+  return ({
     type:REGISTRAR_USUARIO,
     payload:user
   });

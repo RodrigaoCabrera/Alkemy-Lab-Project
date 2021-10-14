@@ -37,6 +37,7 @@ import Loading from './Components/UI/Loading';
 import PublicRoute from './ComponentsRoute/PublicRoute';
 import PrivateRoute from './ComponentsRoute/PrivateRoute';
 import BackOfficeRoute from './ComponentsRoute/BackOfficeRoute';
+import LoginForm from './Components/Auth/LoginForm';
 const DonationScreen = lazy(()=> import('./Components/Donations/DonationScreen'));
 const ThanksScreen = lazy(()=> import('./Components/Donations/ThanksScreen'));
 
