@@ -72,10 +72,10 @@ export const logoutAction = () =>  (dispatch, getState) => {
     payload: {Autenticacion:false, Usuario:{}}
   });
 };
-export const login = (values)=>(dispatch)=>{
+export const login = (values)=>{
   localStorage.setItem('token', values.name);
   const user = { ...values };
-  dispatch({
+  return({
     type: LOGIN_USUARIO,
     payload:user
   });

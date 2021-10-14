@@ -81,7 +81,7 @@ const LoginForm = () => {
                     type='email'
                     autoComplete='off'
                   />
-                  <ErrorMessage component={FormErrorMessage} name='email' />
+                  <ErrorMessage data-testid="errorEmail" component={FormErrorMessage} name='email' />
                 </FormControl>
 
                 <FormControl marginTop={6} isRequired isInvalid={touched.password && errors.password}>
@@ -93,7 +93,7 @@ const LoginForm = () => {
                     type='password'
                     autoComplete='off'
                   />
-                  <ErrorMessage component={FormErrorMessage} name='password' />
+                  <ErrorMessage data-testid="errorPass" component={FormErrorMessage} name='password' />
                 </FormControl>
 
                 <Button
