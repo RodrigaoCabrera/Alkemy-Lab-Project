@@ -27,8 +27,8 @@
     "react-icons": "^4.2.0",
     "react-leaflet": "^3.2.1",
     "react-loader-spinner": "^4.0.0",
-    "react-pdf": "^5.3.2",
     "react-loading-skeleton": "^2.2.0",
+    "react-pdf": "^5.3.2",
     "react-player": "^2.9.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
@@ -37,6 +37,7 @@
     "react-social-plugins": "^2.1.0",
     "react-yup": "^1.23.0",
     "redux": "^4.1.1",
+    "redux-mock-store": "^1.5.4",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "sweetalert2": "^10.16.6",
@@ -59,6 +60,7 @@
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.25.1",
+    "jest-mock-axios": "^4.4.1",
     "redux-mock-store": "^1.5.4"
   }
 }
